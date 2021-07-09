@@ -76,7 +76,7 @@ physics: {
   outPath : [ FlashOutput, EarlyFlashOutput, TargetStopOutput, IPAStopOutput ]
   end_paths: [outPath]
 }
-physics.filters.beamResampler.mu2e.MaxEventsToSkip: 340000 # update based on prodution test FIXME!
+physics.filters.beamResampler.mu2e.MaxEventsToSkip: 8927 # based on pre-production test 
 
 outputs: {
   TargetStopOutput : {
