@@ -12,7 +12,7 @@ PRIMARY="" # is the primary
 CAMPAIGN="" # Campaign (MDC2020"
 PVER="" # production version
 SVER="" # stops production version
-TYPE="" # the kind of input stops (Muminus, Muplus, IPAMuminus, IPAMuplus, Piminus, Piplus, or Cosmic)
+TYPE="" # the kind of input stops (Muminus, Muplus, IPAMuminus, IPAMuplus, Piminus, Piplus)
 JOBS="" # is the number of jobs
 EVENTS="" # is the number of events/job
 
@@ -44,8 +44,9 @@ usage() {
   [ --owner (opt) default mu2e ]
   [ --run (opt) default 1202 ]
   [ --cat(opt) default Cat ]
+  [ --setup (opt) expllicit simjob setup ]
 
-  bash gen_Primary.sh --primary DIOTail --type MuMinus --campaign MDC2020 -pver z_sm3 --sver p --njobs 100 --events 100 --start 75 --end 95
+  bash gen_Primary.sh --primary DIOTail --type MuMinus --campaign MDC2020 -pver z_sm3 --sver p --njobs 100 --events 100 --start 75 --end 95 --setup /cvmfs/mu2e.opensciencegrid.org/Musings/SimJob/MDC2020ag/setup.sh
   " 1>&2
 }
 
@@ -103,6 +104,9 @@ while getopts ":-:" options; do
         run)
           RUN=${!OPTIND} OPTIND=$(( $OPTIND + 1 ))
           ;;
+          setup)
+          SETUP=${!OPTIND} OPTIND=$(( $OPTIND + 1 ))
+          ;;
         cat)
           CAT=${!OPTIND} OPTIND=$(( $OPTIND + 1 ))
           ;;
@@ -142,15 +146,13 @@ if [[ "${TYPE}" == "Muminus" ]] ||  [[ "${TYPE}" == "Muplus" ]]; then
   resampler=TargetStopResampler
 elif [[ "${TYPE}" == "Piminus" ]] ||  [[ "${TYPE}" == "Piplus" ]]; then
   resampler=TargetPiStopResampler
-elif [[ "${TYPE}" == "Cosmic" ]]; then
-  dataset=sim.mu2e.${TYPE}DSStops${PRIMARY}.${stopsconf}.art
-  resampler=${TYPE}Resampler
 else
   resampler=${TYPE}StopResampler
 fi
 
 
-samweb list-file-locations --schema=root --defname="$dataset"  | cut -f1 > Stops.txt
+samweb list-definition-files $dataset  > Stops.txt
+
 # calucate the max skip from the dataset
 nfiles=`samCountFiles.sh $dataset`
 nevts=`samCountEvents.sh $dataset`
@@ -158,14 +160,10 @@ let nskip=nevts/nfiles
 # write the template
 rm -f primary.fcl
 
-if [[ "${TYPE}" == "Cosmic" ]]; then
-  echo "#include \"Production/JobConfig/cosmic/S2Resampler${PRIMARY}.fcl\"" >> primary.fcl
-else
-  echo "#include \"Production/JobConfig/primary/${PRIMARY}.fcl\"" >> primary.fcl
-fi
-
+echo "#include \"Production/JobConfig/primary/${PRIMARY}.fcl\"" >> primary.fcl
 echo physics.filters.${resampler}.mu2e.MaxEventsToSkip: ${nskip} >> primary.fcl
 echo "services.GeometryService.bFieldFile : \"${FIELD}\"" >> primary.fcl
+echo outputs.PrimaryOutput.fileName: \"dts.owner.${PRIMARY}.version.sequencer.art\"  >> primary.fcl
 
 if [[ "${PRIMARY}" == "DIOtail" ]]; then
   echo physics.producers.generate.decayProducts.spectrum.ehi: ${ENDMOM}        >> primary.fcl
@@ -180,17 +178,26 @@ if [[ "${FLAT}" == "FlatMuDaughter" ]]; then
   echo physics.producers.generate.endMom: ${ENDMOM}        >> primary.fcl
 fi
 
-#
-# now generate the fcl
-#
+if [[ -n $SETUP ]]; then
+  echo "Using user-provided setup $SETUP"
+else
+  SETUP=/cvmfs/mu2e.opensciencegrid.org/Musings/SimJob/${PRIMARY_CAMPAIGN}/setup.sh
+fi
 
-generate_fcl --dsconf=${PRIMARY_CAMPAIGN} --dsowner=${OWNER} --run-number=${RUN} --description=${PRIMARY} --events-per-job=${EVENTS} --njobs=${JOBS} \
-  --embed primary.fcl --auxinput=1:physics.filters.${resampler}.fileNames:Stops.txt
-for dirname in 000 001 002 003 004 005 006 007 008 009; do
-  if test -d $dirname; then
-    echo "found dir $dirname"
-    rm -rf ${PRIMARY}\_$dirname
-    mv $dirname ${PRIMARY}\_$dirname
-    echo "moving $dirname to ${PRIMARY}_${dirname}"
-  fi
-done
+cmd="mu2ejobdef --embed primary.fcl --setup ${SETUP} --run-number=${RUN} --events-per-job=${EVENTS} --desc ${PRIMARY} --dsconf ${PRIMARY_CAMPAIGN} --auxinput=1:physics.filters.${resampler}.fileNames:Stops.txt"
+
+echo "Running: $cmd"
+$cmd
+
+parfile=$(ls cnf.*.tar)
+# Remove cnf.
+index_dataset=${parfile:4}
+# Remove .0.tar
+index_dataset=${index_dataset::-6}
+
+idx_format=$(printf "%07d" ${JOBS})
+echo $idx
+echo "Creating index definiton with size: $idx"
+samweb create-definition idx_${index_dataset} "dh.dataset etc.mu2e.index.000.txt and dh.sequencer < ${idx_format}"
+echo "Created definiton: idx_${index_dataset}"
+samweb describe-definition idx_${index_dataset}
