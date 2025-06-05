@@ -101,6 +101,21 @@ Digitize: {
       prescaleFactor : 100
       prescaleOffset : 0
     }
+    TriggerableTwoTrack : {
+      module_type : StrawDigiMCFilter
+      MinNParticles : 2
+      MinNDigis : 15
+      MinParticleMom : 30.0
+      MaxParticleMom : 300.0 # nominally particles that can form Loophelices in the tracker
+      StrawDigiMCCollection : compressDigiMCs
+      particleTypes : [ 11,-11, 13, -13, 211, -211] # e+-, mu+-, pi+-
+    }
+    # Triggerable stream prescaler; stream-dependent
+    TriggerableTwoTrackPrescale : {
+      module_type : Prescaler
+      prescaleFactor : 1 # by default, prescale all events (n % 1 != 1 for all n)
+      prescaleOffset : 1
+    }
     @table::TrigFilters.filters
   }
 
@@ -120,6 +135,7 @@ Digitize: {
   TriggerableSequence : [
     TriggerablePrescale, Triggerable ]
   TriggerableCHSequence : [ TriggerableCHPrescale, TriggerableCH ]
+  TriggerableTwoTrackSequence : [ TriggerableTwoTrackPrescale, TriggerableTwoTrack ]
 
   TriggerProducts : [
     "keep art::TriggerResults_*_*_*",

@@ -1,0 +1,5 @@
+# Configure digitization with a triggerable filter for two track events
+#include "Production/JobConfig/digitize/OnSpill.fcl"
+
+# Turn on the MC selection for two track events
+physics.filters.TriggerableTwoTrackPrescale.prescaleOffset : 0

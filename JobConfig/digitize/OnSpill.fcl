@@ -3,10 +3,10 @@
 # set the spill type
 physics.producers.EWMProducer.SpillType : 1
 # define paths
-physics.trigger_paths : [ "0:DigitizePath", "1:TriggerablePath" , @sequence::Trig_physMenu.trigger_paths]
+physics.trigger_paths : [ "0:DigitizePath", "1:TriggerablePath", "3:TriggerableTwoTrackPath",  @sequence::Trig_physMenu.trigger_paths]
 # configure 'Triggered' output to be signal
 outputs.TriggeredOutput.SelectEvents : @local::Digitize.SignalTriggers
-outputs.TriggerableOutput.SelectEvents : [ "TriggerablePath" ]
+outputs.TriggerableOutput.SelectEvents : [ "TriggerablePath", "TriggerableTwoTrackPath" ]
 # Final configuration
 #include "Production/JobConfig/common/epilog.fcl"
 #include "Production/JobConfig/digitize/OnSpill_epilog.fcl"
