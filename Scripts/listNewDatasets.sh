@@ -50,10 +50,16 @@ EXT=".$FILETYPE"
 
 echo "------------------------------------------------"
 echo "Grouped file counts:"
+printf "%8s %-80s %10s\n" "COUNT" "DATASET" "FILE SIZE"
+printf "%8s %-80s %10s\n" "-----" "-------" "--------"
 # Run the samweb query and process the output.
 samweb list-files "$QUERY" | \
   awk -F. -v ext="$EXT" '{ print $1"."$2"."$3"."$4 ext }' | \
-  sort | uniq -c
+  sort | uniq -c | \
+  while read count dataset; do
+    avg_size=$(bash avg_filesize.sh "$dataset" 2>/dev/null || echo "N/A")
+    printf "%8s %-80s %7s MB\n" "$count" "$dataset" "$avg_size"
+  done
 echo "------------------------------------------------"
 
 # If the --summary flag is set, print detailed summary for each unique dataset group.

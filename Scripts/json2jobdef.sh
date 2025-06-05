@@ -30,7 +30,7 @@ while [[ $# -gt 0 ]]; do
     --json)       JSON_FILE="$2"; shift 2;;
     --desc)       JOB_DESC="$2"; shift 2;;
     --owner)      OWNER="$2";    shift 2;;
-    --inloc)      inloc="$2";    shift 2;;
+    --inloc)      INLOC="$2";    shift 2;;
     --pushout)    PUSHOUT=true;    shift;;
     --help)       usage;;
     *) echo "Unknown option: $1" >&2; usage;;
@@ -118,5 +118,5 @@ fi
 
 # Generate test FCL
 test_fcl="${parfile%.tar}.fcl"
-mu2ejobfcl --jobdef "$parfile" --index 0 --default-proto root --default-loc "$inloc" > "$test_fcl"
+mu2ejobfcl --jobdef "$parfile" --index 0 --default-proto root --default-loc "$INLOC" > "$test_fcl"
 cat "$test_fcl"
