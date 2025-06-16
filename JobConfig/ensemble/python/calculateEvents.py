@@ -5,9 +5,9 @@ def main(args):
     Yield = 0
     if (str(args.printpot) == "print"):
       getPOT(float(args.livetime), str(args.BB),True)
-    if(args.prc == "CeMLeadingLog"):
+    if(args.prc == "CeMLeadingLog" or args.prc == "CePLeadingLog"):
       Yield = ce_normalization(float(args.livetime), float(args.rue), str(args.BB))
-      print(Yield)
+      print("CeP",Yield)
     if(args.prc == "GetRMUE"):
       Yield = get_ce_rmue(float(args.livetime), float(args.nsig), str(args.BB))
       print(Yield)
