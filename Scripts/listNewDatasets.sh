@@ -6,6 +6,7 @@ FILETYPE="art"    # Default filetype is "art"
 DAYS=7            # Default days to look back
 SUMMARY=false     # Default: do not print summary details
 USER="mu2epro"    # Default user is mu2epro
+CUSTOM_QUERY=""   # Custom query (overrides default if provided)
 
 # Process command-line options
 while [[ $# -gt 0 ]]; do
@@ -26,34 +27,50 @@ while [[ $# -gt 0 ]]; do
       USER="$2"
       shift 2
       ;;
+    --query)
+      CUSTOM_QUERY="$2"
+      shift 2
+      ;;
     --help)
-      echo "Usage: $0 [--filetype <log|art>] [--days <number>] [--summary] [--user <username>]"
+      echo "Usage: $0 [--filetype <log|art>] [--days <number>] [--summary] [--user <username>] [--query <custom_query>]"
       exit 0
       ;;
     *)
       echo "Unknown option: $1"
-      echo "Usage: $0 [--filetype <log|art>] [--days <number>] [--summary] [--user <username>]"
+      echo "Usage: $0 [--filetype <log|art>] [--days <number>] [--summary] [--user <username>] [--query <custom_query>]"
       exit 1
       ;;
   esac
 done
 
-# Calculate the date DAYS ago (in YYYY-MM-DD format)
-OLDER_DATE=$(date -d "$DAYS days ago" +%Y-%m-%d)
-echo "Checking for $FILETYPE files created after: $OLDER_DATE for user: $USER"
-
-# Build the samweb query string using the chosen file type and user.
-QUERY="Create_Date > $OLDER_DATE and file_format $FILETYPE and user $USER"
+# Use custom query if provided, otherwise build default query
+if [[ -n "$CUSTOM_QUERY" ]]; then
+  QUERY="$CUSTOM_QUERY"
+  echo "Using custom query: $QUERY"
+else
+  # Calculate the date DAYS ago (in YYYY-MM-DD format)
+  OLDER_DATE=$(date -d "$DAYS days ago" +%Y-%m-%d)
+  echo "Checking for $FILETYPE files created after: $OLDER_DATE for user: $USER"
+  
+  # Build the samweb query string using the chosen file type and user.
+  QUERY="Create_Date > $OLDER_DATE and file_format $FILETYPE and user $USER"
+fi
 
 # Append a dot before the provided file type.
 EXT=".$FILETYPE"
 
 echo "------------------------------------------------"
 echo "Grouped file counts:"
+printf "%8s %-100s %10s\n" "COUNT" "DATASET" "FILE SIZE"
+printf "%8s %-100s %10s\n" "-----" "-------" "--------"
 # Run the samweb query and process the output.
 samweb list-files "$QUERY" | \
   awk -F. -v ext="$EXT" '{ print $1"."$2"."$3"."$4 ext }' | \
-  sort | uniq -c
+  sort | uniq -c | \
+  while read count dataset; do
+    avg_size=$(bash avg_filesize.sh "$dataset" 2>/dev/null || echo "N/A")
+    printf "%8s %-100s %7s MB\n" "$count" "$dataset" "$avg_size"
+  done
 echo "------------------------------------------------"
 
 # If the --summary flag is set, print detailed summary for each unique dataset group.
