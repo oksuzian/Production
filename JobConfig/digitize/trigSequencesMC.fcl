@@ -3,6 +3,6 @@
 BEGIN_PROLOG
 TrigRecoSequences:{
    @table::TrigRecoSequences
-   dtcAndCFOEventsGen    : [ @sequence::Digitize.DigitizeSequence ]
+   cfoDataGen    : [ @sequence::Digitize.DigitizeSequence ]
 }
 END_PROLOG
