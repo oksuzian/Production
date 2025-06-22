@@ -128,8 +128,8 @@ NSIG=$(calculateEvents.py --livetime ${LIVETIME} --prc ${SIGNAL} --BB ${BB} --ru
 echo "${RMUE} for ${BB} and ${LIVETIME} s means ${NSIG} events will be sampled"
 
 # understand how many events are present, and what fraction we need to sample
-NGEN=4980 #FIXME
-#(samDatasetsSummary.sh mcs.mu2e.${SIGNAL}OnSpillTriggered.${RELEASE}_${DBPURPOSE}_${DBVERSION}.art  | awk '/Generated/ {print $2}')
+NGEN=(samDatasetsSummary.sh mcs.mu2e.${SIGNAL}OnSpillTriggered.${RELEASE}_${DBPURPOSE}_${DBVERSION}.art  | awk '/Generated/ {print $2}') # 4980 #FIXME
+#
 echo "sample mcs.mu2e.${SIGNAL}OnSpillTriggered.${RELEASE}_${DBPURPOSE}_${DBVERSION}.art contains ${NGEN} gen events"
 
 # figure out fraction of signal dataset to sample:
