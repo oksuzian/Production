@@ -6,14 +6,15 @@
 #include "Production/JobConfig/digitize/Digitize.fcl"
 # add trigger filters
 physics.filters : { @table::physics.filters @table::Trig_extrPosMenuPSConfig }
+# Define the default list of triggerable paths
+physics.TriggerablePaths : [ "TriggerableLHPath" ]
 # add the trigger paths
-# give paths specific numbers outside trigger path range
-physics.trigger_paths : ["0:DigitizePath", "1:TriggerablePath", @sequence::Trig_extrPosMenu.trigger_paths]
+physics.trigger_paths : ["DigitizePath", @sequence::physics.TriggerablePaths, @sequence::Trig_extrPosMenu.trigger_paths]
 # configure 'Triggered' output to be calibration triggers
 outputs.TriggeredOutput.SelectEvents : [
   @sequence::Digitize.TrkTriggers,
   @sequence::Digitize.CaloTriggers ]
-outputs.TriggerableOutput.SelectEvents : [ "TriggerablePath" ]
+outputs.TriggerableOutput.SelectEvents : [ @sequence::physics.TriggerablePaths ]
 # set the spill type
 physics.producers.EWMProducer.SpillType : 0
 # Temporarily turn off Crv noise
@@ -23,6 +24,6 @@ physics.producers.CaloDigiMaker.addNoise : false
 # no-field
 services.GeometryService.bFieldFile: "Offline/Mu2eG4/geom/bfgeom_no_field.txt"
 # allow infinite momemtum
-physics.filters.Triggerable.MaxParticleMom : 1e10
-physics.filters.TriggerablePrescale.prescaleFactor : 10 # only record 10% of triggerable tracks
+physics.filters.TriggerableLH.MaxParticleMom : 1e10
+physics.filters.TriggerableLHPrescale.prescaleFactor : 10 # only record 10% of triggerable tracks
 #include "mu2e-trig-config/core/trigDigiInputsEpilog.fcl"

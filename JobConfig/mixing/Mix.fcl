@@ -17,7 +17,8 @@ physics : {
   analyzers: { @table::Digitize.analyzers }
   # define the digitization paths.  Trigger paths are added specific to digitization type
   DigitizePath : [ @sequence::Mixing.MixSequence ]
-  TriggerablePath : [ @sequence::Mixing.MixSequence, @sequence::Digitize.TriggerableSequence ]
+  TriggerableLHPath : [ @sequence::Mixing.MixSequence, @sequence::Digitize.TriggerableLHSequence ]
+  TriggerableTwoTrackPath : [ @sequence::Mixing.MixSequence, @sequence::Digitize.TriggerableTwoTrackSequence ]
   # define the trigger sequences and paths
   @table::TrigRecoSequences
   @table::TrigSequences
@@ -29,14 +30,15 @@ physics.end_paths : [ EndPath ]
 # final overrides
 # set the event timing for OnSpill
 physics.producers.EWMProducer.SpillType : 1
+# Define the default list of triggerable paths
+physics.TriggerablePaths : [ "TriggerableLHPath", "TriggerableTwoTrackPath"]
 # define paths
-physics.trigger_paths : [ "0:DigitizePath", "1:TriggerablePath" , @sequence::Trig_physMenu.trigger_paths]
+physics.trigger_paths : [ "DigitizePath", @sequence::physics.TriggerablePaths, @sequence::Trig_physMenu.trigger_paths]
 # configure 'Triggered' output to be signal
 outputs.TriggeredOutput.SelectEvents : @local::Digitize.SignalTriggers
-outputs.TriggerableOutput.SelectEvents : [ "TriggerablePath" ]
+outputs.TriggerableOutput.SelectEvents : [ @sequence::physics.TriggerablePaths ]
 # Final configuration
 #include "Production/JobConfig/common/epilog.fcl"
 #include "Production/JobConfig/digitize/OnSpill_epilog.fcl"
 #include "mu2e-trig-config/core/trigDigiInputsEpilog.fcl"
 #include "Production/JobConfig/mixing/epilog.fcl"
-

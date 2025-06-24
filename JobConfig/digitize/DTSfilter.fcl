@@ -9,7 +9,7 @@
 # name all processes the same, to mask any provenance in ensemble creation
 process_name: DTSFilter
 source : { module_type : RootInput }
-services : @local::Services.SimAndReco 
+services : @local::Services.SimAndReco
 physics : {
   producers : {
     @table::Digitize.producers
@@ -17,14 +17,14 @@ physics : {
   }
   filters: {
     @table::Digitize.filters
-    @table::TrigFilters.filters   
+    @table::TrigFilters.filters
     @table::Trig_physMenuPSConfig
   }
   analyzers: { @table::Digitize.analyzers }
   # define the digitization paths.  Trigger paths are added specific to digitization type
   DigitizePath : @local::Digitize.DigitizeSequence
 }
-#physics.filters.Triggerable.MinNDigis : 13
+#physics.filters.TriggerableLH.MinNDigis : 13
 physics.trigger_paths : [@sequence::Trig_physMenu.trigger_paths]
 
 physics.trigger_paths[0] : DigitizePath
