@@ -112,7 +112,7 @@ fi
 echo "livetime ${LIVETIME}s is initated, watch for changes...."
 
 # find how many known files are for livetime
-N_TOTAL_KNOWN=$(samDatasetsSummary.sh mcs.sophie.${KNOWN}Triggered.v0.art  | awk '/Files/ {print $2}')
+N_TOTAL_KNOWN=$(samDatasetsSummary.sh mcs.${OWNER}.${KNOWN}Triggered.v0.art  | awk '/Files/ {print $2}')
 LIVETIME_PER_FILE=$(awk "BEGIN {printf \"%.0f\", ${GEN_LIVETIME}/${N_TOTAL_KNOWN}}")
 echo "livetime per file ${LIVETIME_PER_FILE}"
 N_KNOWN_FILES_TO_USE=$(awk "BEGIN {printf \"%.0f\", ${LIVETIME}/${LIVETIME_PER_FILE}}")
@@ -160,7 +160,7 @@ rm filenames_All_${KNOWN}
 echo "looking for mcs.mu2e.${SIGNAL}OnSpillTriggered.${RELEASE}_${DBPURPOSE}_${DBVERSION}.art"
 samweb list-files "dh.dataset=mcs.mu2e.${SIGNAL}OnSpillTriggered.${RELEASE}_${DBPURPOSE}_${DBVERSION}.art  and availability:anylocation" > filenames_All_${SIGNAL}
 $(tail filenames_All_${SIGNAL})
-samweb list-files "dh.dataset=mcs.sophie.${KNOWN}Triggered.v0.art  and availability:anylocation" > filenames_All_${KNOWN}
+samweb list-files "dh.dataset=mcs.${OWNER}.${KNOWN}Triggered.v0.art  and availability:anylocation" > filenames_All_${KNOWN}
 
 # step 9: make nexp random lists
 i=1
