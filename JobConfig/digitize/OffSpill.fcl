@@ -8,12 +8,12 @@ outputs.TriggeredOutput.SelectEvents : [
   @sequence::Digitize.TrkTriggers,
   @sequence::Digitize.CaloTriggers ]
 # Lower thresholds for LoopHelix triggerable
-physics.filters.Triggerable.MinParticleMom : 50.0
-physics.filters.Triggerable.MaxParticleMom : 300.0
+physics.filters.TriggerableLH.MinParticleMom : 50.0
+physics.filters.TriggerableLH.MaxParticleMom : 300.0
 # Define the default list of triggerable paths
-physics.TriggerablePaths : [ "TriggerablePath", "TriggerableCHPath"]
+physics.TriggerablePaths : [ "TriggerableLHPath", "TriggerableCHPath"]
 # Define the trigger path
-physics.trigger_paths : [ "0:DigitizePath", @sequence::physics.TriggerablePaths,  @sequence::Trig_physMenu.trigger_paths]
+physics.trigger_paths : [ "DigitizePath", @sequence::physics.TriggerablePaths,  @sequence::Trig_physMenu.trigger_paths]
 outputs.TriggerableOutput.SelectEvents : [ @sequence::physics.TriggerablePaths ]
 physics.filters.TriggerableCHPrescale.prescaleFactor : 10 # only record 10% of triggerable high-momentum tracks
 # Temporarily turn off Crv noise
