@@ -17,7 +17,7 @@ physics : {
   analyzers: { @table::Digitize.analyzers }
   # define the digitization paths.  Trigger paths are added specific to digitization type
   DigitizePath : [ @sequence::Mixing.MixSequence ]
-  TriggerablePath : [ @sequence::Mixing.MixSequence, @sequence::Digitize.TriggerableSequence ]
+  TriggerableLHPath : [ @sequence::Mixing.MixSequence, @sequence::Digitize.TriggerableLHSequence ]
   TriggerableTwoTrackPath : [ @sequence::Mixing.MixSequence, @sequence::Digitize.TriggerableTwoTrackSequence ]
   # define the trigger sequences and paths
   @table::TrigRecoSequences
