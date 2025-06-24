@@ -1,10 +1,10 @@
 #!/usr/bin/bash
 usage() { echo "Usage: $0
-  e.g. Stage3_mixsignal.sh --known MDS2a --signal CeMLeadingLog --rmue 1e-13 --nexp 3
+  e.g. Stage3_mixsignal.sh --known MDS2a --signal CeMLeadingLog --rate 1e-13 --nexp 3
   usage:
   --owner = the username of your account (or mu2e if you are using mu2epro);
   --known = known physics tag e.g. MDS2a
-  --rmue = chosen rmue e.g. 1e-14 (note this could be edited during the process so check print outs)
+  --rate = chosen rate e.g. 1e-14 (note this could be edited during the process so check print outs)
   --signal = primary name of chosen signal e.g. CeMLeadingLog for the e- ce leadinglog samples
   --release = SimJob tag e.g. MDC2020aw
   --dbpurpose = db purpose of input mcs files e.g. perfect or best
@@ -21,7 +21,7 @@ exit_abnormal() {
 }
 OWNER="mu2e"
 KNOWN="MDS2a" #background sample tag
-RMUE=1e-13
+RATE=1e-13
 SIGNAL="CeMLeadingLog" #name as given to primary during production
 RELEASE="MDC2020au"
 DBPURPOSE="perfect"
@@ -40,8 +40,8 @@ while getopts ":-:" options; do
         known)
           KNOWN=${!OPTIND} OPTIND=$(( $OPTIND + 1 ))
           ;;
-        rmue)
-          RMUE=${!OPTIND} OPTIND=$(( $OPTIND + 1 ))
+        rate)
+          RATE=${!OPTIND} OPTIND=$(( $OPTIND + 1 ))
           ;;
         signal)
           SIGNAL=${!OPTIND} OPTIND=$(( $OPTIND + 1 ))
@@ -124,8 +124,8 @@ echo "IMPORTANT: livetime ${LIVETIME}s is selected based on need for integar num
 
 
 # calculate yield of signal for chose rate, if > 0 then proceed --> use python scripts
-NSIG=$(calculateEvents.py --livetime ${LIVETIME} --prc ${SIGNAL} --BB ${BB} --rue ${RMUE})
-echo "${RMUE} for ${BB} and ${LIVETIME} s means ${NSIG} events will be sampled"
+NSIG=$(calculateEvents.py --livetime ${LIVETIME} --prc ${SIGNAL} --BB ${BB} --rue ${RATE})
+echo "${RATE} for ${BB} and ${LIVETIME} s means ${NSIG} events will be sampled"
 
 # understand how many events are present, and what fraction we need to sample
 NGEN=(samDatasetsSummary.sh mcs.mu2e.${SIGNAL}OnSpillTriggered.${RELEASE}_${DBPURPOSE}_${DBVERSION}.art  | awk '/Generated/ {print $2}') # 4980 #FIXME
@@ -137,20 +137,20 @@ N_TOTAL_SIGNAL=$(samDatasetsSummary.sh mcs.mu2e.${SIGNAL}OnSpillTriggered.${RELE
 EVENTS_PER_FILE=$(awk "BEGIN {printf \"%.0f\", ${NGEN}/${N_TOTAL_SIGNAL}}")
 echo "signal sample has ${N_TOTAL_SIGNAL} files with ${EVENTS_PER_FILE} events per file"
 N_SIGNAL_FILES_TO_USE=$(awk "BEGIN {printf \"%.0f\", ${NSIG}/${EVENTS_PER_FILE}}")
-echo "based on requested rmue, will use ${N_SIGNAL_FILES_TO_USE} signal files"
+echo "based on requested rate, will use ${N_SIGNAL_FILES_TO_USE} signal files"
 NSIG=$(awk "BEGIN {printf \"%.2f\", ${N_SIGNAL_FILES_TO_USE}*${EVENTS_PER_FILE}}") 
 
 #FIXME - need some poisson stats included
 #FIXME - catch when < 1 file
 
-# recheck rmue for new Nfiles
-RMUE=$(calculateEvents.py --livetime ${LIVETIME} --BB ${BB} --nsig ${NSIG} --prc "GetRMUE" )
-echo "can only sample full files, sampling ${N_SIGNAL_FILES_TO_USE} files so ${NSIG} and ${RMUE}"
+# recheck rate for new Nfiles
+RATE=$(calculateEvents.py --livetime ${LIVETIME} --BB ${BB} --nsig ${NSIG} --prc "GetRATE" )
+echo "can only sample full files, sampling ${N_SIGNAL_FILES_TO_USE} files so ${NSIG} and ${RATE}"
 
-#need to store this somewhere, amend the .config and make an associated config for combined sample with nexp, rmue, livetime_rmue added at end of original.
+#need to store this somewhere, amend the .config and make an associated config for combined sample with nexp, rate, livetime_rate added at end of original.
 echo "======= combined samples info =========">> ${KNOWN}.txt
 echo "signal= ${SIGNAL}">> ${KNOWN}.txt
-echo "Rmue= ${RMUE}">> ${KNOWN}.txt
+echo "Rmue= ${RATE}">> ${KNOWN}.txt
 echo "livetime_combined= ${LIVETIME}">> ${KNOWN}.txt
 echo "npseudo_experiments= ${NEXP}">> ${KNOWN}.txt
 
@@ -180,7 +180,7 @@ if [[ -n $SETUP ]]; then
 else
   SETUP=/cvmfs/mu2e.opensciencegrid.org/Musings/SimJob/${RELEASE}/setup.sh
 fi
-OUTFILENAME="mcs.${OWNER}.${KNOWN}${SIGNAL}.DSCONF.SEQ.art" #FIXME - need to include derived rmue
+OUTFILENAME="mcs.${OWNER}.${KNOWN}${SIGNAL}.DSCONF.SEQ.art" #FIXME - need to include derived rate
 i=1
 rm *.tar
 while [ $i -le ${NEXP} ]
