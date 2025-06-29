@@ -188,7 +188,7 @@ do
   rm template_$i.fcl
 echo '#include "Production/JobConfig/common/artcat.fcl"' >> template_$i.fcl
 echo 'outputs.out.fileName: "'${OUTFILENAME}'"' >> template_$i.fcl
-  cmd="mu2ejobdef --embed template_$i.fcl --setup ${SETUP} --desc ${KNOWN}${SIGNAL} --dsconf ${RELEASE}_${DBPURPOSE}_${DBVERSION}_$i --inputs=filenames_Chosen_$i  --merge-factor=1"
+  cmd="mu2ejobdef --embed template_$i.fcl --setup ${SETUP} --desc ${KNOWN}${SIGNAL}${RATE} --dsconf ${RELEASE}_${DBPURPOSE}_${DBVERSION}_$i --inputs=filenames_Chosen_$i  --merge-factor=1"
   echo "Running: $cmd"
   $cmd
   rm template_$i.fcl
