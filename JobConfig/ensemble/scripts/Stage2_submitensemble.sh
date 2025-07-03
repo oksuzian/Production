@@ -64,7 +64,6 @@ GEN=""
 CONFIG=${TAG}.txt
 OUTRELEASE="MDC2020"
 OUTVERSION="at"
-SURV=0.000891923
 
 while IFS='= ' read -r col1 col2
 do 
@@ -120,7 +119,7 @@ rm *.tar
 
 echo "accessing files, making file lists"
 mu2eDatasetFileList "dts.mu2e.Cosmic${GEN}SignalAll.${COSMICTAG}.art" | head -${NJOBS} > filenames_${GEN}Cosmic
-mu2eDatasetFileList "dts.mu2e.DIOtail95.${INRELEASE}${INVERSION}.art"| head -${NJOBS} > filenames_DIO
+mu2eDatasetFileList "dts.mu2e.DIOtail${DIO_EMIN}.${INRELEASE}${INVERSION}.art"| head -${NJOBS} > filenames_DIO
 mu2eDatasetFileList "dts.mu2e.RPCInternal.${INRELEASE}as.art" | head -${NJOBS} > filenames_RPCInternal
 mu2eDatasetFileList "dts.mu2e.RPCExternal.${INRELEASE}as.art" | head -${NJOBS} > filenames_RPCExternal
 mu2eDatasetFileList "dts.mu2e.RMCInternal.${INRELEASE}${INVERSION}.art" | head -${NJOBS} > filenames_RMCInternal
@@ -143,7 +142,7 @@ rm filenames_IPAMichel_${NJOBS}.txt
 
 echo "get NJOBS files and list"
 samweb list-files "dh.dataset=dts.mu2e.Cosmic${GEN}SignalAll.${COSMICTAG}.art" | head -${NJOBS} > filenames_${GEN}Cosmic_${NJOBS}.txt
-samweb list-files "dh.dataset=dts.mu2e.DIOtail95.${INRELEASE}${INVERSION}.art"  | head -${NJOBS} > filenames_DIO_${NJOBS}.txt
+samweb list-files "dh.dataset=dts.mu2e.DIOtail${DIO_EMIN}.${INRELEASE}${INVERSION}.art"  | head -${NJOBS} > filenames_DIO_${NJOBS}.txt
 samweb list-files "dh.dataset=dts.mu2e.RPCInternal.${INRELEASE}as.art  and availability:anylocation"  | head -${NJOBS}  >  filenames_RPCInternal_${NJOBS}.txt
 samweb list-files "dh.dataset=dts.mu2e.RPCExternal.${INRELEASE}as.art  and availability:anylocation"  | head -${NJOBS}  >  filenames_RPCExternal_${NJOBS}.txt
 samweb list-files "dh.dataset=dts.mu2e.RMCInternal.${INRELEASE}${INVERSION}.art  and availability:anylocation"  | head -${NJOBS}  >  filenames_RMCInternal_${NJOBS}.txt
