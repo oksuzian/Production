@@ -5,7 +5,15 @@ import ROOT
 import math
 import os
 
-
+# numbers
+captures_per_stopped_muon = 0.609 # from AL capture studies
+RMC_gt_57_per_capture = 1.43e-5 # from Phys. Rev. C 59, 2853 (1999).
+internal_per_RMC = 0.00690; # just copy RPC value
+DIO_per_stopped_muon = 0.391 # 1 - captures_per_stopped_muon
+RPC_per_stopped_pion = 0.0215; # from reference, uploaded on docdb-469
+internalRPC_per_RPC = 0.00690; # from reference, uploaded on docdb-717
+IPA_decays_per_stopped_muon = 0.92990
+      
 # get muon stopped rates from DB
 dbtool = DbService.DbTool()
 dbtool.init()
@@ -89,7 +97,7 @@ def getPOT(onspilltime, run_mode = '1BB',printout=False, frac=1): #livetime in s
 # get CE normalization:
 def ce_normalization(onspilltime, rue, run_mode = '1BB'):
     POT = getPOT(onspilltime, run_mode)
-    captures_per_stopped_muon = 0.609 # for Al
+    
     #print(f"Expected CE's {POT * target_stopped_mu_per_POT * captures_per_stopped_muon * rue}")
     return POT * target_stopped_mu_per_POT * captures_per_stopped_muon * rue
 
@@ -111,7 +119,6 @@ def dio_normalization(onspilltime, emin, run_mode = '1BB'):
         if energy[i] >= emin:
             cut_norm += val[i]
 
-    DIO_per_stopped_muon = 0.391 # 1 - captures_per_stopped_muon
 
     physics_events = POT * target_stopped_mu_per_POT * DIO_per_stopped_muon
     print("DIO_emin=",emin)
@@ -180,8 +187,7 @@ def rpc_normalization(onspilltime, tmin, internal, emin, run_mode = '1BB'):
   time_eff = npifilter/npistops  
   total_sum_of_weights =  37468# from filter
   selected_sum_of_weights =  5.7055#from filter
-
-  gen_factor = 50 # from Michael (for the new sampling factors)
+  #------- end of the hack --------#
   spec = open(os.path.join(os.environ["MUSE_WORK_DIR"],"Production/JobConfig/ensemble/rpcspectrum.tbl")) #Bistrilich
   energy = []
   val = []
@@ -198,20 +204,17 @@ def rpc_normalization(onspilltime, tmin, internal, emin, run_mode = '1BB'):
 
   rpcESampleFrac = cut_norm/total_norm
   
-  # constants
-  RPC_per_stopped_pion = 0.0215; # from reference, uploaded on docdb-469
-  internalRPC_per_RPC = 0.00690; # from reference, uploaded on docdb-717
   # calculate survival probability for tmin including smearing of POT
-  avg_survival_prob = total_sum_of_weights/npistops;
+  #avg_survival_prob = total_sum_of_weights/npistops;
   if( int(internal) == 1): 
     print("RPC_emin=",emin)
     print("RPC_tmin=",tmin)
     print("RPC_fraction_sampled=",rpcESampleFrac)
     print("pistoprate=",target_stopped_pi_per_POT)
     print("pitimeeff=", time_eff)
-    print("pisurv=", avg_survival_prob)
-    print("pitotalweight=", total_sum_of_weights)
-  physics_events = POT * target_stopped_pi_per_POT * time_eff * RPC_per_stopped_pion * avg_survival_prob * rpcESampleFrac * selected_sum_of_weights/total_sum_of_weights
+    #print("pisurv=", avg_survival_prob)
+    #print("pitotalweight=", total_sum_of_weights)
+  physics_events = POT * target_stopped_pi_per_POT * time_eff * RPC_per_stopped_pion * rpcESampleFrac * selected_sum_of_weights/npistops
 
   if int(internal) == 1:
     physics_events *= internalRPC_per_RPC;
@@ -239,10 +242,6 @@ def rmc_normalization(onspilltime, internal, emin, kmax = 90.1, run_mode = '1BB'
     total_norm += val[i]
     if (float(energy[i])-float(bin_width)/2. >= float(emin)):
       cut_norm += val[i]
-
-  captures_per_stopped_muon = 0.609 # from AL capture studies
-  RMC_gt_57_per_capture = 1.43e-5 # from Phys. Rev. C 59, 2853 (1999).
-  internal_per_RMC = 0.00690; # just copy RPC value
 
   physics_events = POT * target_stopped_mu_per_POT * captures_per_stopped_muon * RMC_gt_57_per_capture
   physics_events *= cut_norm/total_norm
@@ -274,7 +273,7 @@ def ipaMichel_normalization(onspilltime, ipa_demin, run_mode = '1BB'):
             ipa_stopped_mu_per_POT = rate
     print("IPAStopMuonRate=", ipa_stopped_mu_per_POT)
     POT = getPOT(onspilltime)
-    IPA_decays_per_stopped_muon = 0.92990
+
     spec = open(os.path.join(os.environ["MUSE_WORK_DIR"],"Production/JobConfig/ensemble/ipa_spec_eff.tbl"))
     fraction_sampled = 1
     for line in spec:
@@ -289,7 +288,6 @@ def ipaMichel_normalization(onspilltime, ipa_demin, run_mode = '1BB'):
 # work from signal to rmue  
 def get_ce_rmue(onspilltime, nsig, run_mode = '1BB'):
     POT = getPOT(onspilltime, run_mode)
-    captures_per_stopped_muon = 0.609 # for Al
     rmue = nsig/(POT * target_stopped_mu_per_POT * captures_per_stopped_muon)
     return  rmue
 
