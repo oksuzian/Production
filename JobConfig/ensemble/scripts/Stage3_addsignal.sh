@@ -1,6 +1,6 @@
 #!/usr/bin/bash
 usage() { echo "Usage: $0
-  e.g. Stage3_mixsignal.sh --known MDS2a --signal CeMLeadingLog --rate 1e-13 --nexp 3
+  e.g. Stage3_addsignal.sh --known MDS2a --signal CeMLeadingLog --rate 1e-13 --nexp 3
   usage:
   --owner = the username of your account (or mu2e if you are using mu2epro);
   --known = known physics tag e.g. MDS2a
