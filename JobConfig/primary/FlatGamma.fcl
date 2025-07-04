@@ -9,7 +9,7 @@ physics.producers.generate : {
   inputSimParticles      : TargetStopResampler
   stoppingTargetMaterial : "Al"
   pdgId                  : 22
-  startMom               : 80
+  startMom               : 70
   endMom                 : 102
   verbosity              : 0
 }
