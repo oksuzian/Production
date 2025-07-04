@@ -1,7 +1,7 @@
 #
 # generate and produce Detector Steps from flat spectrum using mu- target stops
 #
-# original author: S Middleton
+# original author: M Stortini
 #
 #include "Production/JobConfig/primary/TargetStopParticle.fcl"
 physics.producers.generate : {
