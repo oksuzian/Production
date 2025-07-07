@@ -10,7 +10,7 @@ exit_abnormal() {
   usage
   exit 1
 }
-COSMICS="MDC2020ae"
+COSMICS="MDC2020ar"
 NJOBS=1
 LIVETIME="" #seconds
 DEM_EMIN=95
@@ -19,8 +19,8 @@ TMIN=350
 TAG="MDS2a_test"
 STOPS="MDC2020p"
 RELEASE="MDC2020"
-VERSION="ar"
-GEN="CRY" #cosmic generator name CRY or CORSIKA only
+VERSION="aw"
+GEN="CRYSignal" #cosmic generator name CRY or CORSIKA only Cat = "Signal"
 # Loop: Get the next option;
 while getopts ":-:" options; do
   case "${options}" in
@@ -78,7 +78,7 @@ rm ${TAG}.txt
 rm ${COSMICS}
 
 echo "accessing files, making file lists"
-mu2eDatasetFileList "dts.mu2e.Cosmic${GEN}SignalAll.${COSMICS}.art" | head -${NJOBS} > ${COSMICS}
+mu2eDatasetFileList "dts.mu2e.Cosmic${GEN}All.${COSMICS}.art" | head -${NJOBS} > ${COSMICS}
 
 
 echo -n "njobs= " >> ${TAG}.txt
@@ -87,7 +87,7 @@ echo "CosmicJob=" ${COSMICS} >> ${TAG}.txt
 echo "CosmicGen=" ${GEN} >> ${TAG}.txt
 echo "primaries=" ${RELEASE}${VERSION} >> ${TAG}.txt
 #echo "DIO_emin=" ${DEM_EMIN} >> ${TAG}.txt
-echo "stops= " ${STOPS} >> ${TAG}.txt
+echo "muon stops= " ${STOPS} >> ${TAG}.txt
 
 mu2e -c Offline/Print/fcl/printCosmicLivetime.fcl -S ${COSMICS} | grep 'Livetime:' | awk -F: '{print $NF}' > ${COSMICS}.livetime
 LIVETIME=$(awk '{sum += $1} END {print sum}' ${COSMICS}.livetime)
@@ -110,5 +110,3 @@ calculateEvents.py --livetime ${LIVETIME} --prc "RPC" --tmin ${TMIN} --internal 
 calculateEvents.py --livetime ${LIVETIME} --prc "RMC" --tmin ${TMIN} --internal 1  --rmcemin 85 --BB ${BB} --printpot "no" >> ${TAG}.txt
 
 calculateEvents.py --livetime ${LIVETIME} --prc "RMC" --tmin ${TMIN} --internal 0  --rmcemin 85 --BB ${BB} --printpot "no" >> ${TAG}.txt
-
-
