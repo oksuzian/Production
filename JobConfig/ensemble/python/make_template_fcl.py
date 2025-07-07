@@ -35,8 +35,6 @@ def main(args):
   # extract normalization of each background/signal process:
   norms = {
           "DIO": dio_normalization(livetime,dioemin, args.BB),
-          #"CE": ce_normalization(livetime,rue, args.BB),
-          #"CeMLL": ce_normalization(livetime,rue, args.BB),
           "CRYCosmic": cry_onspill_normalization(livetime, args.BB),
           "CORSIKACosmic": corsika_onspill_normalization(livetime, args.BB),
           "RPCInternal": rpc_normalization(livetime, args.tmin, 1, args.rpcemin, args.BB),
