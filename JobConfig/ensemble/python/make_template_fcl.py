@@ -210,7 +210,6 @@ if __name__ == "__main__":
     parser.add_argument("--BB", help="BB mode e.g. 1BB")
     parser.add_argument("--release", help="e.g. MDC2020ad")
     parser.add_argument("--livetime", help="simulated livetime")
-    #parser.add_argument("--rue", help="signal branching rate")
     parser.add_argument("--tmin", help="arrival time cut")
     parser.add_argument("--dioemin", help="min energy cut dio")
     parser.add_argument("--rpcemin", help="min energy cut rpc")
