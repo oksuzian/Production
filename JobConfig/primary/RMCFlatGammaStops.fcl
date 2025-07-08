@@ -12,7 +12,7 @@ outputs.IPAOutput.fileName    : "sim.owner.RMCFlatIPAGammaStops.version.sequence
 # Generation configuration
 
 physics.producers.generate : {
-  module_type            : FlatMuonDaughterGenerator
+  module_type            : FlatGeneratorFromStoppedMuon
   inputSimParticles      : TargetStopResampler
   stoppingTargetMaterial : "Al"
   pdgId                  : 22
