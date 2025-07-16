@@ -10,7 +10,7 @@ physics.filters.PrimaryFilter.MinimumPartMom : 30.0 // MeV/c TODO - tweak this p
 physics.producers.FindMCPrimary.PrimaryProcess : "mu2eFlateMinus"
 
 physics.producers.generate : {
-  module_type: FlatMuonDaughterGenerator
+  module_type: FlatGeneratorFromStoppedMuon
   inputSimParticles: IPAMuminusStopResampler
   stoppingTargetMaterial : "IPA"
   verbosity : 0
