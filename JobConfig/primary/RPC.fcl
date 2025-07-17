@@ -8,7 +8,7 @@
 
 physics.producers.generate : {
   module_type : RPCGun
-  inputSimParticles: TargetPiStopResampler
+  inputSimParticles: "StopSelector"
   verbosity : 0
   RPCType : @nil
   spectrum : {
@@ -20,6 +20,21 @@ physics.producers.generate : {
   pionDecayOff : true # will apply surv prob
   doHistograms : true
   #SurvivalProbScaling : 1
+}
+
+# Only sample late pion stops
+physics.filters.StopSelector : {
+    module_type     : StopSelection
+    simParticles    : TargetPiStopResampler
+    stepPointMCs    : "TargetPiStopResampler:virtualdetector"
+    pdgId           : -211
+    processCode     : @local::RPCInfo.pionStoppingCode
+    decayOffPdgs    : [211, -211]
+    cuts            : {
+        tmin        : @local::RPCInfo.minPionStopTime
+    }
+    filter          : true
+    diagLevel       : 1
 }
 
 physics.producers.FindMCPrimary.PrimaryProcess : @nil

@@ -1,0 +1,24 @@
+# This file is for interactive tests to make physical pion stops from infinite lifetime pions
+#include "Production/JobConfig/beam/PhysicalPionStops.fcl"
+
+source.firstRun: 1201
+services.SeedService.baseSeed         :  8
+services.SeedService.maxUniqueEngines :  20
+
+outputs.PrimaryOutput.fileName : "sim.tester.PhysicalPionStops.Test.1.art"
+services.TFileService.fileName : "nts.tester.PhysicalPionStops.Test.1.root"
+
+physics.filters.StopResampler.mu2e.MaxEventsToSkip: 0
+physics.filters.StopResampler.fileNames : [
+                                           "/pnfs/mu2e/tape/phy-sim/sim/mu2e/PiTargetStops/MDC2020aw/art/dd/04/sim.mu2e.PiTargetStops.MDC2020aw.001202_00000000.art",
+                                           "/pnfs/mu2e/tape/phy-sim/sim/mu2e/PiTargetStops/MDC2020aw/art/91/14/sim.mu2e.PiTargetStops.MDC2020aw.001202_00000001.art",
+                                           "/pnfs/mu2e/tape/phy-sim/sim/mu2e/PiTargetStops/MDC2020aw/art/34/1d/sim.mu2e.PiTargetStops.MDC2020aw.001202_00000002.art",
+                                           "/pnfs/mu2e/tape/phy-sim/sim/mu2e/PiTargetStops/MDC2020aw/art/cb/d3/sim.mu2e.PiTargetStops.MDC2020aw.001202_00000003.art",
+                                           "/pnfs/mu2e/tape/phy-sim/sim/mu2e/PiTargetStops/MDC2020aw/art/5c/07/sim.mu2e.PiTargetStops.MDC2020aw.001202_00000004.art",
+                                           "/pnfs/mu2e/tape/phy-sim/sim/mu2e/PiTargetStops/MDC2020aw/art/b1/13/sim.mu2e.PiTargetStops.MDC2020aw.001202_00000005.art",
+                                           "/pnfs/mu2e/tape/phy-sim/sim/mu2e/PiTargetStops/MDC2020aw/art/fc/51/sim.mu2e.PiTargetStops.MDC2020aw.001202_00000006.art",
+                                           "/pnfs/mu2e/tape/phy-sim/sim/mu2e/PiTargetStops/MDC2020aw/art/ed/cc/sim.mu2e.PiTargetStops.MDC2020aw.001202_00000007.art",
+                                           "/pnfs/mu2e/tape/phy-sim/sim/mu2e/PiTargetStops/MDC2020aw/art/df/f8/sim.mu2e.PiTargetStops.MDC2020aw.001202_00000008.art",
+                                           "/pnfs/mu2e/tape/phy-sim/sim/mu2e/PiTargetStops/MDC2020aw/art/7d/77/sim.mu2e.PiTargetStops.MDC2020aw.001202_00000009.art"
+                                          ]
+

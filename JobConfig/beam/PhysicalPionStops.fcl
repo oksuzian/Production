@@ -1,0 +1,42 @@
+# Create a physical pion stop dataset from an infinite lifetime sample
+#include "Production/JobConfig/primary/StopParticle.fcl"
+
+process_name : PhysicalPionStops
+
+physics : {
+    producers : { }
+
+    filters : {
+        StopResampler : @local::physics.filters.TargetPiStopResampler
+
+        StopSelection : { # run accept/reject on a by-pion basis using lifetime weights
+            module_type     : StopSelection
+            simParticles    : StopResampler
+            stepPointMCs    : "StopResampler:virtualdetector"
+            pdgId           : -211
+            processCode     : @local::RPCInfo.pionStoppingCode
+            acceptRejectMax : 1e-3
+            decayOffPdgs    : [211, -211]
+            cuts            : {
+                tmin        : @local::RPCInfo.minPionStopTime
+            }
+            filter          : true
+            diagLevel       : 1
+        }
+    }
+
+    RPCPath : [ StopResampler, StopSelection ]
+    Output  : [ PionOutput ]
+    trigger_paths : [ RPCPath ]
+    end_paths     : [  Output ]
+}
+
+outputs : {
+    PionOutput : {
+        module_type : RootOutput
+        SelectEvents : [ RPCPath ]
+        fileName    : "sim.owner.PhysicalPionStops.version.sequencer.art"
+        # Only keep the sim particle collection produced by the stop selection
+        outputCommands : [ "keep *_*_*_*", "drop mu2e::SimParticlemv_StopResampler_*_*" ]
+    }
+}
