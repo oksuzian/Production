@@ -1,16 +1,25 @@
 //
 // this file is for interactive tests to make RPCs from the filtered stops (fileNames)
 //
-#include "Production/JobConfig/primary/RPC.fcl"
+#include "Production/JobConfig/primary/RPCExternal.fcl"
 
 source.firstRun: 1201
-physics.filters.TargetPiStopResampler.fileNames : ["/pnfs/mu2e/tape/phy-sim/sim/mu2e/PiMinusFilter/MDC2020aj/art/02/e7/sim.mu2e.PiMinusFilter.MDC2020aj.001201_00000899.art"]
-# change for Int/Ext:
-physics.producers.generate.RPCType : "mu2eExternalRPC"  
-physics.producers.FindMCPrimary.PrimaryProcess : "mu2eExternalRPC"
+physics.PrimaryPath : [ TargetPiStopResampler, StopSelector, generate, genCounter ]
+physics.producers.generate.verbosity : 0
 
 physics.filters.TargetPiStopResampler.mu2e.MaxEventsToSkip: 0
-physics.filters.TargetStopResampler.mu2e.MaxEventsToSkip: 0
 outputs.PrimaryOutput.fileName : "dts.tester.RPC.Test.1.art"
-services.TFileService.fileName: "nts.owner.GenPlots.version.sequencer.root"
+services.TFileService.fileName : "nts.tester.RPC.Test.1.root"
 
+physics.filters.TargetPiStopResampler.fileNames : [
+                                                   "/pnfs/mu2e/tape/phy-sim/sim/mu2e/PiTargetStops/MDC2020aw/art/dd/04/sim.mu2e.PiTargetStops.MDC2020aw.001202_00000000.art",
+                                                   "/pnfs/mu2e/tape/phy-sim/sim/mu2e/PiTargetStops/MDC2020aw/art/91/14/sim.mu2e.PiTargetStops.MDC2020aw.001202_00000001.art",
+                                                   "/pnfs/mu2e/tape/phy-sim/sim/mu2e/PiTargetStops/MDC2020aw/art/34/1d/sim.mu2e.PiTargetStops.MDC2020aw.001202_00000002.art",
+                                                   "/pnfs/mu2e/tape/phy-sim/sim/mu2e/PiTargetStops/MDC2020aw/art/cb/d3/sim.mu2e.PiTargetStops.MDC2020aw.001202_00000003.art",
+                                                   "/pnfs/mu2e/tape/phy-sim/sim/mu2e/PiTargetStops/MDC2020aw/art/5c/07/sim.mu2e.PiTargetStops.MDC2020aw.001202_00000004.art",
+                                                   "/pnfs/mu2e/tape/phy-sim/sim/mu2e/PiTargetStops/MDC2020aw/art/b1/13/sim.mu2e.PiTargetStops.MDC2020aw.001202_00000005.art",
+                                                   "/pnfs/mu2e/tape/phy-sim/sim/mu2e/PiTargetStops/MDC2020aw/art/fc/51/sim.mu2e.PiTargetStops.MDC2020aw.001202_00000006.art",
+                                                   "/pnfs/mu2e/tape/phy-sim/sim/mu2e/PiTargetStops/MDC2020aw/art/ed/cc/sim.mu2e.PiTargetStops.MDC2020aw.001202_00000007.art",
+                                                   "/pnfs/mu2e/tape/phy-sim/sim/mu2e/PiTargetStops/MDC2020aw/art/df/f8/sim.mu2e.PiTargetStops.MDC2020aw.001202_00000008.art",
+                                                   "/pnfs/mu2e/tape/phy-sim/sim/mu2e/PiTargetStops/MDC2020aw/art/7d/77/sim.mu2e.PiTargetStops.MDC2020aw.001202_00000009.art"
+                                                   ]

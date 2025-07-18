@@ -152,6 +152,8 @@ Primary: {
       }
     }
 
+    StopSelector : { module_type : NullProducer }
+
     GammaConversionFilter : {
       module_type : GammaConversionPoints
       g4ModuleLabel : "g4run"
@@ -206,6 +208,12 @@ Primary: {
 RMCInfo : {
   kmaxMeasured : 90.1 # Measured as 90.1 +- 1.8
   kmaxEndpoint : 101.9 # Maximum photon kinematically allowed on aluminum
+}
+
+# RPC information
+RPCInfo : {
+    minPionStopTime  : 350. # minimum pion stop time considered, in ns
+    pionStoppingCode : 78 # hBertiniCaptureAtRest
 }
 
 StopFilter : {
