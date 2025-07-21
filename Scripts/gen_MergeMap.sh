@@ -46,13 +46,13 @@ echo "Output file: $OUTPUT_FILE"
 while IFS= read -r line || [ -n "$line" ]; do
   [[ -z "$line" ]] && continue
 
-  read -r pardset override <<< "$line"
-  if [ -z "$pardset" ] || [ -z "$override" ]; then
-    echo "Line '$line' is not in the expected format '<pardset> <job_count>'"
+  read -r parfile njobs inloc outloc <<< "$line"
+  if [ -z "$parfile" ] || [ -z "$njobs" ] || [ -z "$inloc" ] || [ -z "$outloc" ]; then
+    echo "Line '$line' is not in the expected format '<parfile> <njobs> <inloc> <outloc>'"
     exit 1
   fi
 
-  parfile="${pardset%.tar}.0.tar"
+  parfile="${parfile%.tar}.0.tar"
   echo "Processing file: $parfile"
 
   location=$(samweb locate-file "$parfile" 2>&1)
@@ -65,8 +65,8 @@ while IFS= read -r line || [ -n "$line" ]; do
   full_location="${location}/${parfile}"
   echo "Located file: ${full_location}"
 
-  if [ "$override" -gt 0 ]; then
-    job_count="$override"
+  if [ "$njobs" -gt 0 ]; then
+    job_count="$njobs"
   else
     job_count=$(mu2ejobquery --njobs "$full_location" 2>&1)
     if [ $? -ne 0 ]; then
@@ -83,7 +83,7 @@ while IFS= read -r line || [ -n "$line" ]; do
   echo "Job count for $parfile: $job_count"
 
   for (( i = 0; i < job_count; i++ )); do
-    echo "${parfile} ${i}" >> "$OUTPUT_FILE"
+    echo "${parfile} ${i} ${inloc} ${outloc}" >> "$OUTPUT_FILE"
   done
 
 done < "$INPUT_FILE"

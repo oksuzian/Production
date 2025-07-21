@@ -51,5 +51,57 @@
 	"input_data": "dig.mu2e.ensembleMDS1eOnSpillTriggered.MDC2020aq_best_v1_3.art",
 	"merge_factor": 1,
 	"simjob_setup": "/cvmfs/mu2e.opensciencegrid.org/Musings/SimJob/MDC2020au/setup.sh"
+    },
+    {
+	"desc": "PiBeamCat",
+	"dsconf": "MDC2020aw",
+	"fcl": "Production/JobConfig/common/artcat.fcl",
+	"input_data": "sim.mu2e.PiBeam.MDC2020aw.art",
+	"extra_opts": "--override-output-description",
+	"inloc": "disk",
+	"outloc": "tape",
+	"merge_factor": 100,
+	"simjob_setup": "/cvmfs/mu2e.opensciencegrid.org/Musings/SimJob/MDC2020aw/setup.sh"
+    },
+    {
+	"desc": "PiTargetFilt",
+	"dsconf": "MDC2020aw",
+	"fcl_overrides": {
+	    "outputs.StopFilterOutput.fileName": "\"sim.owner.dsdesc.dsconf.seq.art\""
+	},
+	"fcl": "Production/JobConfig/primary/TargetPiStopPreFilter.fcl",
+	"input_data": "sim.mu2e.PiTargetStops.MDC2020aw.art",
+	"extra_opts": "--override-output-description",
+	"inloc": "tape",
+	"outloc": "tape",
+	"merge_factor": 10,
+	"simjob_setup": "/cvmfs/mu2e.opensciencegrid.org/Musings/SimJob/MDC2020aw/setup.sh"
+    },
+    {
+	"desc": "CosmicCRYExtracted",
+	"dsconf": "MDC2020aw",
+	"fcl": "Production/JobConfig/digitize/Extracted.fcl",
+	"fcl_overrides": {
+	    "outputs.TriggeredOutput.fileName": "\"dig.owner.CosmicCRYExtractedTriggered.dsconf.seq.art\"",
+	    "outputs.TriggerableOutput.fileName": "\"/dev/null\""
+	},
+	"input_data": "dts.mu2e.CosmicCRYExtracted.MDC2020av.art",
+	"inloc": "tape",
+	"outloc": "tape",
+	"merge_factor": 5,
+	"simjob_setup": "/cvmfs/mu2e.opensciencegrid.org/Musings/SimJob/MDC2020aw/setup.sh"
+    },
+    {
+	"desc": "CosmicCRYExtractedTriggered",
+	"dsconf": "MDC2020aw",
+	"fcl": "Production/JobConfig/reco/Extracted.fcl",
+	"fcl_overrides": {
+	    "outputs.KinematicLineOutput.fileName": "\"mcs.owner.CosmicCRYExtractedTriggered.dsconf.seq.art\""
+	},
+	"input_data": "dig.mu2e.CosmicCRYExtractedTriggered.MDC2020aw.art",
+	"inloc": "tape",
+	"outloc": "tape",
+	"merge_factor": 10,
+	"simjob_setup": "/cvmfs/mu2e.opensciencegrid.org/Musings/SimJob/MDC2020aw/setup.sh"
     }
 ]

@@ -38,11 +38,11 @@ def parse_args():
                         help='i.e. mu2e')
     parser.add_argument('--nevents', type=int, default=-1,
                         help='Number of events to process (default: -1)')
-    parser.add_argument('--location', type=str, default='tape',
-                        help='Location identifier to include in output.txt (default: "tape")')
+    parser.add_argument('--outloc', type=str, default='tape',
+                        help='Output files location to include in output.txt (default: "tape")')
     parser.add_argument('--dry-run', action='store_true',
                             help='Print commands without actually running them')
-    parser.add_argument('--template-fcl', metavar='PATH', required=True,
+    parser.add_argument('--fcl', metavar='PATH', required=True,
                             help='Path to fcl template'
     )
 
@@ -96,12 +96,14 @@ def write_fcl_file(input_fname: str, args) -> tuple[str, list[str]]:
     sequence = parts[4]
 
     #Extract dbpurpose and dbversion if available in filename
-    m = re.search(r"\.MDC2020(?P<release>\w+)_(?P<dbpurpose>[^_]+)_(?P<dbversion>v\d+_\d+)\.",base_name)
+    m = re.search(r"MDC2020(?P<release>\w+)_(?P<dbpurpose>[^_]+)_(?P<dbversion>v\d+_\d+)", dsconf)
     if m:
         dbpurpose = m.group("dbpurpose")  # 'best'
         dbversion = m.group("dbversion")  # 'v1_3'
         print("Extracted dbpurpose: %s, and dbversion: %s from a file"%(dbpurpose, dbversion))
 
+    # Update dsconf with args.release
+    dsconf = f"MDC2020{args.release}_{dbpurpose}_{dbversion}"
     # Build formatting context
     ctx = {
         'user': args.user,
@@ -118,7 +120,7 @@ def write_fcl_file(input_fname: str, args) -> tuple[str, list[str]]:
     seed = int(hash_hex, 16) % (2**63)
     ctx['seed'] = seed
 
-    templates = load_templates(args.template_fcl)
+    templates = load_templates(args.fcl)
     out_files = []
 
     # Apply each template line
@@ -136,16 +138,15 @@ def write_fcl_file(input_fname: str, args) -> tuple[str, list[str]]:
             out_fname = quote_match.group(1)
             fields = out_fname.split('.')
             if len(fields) == 6: # Output must be in mu2e format: 6 fields
-                out_files.append(fname)
+                out_files.append(out_fname)
 
     if not out_files:
         logging.error("No output filenames found in templates")
         sys.exit(1)
 
     # Derive FCL filename from first output
+    print("out_files: %s"%out_files)
     first = out_files[0]
-    print("first: %s", first)
-    print("first: %s", out_files[1])
     cfg_name = Path(first).stem
     fcl_name = f"cnf.{cfg_name}.fcl"
     Path(fcl_name).write_text(fcl_content)
@@ -187,7 +188,7 @@ def main():
 
     out_content = ""
     for f in out_fname_list:
-        out_content += f'{args.location} {f} parents_{in_fname_base}\n'
+        out_content += f'{args.outloc} {f} parents_{in_fname_base}\n'
 
     # In production mode, copy the job submission log file from jsb_tmp to LOGFILE_LOC.
     LOGFILE_LOC = replace_file_fields(fcl_file, first_field="log", last_field="log")

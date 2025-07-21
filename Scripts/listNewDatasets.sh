@@ -7,6 +7,7 @@ DAYS=7            # Default days to look back
 SUMMARY=false     # Default: do not print summary details
 USER="mu2epro"    # Default user is mu2epro
 CUSTOM_QUERY=""   # Custom query (overrides default if provided)
+SHOW_SIZE=true    # Default: show file sizes
 
 # Process command-line options
 while [[ $# -gt 0 ]]; do
@@ -23,6 +24,10 @@ while [[ $# -gt 0 ]]; do
       SUMMARY=true
       shift 1
       ;;
+    --no-size)
+      SHOW_SIZE=false
+      shift 1
+      ;;
     --user)
       USER="$2"
       shift 2
@@ -32,12 +37,12 @@ while [[ $# -gt 0 ]]; do
       shift 2
       ;;
     --help)
-      echo "Usage: $0 [--filetype <log|art>] [--days <number>] [--summary] [--user <username>] [--query <custom_query>]"
+      echo "Usage: $0 [--filetype <log|art>] [--days <number>] [--summary] [--no-size] [--user <username>] [--query <custom_query>]"
       exit 0
       ;;
     *)
       echo "Unknown option: $1"
-      echo "Usage: $0 [--filetype <log|art>] [--days <number>] [--summary] [--user <username>] [--query <custom_query>]"
+      echo "Usage: $0 [--filetype <log|art>] [--days <number>] [--summary] [--no-size] [--user <username>] [--query <custom_query>]"
       exit 1
       ;;
   esac
@@ -61,15 +66,24 @@ EXT=".$FILETYPE"
 
 echo "------------------------------------------------"
 echo "Grouped file counts:"
-printf "%8s %-100s %10s\n" "COUNT" "DATASET" "FILE SIZE"
-printf "%8s %-100s %10s\n" "-----" "-------" "--------"
+if [[ "$SHOW_SIZE" == true ]]; then
+  printf "%8s %-100s %10s\n" "COUNT" "DATASET" "FILE SIZE"
+  printf "%8s %-100s %10s\n" "-----" "-------" "--------"
+else
+  printf "%8s %-100s\n" "COUNT" "DATASET"
+  printf "%8s %-100s\n" "-----" "-------"
+fi
 # Run the samweb query and process the output.
 samweb list-files "$QUERY" | \
   awk -F. -v ext="$EXT" '{ print $1"."$2"."$3"."$4 ext }' | \
   sort | uniq -c | \
   while read count dataset; do
-    avg_size=$(bash avg_filesize.sh "$dataset" 2>/dev/null || echo "N/A")
-    printf "%8s %-100s %7s MB\n" "$count" "$dataset" "$avg_size"
+    if [[ "$SHOW_SIZE" == true ]]; then
+      avg_size=$(bash avg_filesize.sh "$dataset" 2>/dev/null || echo "N/A")
+      printf "%8s %-100s %7s MB\n" "$count" "$dataset" "$avg_size"
+    else
+      printf "%8s %-100s\n" "$count" "$dataset"
+    fi
   done
 echo "------------------------------------------------"
 

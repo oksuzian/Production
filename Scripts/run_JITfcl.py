@@ -51,8 +51,6 @@ def main():
     parser.add_argument('--dry_run', action='store_true', help='Print commands without actually running pushOutput')
     parser.add_argument('--test_run', action='store_true', help='Run 10 events only')
     parser.add_argument('--save_root', action='store_true', help='Save root and art output files')
-    parser.add_argument('--inloc', type=str, default='tape', help='Location of input files (default: "tape")')
-    parser.add_argument('--outloc', type=str, default='tape', help='Location identifier to include in output.txt (default: "tape")')
     
     args = parser.parse_args()
     copy_input_mdh = args.copy_input_mdh
@@ -99,15 +97,18 @@ def main():
 
     # Split the line into fields (assuming whitespace-separated).
     fields = mapline.split()
-    if len(fields) < 2:
-        raise ValueError(f"Expected at least 2 fields in the line, but got: {mapline}")
+    if len(fields) != 4:
+        raise ValueError(f"Expected 4 fields (parfile njobs inloc outloc) in the line, but got: {mapline}")
 
     # Assign the fields to the appropriate variables.
     TARF = fields[0]
     IND = int(fields[1])  # update IND based on extracted value from the map
+    INLOC = fields[2]     # use inloc from map file
+    OUTLOC = fields[3]    # use outloc from map file
+
     run_command(f"mdh copy-file -e 3 -o -v -s disk -l local {TARF}")
 
-    print(f"IND={IND} TARF={TARF}")
+    print(f"IND={IND} TARF={TARF} INLOC={INLOC} OUTLOC={OUTLOC}")
 
     FCL = os.path.basename(TARF)[:-6] + f".{IND}.fcl"
 
@@ -118,20 +119,16 @@ def main():
     print(f"BEARER_TOKEN after unset: {os.environ.get('BEARER_TOKEN')}")
 
     infiles = run_command(f"mu2ejobiodetail --jobdef {TARF} --index {IND} --inputs")
-    if copy_input_mdh:
+    # Generate FCL without input if infiles is empty
+    if not infiles.strip():
+        run_command(f"mu2ejobfcl --jobdef {TARF} --index {IND} > {FCL}")
+    elif copy_input_mdh:
         run_command(f"mu2ejobfcl --jobdef {TARF} --index {IND} --default-proto file --default-loc dir:{os.getcwd()}/indir > {FCL}")
         print("infiles: %s"%infiles)
-        run_command(f"mdh copy-file -e 3 -o -v -s {args.inloc} -l local {infiles}")
-        run_command(f"mkdir indir; mv *.art indir/")
-    elif copy_input_ifdh:
-        run_command(f"mu2ejobfcl --jobdef {TARF} --index {IND} --default-proto file --default-loc dir:{os.getcwd()}/indir > {FCL}")
-        infiles = run_command(f"mu2ejobiodetail --jobdef {TARF} --index {IND} --inputs| tee /dev/tty | mdh print-url -s root -")
-        infiles = infiles.split()
-        for f in infiles:
-            run_command(f"ifdh cp {f} .")
+        run_command(f"mdh copy-file -e 3 -o -v -s {INLOC} -l local {infiles}")
         run_command(f"mkdir indir; mv *.art indir/")
     else:
-        run_command(f"mu2ejobfcl --jobdef {TARF} --index {IND} --default-proto root --default-loc {args.inloc} > {FCL}")
+        run_command(f"mu2ejobfcl --jobdef {TARF} --index {IND} --default-proto root --default-loc {INLOC} > {FCL}")
 
     print(f"{datetime.now()} submit_fclless {FCL} content")
     with open(FCL, 'r') as f:
@@ -155,7 +152,7 @@ def main():
 
     out_content = ""
     for out_fname in out_fnames:
-        out_content += f"{args.outloc} {out_fname} parents_list.txt\n"
+        out_content += f"{OUTLOC} {out_fname} parents_list.txt\n"
 
     # In production mode, copy the job submission log file from jsb_tmp to LOGFILE_LOC.
     LOGFILE_LOC = replace_file_extensions(FCL, "log", "log")
