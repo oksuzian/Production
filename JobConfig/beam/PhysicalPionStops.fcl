@@ -1,10 +1,13 @@
 # Create a physical pion stop dataset from an infinite lifetime sample
+#include "Production/JobConfig/common/prolog.fcl"
 #include "Production/JobConfig/primary/StopParticle.fcl"
 
 process_name : PhysicalPionStops
 
 physics : {
-    producers : { }
+    producers : {
+          @table::Common.producers
+    }
 
     filters : {
         StopResampler : @local::physics.filters.TargetPiStopResampler
@@ -25,10 +28,10 @@ physics : {
         }
     }
 
-    RPCPath : [ StopResampler, StopSelection ]
+    RPCPath : [ genCounter, StopResampler, StopSelection ]
     Output  : [ PionOutput ]
     trigger_paths : [ RPCPath ]
-    end_paths     : [  Output ]
+    end_paths     : [ Output ]
 }
 
 outputs : {
