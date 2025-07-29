@@ -4,7 +4,7 @@
         "dsconf": "MDC2020ap",
         "fcl": "Production/JobConfig/primary/RMCFlatGammaStops.fcl",
         "fcl_overrides": {
-            "services.GeometryService.bFieldFile": "\"Offline/Mu2eG4/geom/bfgeom_no_tsu_ps_v01.txt\""
+            "services.GeometryService.bFieldFile": "Offline/Mu2eG4/geom/bfgeom_no_tsu_ps_v01.txt"
         },
         "resampler_name": "TargetStopResampler",
         "input_data": "sim.mu2e.MuminusStopsCat.MDC2020p.art",
@@ -18,7 +18,7 @@
         "dsconf": "MDC2020aq",
         "fcl": "Production/JobConfig/primary/RMCFlatGammaResampling.fcl",
         "fcl_overrides": {
-            "services.GeometryService.bFieldFile": "\"Offline/Mu2eG4/geom/bfgeom_no_tsu_ps_v01.txt\""
+            "services.GeometryService.bFieldFile": "Offline/Mu2eG4/geom/bfgeom_no_tsu_ps_v01.txt"
         },
         "resampler_name": "GammaConversionResampler",
 	    "merge_factor_resampler": 10,
@@ -33,7 +33,7 @@
         "dsconf": "MDC2020ap",
         "fcl": "Production/JobConfig/primary/RMCIPAFlatGammaResampling.fcl",
         "fcl_overrides": {
-            "services.GeometryService.bFieldFile": "\"Offline/Mu2eG4/geom/bfgeom_no_tsu_ps_v01.txt\""
+            "services.GeometryService.bFieldFile": "Offline/Mu2eG4/geom/bfgeom_no_tsu_ps_v01.txt"
         },
         "resampler_name": "GammaConversionResampler",
         "input_data": "sim.mu2e.RMCFlatIPAGammaStops.MDC2020ap.art",
@@ -47,7 +47,7 @@
         "dsconf": "MDC2020aw",
         "fcl": "Production/JobConfig/primary/RMCWireFlatGammaResampling.fcl",
         "fcl_overrides": {
-            "services.GeometryService.bFieldFile": "\"Offline/Mu2eG4/geom/bfgeom_no_tsu_ps_v01.txt\""
+            "services.GeometryService.bFieldFile": "Offline/Mu2eG4/geom/bfgeom_no_tsu_ps_v01.txt"
         },
         "resampler_name": "GammaConversionResampler",
         "input_data": "sim.mu2e.RMCFlatWireGammaStops.MDC2020ap.art",
@@ -63,7 +63,7 @@
         "dsconf": "MDC2020at",
         "fcl": "Production/JobConfig/primary/RMCInternalEndpoint.fcl",
         "fcl_overrides": {
-            "services.GeometryService.bFieldFile": "\"Offline/Mu2eG4/geom/bfgeom_no_tsu_ps_v01.txt\""
+            "services.GeometryService.bFieldFile": "Offline/Mu2eG4/geom/bfgeom_no_tsu_ps_v01.txt"
         },
         "resampler_name": "TargetStopResampler",
         "input_data": "sim.mu2e.MuminusStopsCat.MDC2020p.art",
@@ -77,7 +77,7 @@
         "dsconf": "MDC2020at",
         "fcl": "Production/JobConfig/primary/RMCExternalEndpoint.fcl",
         "fcl_overrides": {
-            "services.GeometryService.bFieldFile": "Offline/Mu2eG4/geom/bfgeom_no_tsu_ps_v01.txt"
+            "services.GeometryService.bFieldFile": "\"Offline/Mu2eG4/geom/bfgeom_no_tsu_ps_v01.txt\""
         },
         "resampler_name": "TargetStopResampler",
         "input_data": "sim.mu2e.MuminusStopsCat.MDC2020p.art",
@@ -91,7 +91,7 @@
         "dsconf": "MDC2020at",
         "fcl": "Production/JobConfig/primary/RMCInternal.fcl",
         "fcl_overrides": {
-            "services.GeometryService.bFieldFile": "\"Offline/Mu2eG4/geom/bfgeom_no_tsu_ps_v01.txt\""
+            "services.GeometryService.bFieldFile": "Offline/Mu2eG4/geom/bfgeom_no_tsu_ps_v01.txt"
         },	
         "resampler_name": "TargetStopResampler",
         "input_data": "sim.mu2e.MuminusStopsCat.MDC2020p.art",
@@ -105,7 +105,7 @@
         "dsconf": "MDC2020at",
         "fcl": "Production/JobConfig/primary/RMCExternal.fcl",
         "fcl_overrides": {
-            "services.GeometryService.bFieldFile": "\"Offline/Mu2eG4/geom/bfgeom_no_tsu_ps_v01.txt\""
+                "services.GeometryService.bFieldFile": "Offline/Mu2eG4/geom/bfgeom_no_tsu_ps_v01.txt"
         },	
         "resampler_name": "TargetStopResampler",
         "input_data": "sim.mu2e.MuminusStopsCat.MDC2020p.art",
@@ -123,7 +123,7 @@
         "events": 5000,
         "njobs": 2000,
         "fcl_overrides": {
-            "services.GeometryService.bFieldFile": "\"Offline/Mu2eG4/geom/bfgeom_no_tsu_ps_v01.txt\"",
+            "services.GeometryService.bFieldFile": "Offline/Mu2eG4/geom/bfgeom_no_tsu_ps_v01.txt",
             "physics.producers.generate.decayProducts.spectrum.elow": 95,
             "physics.producers.generate.decayProducts.spectrum.ehi": 1000,
             "physics.filters.GenFilter.maxr_min": 320,
@@ -137,7 +137,7 @@
         "dsconf": "MDC2020ax",
         "fcl": "Production/JobConfig/primary/IPAMuminusMichel.fcl",
         "fcl_overrides": {
-            "services.GeometryService.bFieldFile": "\"Offline/Mu2eG4/geom/bfgeom_no_tsu_ps_v01.txt\""
+            "services.GeometryService.bFieldFile": "Offline/Mu2eG4/geom/bfgeom_no_tsu_ps_v01.txt"
         },	
         "resampler_name": "IPAMuminusStopResampler",
         "input_data": "sim.mu2e.IPAMuminusStopsCat.MDC2020at.art",
@@ -151,7 +151,7 @@
         "dsconf": "MDC2020at",
         "fcl": "Production/JobConfig/primary/CePlusEndpoint.fcl",
         "fcl_overrides": {
-            "services.GeometryService.bFieldFile": "\"Offline/Mu2eG4/geom/bfgeom_no_tsu_ps_v01.txt\""
+            "services.GeometryService.bFieldFile": "Offline/Mu2eG4/geom/bfgeom_no_tsu_ps_v01.txt"
         },	
         "resampler_name": "TargetStopResampler",
         "input_data": "sim.mu2e.MuminusStopsCat.MDC2020p.art",
@@ -165,7 +165,7 @@
         "dsconf": "MDC2020at",
         "fcl": "Production/JobConfig/primary/CeEndpoint.fcl",
         "fcl_overrides": {
-            "services.GeometryService.bFieldFile": "\"Offline/Mu2eG4/geom/bfgeom_no_tsu_ps_v01.txt\""
+            "services.GeometryService.bFieldFile": "Offline/Mu2eG4/geom/bfgeom_no_tsu_ps_v01.txt"
         },	
         "resampler_name": "TargetStopResampler",
         "input_data": "sim.mu2e.MuminusStopsCat.MDC2020p.art",
@@ -179,7 +179,7 @@
         "dsconf": "MDC2020at",
         "fcl": "Production/JobConfig/primary/CePLeadingLog.fcl",
         "fcl_overrides": {
-            "services.GeometryService.bFieldFile": "\"Offline/Mu2eG4/geom/bfgeom_no_tsu_ps_v01.txt\""
+            "services.GeometryService.bFieldFile": "Offline/Mu2eG4/geom/bfgeom_no_tsu_ps_v01.txt"
         },	
         "resampler_name": "TargetStopResampler",
         "input_data": "sim.mu2e.MuminusStopsCat.MDC2020p.art",
@@ -193,7 +193,7 @@
         "dsconf": "MDC2020at",
         "fcl": "Production/JobConfig/primary/CeMLeadingLog.fcl",
         "fcl_overrides": {
-            "services.GeometryService.bFieldFile": "\"Offline/Mu2eG4/geom/bfgeom_no_tsu_ps_v01.txt\""
+            "services.GeometryService.bFieldFile": "Offline/Mu2eG4/geom/bfgeom_no_tsu_ps_v01.txt"
         },	
         "resampler_name": "TargetStopResampler",
         "input_data": "sim.mu2e.MuminusStopsCat.MDC2020p.art",
@@ -204,19 +204,19 @@
     },
     {
         "desc": "RPCInternal",
-        "dsconf": "MDC2020aw",
+        "dsconf": "MDC2020az",
         "fcl": "Production/JobConfig/primary/RPCInternal.fcl",
         "fcl_overrides": {
-            "services.GeometryService.bFieldFile": "\"Offline/Mu2eG4/geom/bfgeom_no_tsu_ps_v01.txt\""
+            "services.GeometryService.bFieldFile": "Offline/Mu2eG4/geom/bfgeom_no_tsu_ps_v01.txt"
         },
         "resampler_name": "TargetPiStopResampler",
         "input_data": "sim.mu2e.PiTargetFilt.MDC2020aw.art",
-        "njobs": 2000,
-        "events": 90000,
+        "njobs": 4000,
+        "events": 25000,
         "run": 1202,
         "inloc": "tape",
         "outloc": "tape",
-        "simjob_setup": "/cvmfs/mu2e.opensciencegrid.org/Musings/SimJob/MDC2020aw/setup.sh"
+        "simjob_setup": "/cvmfs/mu2e.opensciencegrid.org/Musings/SimJob/MDC2020az/setup.sh"
     },
     {
         "desc": "RPCPhysicalStops",
@@ -239,12 +239,12 @@
         "dsconf": "MDC2020az",
         "fcl": "Production/JobConfig/primary/RPCInternalPhysical.fcl",
         "fcl_overrides": {
-            "services.GeometryService.bFieldFile": "Offline/Mu2eG4/geom/bfgeom_no_tsu_ps_v01.txt",
+            "services.GeometryService.bFieldFile": "Offline/Mu2eG4/geom/bfgeom_no_tsu_ps_v01.txt"
         },	
         "resampler_name": "TargetPiStopResampler",
         "input_data": "sim.mu2e.PhysicalPionStops.MDC2020ay.art",
-        "njobs": 2000,
-        "events": 50000,
+        "njobs": 4000,
+        "events": 25000,
         "run": 1202,
 	    "inloc": "tape",
 	    "outloc": "tape",
@@ -255,11 +255,11 @@
         "dsconf": "MDC2020az",
         "fcl": "Production/JobConfig/primary/RPCExternalPhysical.fcl",
         "fcl_overrides": {
-            "services.GeometryService.bFieldFile": "Offline/Mu2eG4/geom/bfgeom_no_tsu_ps_v01.txt",
+            "services.GeometryService.bFieldFile": "Offline/Mu2eG4/geom/bfgeom_no_tsu_ps_v01.txt"
         },	
         "resampler_name": "TargetPiStopResampler",
         "input_data": "sim.mu2e.PhysicalPionStops.MDC2020ay.art",
-        "njobs": 2000,
+        "njobs": 4000,
         "events": 1000000,
         "run": 1202,
         "inloc": "tape",
@@ -267,37 +267,20 @@
         "simjob_setup": "/cvmfs/mu2e.opensciencegrid.org/Musings/SimJob/MDC2020az/setup.sh"
     },
     {
-        "desc": "RPCInternal_test1",
-        "dsconf": "MDC2020aw",
-        "fcl": "Production/JobConfig/primary/RPCInternal.fcl",
-        "fcl_overrides": {
-            "services.GeometryService.bFieldFile": "Offline/Mu2eG4/geom/bfgeom_no_tsu_ps_v01.txt"
-        },
-	    "extra_opts": "--override-output-description",
-        "resampler_name": "TargetPiStopResampler",
-        "input_data": "sim.mu2e.PiTargetFilt.MDC2020aw.art",
-        "njobs": 50,
-        "events": 100,
-        "run": 1202,
-        "inloc": "tape",
-        "outloc": "scratch",
-        "simjob_setup": "/cvmfs/mu2e.opensciencegrid.org/Musings/SimJob/MDC2020aw/setup.sh"
-    },
-    {
         "desc": "RPCExternal",
-        "dsconf": "MDC2020aw",
+        "dsconf": "MDC2020az",
         "fcl": "Production/JobConfig/primary/RPCExternal.fcl",
         "fcl_overrides": {
-            "services.GeometryService.bFieldFile": "\"Offline/Mu2eG4/geom/bfgeom_no_tsu_ps_v01.txt\""
+            "services.GeometryService.bFieldFile": "Offline/Mu2eG4/geom/bfgeom_no_tsu_ps_v01.txt"
         },	
         "resampler_name": "TargetPiStopResampler",
         "input_data": "sim.mu2e.PiTargetFilt.MDC2020aw.art",
-        "njobs": 2000,
-        "events": 5000000,
+        "njobs": 4000,
+        "events": 500000,
         "run": 1202,
         "inloc": "tape",
         "outloc": "disk",
-        "simjob_setup": "/cvmfs/mu2e.opensciencegrid.org/Musings/SimJob/MDC2020aw/setup.sh"
+        "simjob_setup": "/cvmfs/mu2e.opensciencegrid.org/Musings/SimJob/MDC2020az/setup.sh"
     },
     {
         "desc": "PbarSTGun",
@@ -319,7 +302,7 @@
         "dsconf": "MDC2020av",
         "fcl": "Production/JobConfig/primary/FlateMinus.fcl",
         "fcl_overrides": {
-            "services.GeometryService.bFieldFile": "\"Offline/Mu2eG4/geom/bfgeom_no_tsu_ps_v01.txt\"",
+            "services.GeometryService.bFieldFile": "Offline/Mu2eG4/geom/bfgeom_no_tsu_ps_v01.txt",
             "physics.producers.generate.startMom": 90,
             "physics.producers.generate.endMom": 110
         },
@@ -335,7 +318,7 @@
         "dsconf": "MDC2020av",
         "fcl": "Production/JobConfig/primary/FlatePlus.fcl",
         "fcl_overrides": {
-            "services.GeometryService.bFieldFile": "\"Offline/Mu2eG4/geom/bfgeom_no_tsu_ps_v01.txt\"",
+            "services.GeometryService.bFieldFile": "Offline/Mu2eG4/geom/bfgeom_no_tsu_ps_v01.txt",
             "physics.producers.generate.startMom": 90,
             "physics.producers.generate.endMom": 110
         },
@@ -351,7 +334,7 @@
         "dsconf": "MDC2020aw",
         "fcl": "Production/JobConfig/pileup/PiBeamResampler.fcl",
         "fcl_overrides": {
-            "services.GeometryService.bFieldFile": "\"Offline/Mu2eG4/geom/bfgeom_no_tsu_ps_v01.txt\""
+            "services.GeometryService.bFieldFile": "Offline/Mu2eG4/geom/bfgeom_no_tsu_ps_v01.txt"
         },
         "resampler_name": "beamResampler",
         "input_data": "sim.mu2e.PiBeamCat.MDC2020aw.art",
