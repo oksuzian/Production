@@ -82,8 +82,8 @@
 	"dsconf": "MDC2020aw",
 	"fcl": "Production/JobConfig/digitize/Extracted.fcl",
 	"fcl_overrides": {
-	    "outputs.TriggeredOutput.fileName": "\"dig.owner.CosmicCRYExtractedTriggered.dsconf.seq.art\"",
-	    "outputs.TriggerableOutput.fileName": "\"/dev/null\""
+	    "outputs.TriggeredOutput.fileName": "dig.owner.CosmicCRYExtractedTriggered.dsconf.seq.art",
+	    "outputs.TriggerableOutput.fileName": "/dev/null"
 	},
 	"input_data": "dts.mu2e.CosmicCRYExtracted.MDC2020av.art",
 	"inloc": "tape",

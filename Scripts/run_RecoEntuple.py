@@ -95,24 +95,31 @@ def write_fcl_file(input_fname: str, args) -> tuple[str, list[str]]:
     dsconf = parts[3]
     sequence = parts[4]
 
+    release   = getattr(args, 'release', None)
+    dbpurpose = getattr(args, 'dbpurpose', None)
+    dbversion = getattr(args, 'dbversion', None)
+
     #Extract dbpurpose and dbversion if available in filename
     m = re.search(r"MDC2020(?P<release>\w+)_(?P<dbpurpose>[^_]+)_(?P<dbversion>v\d+_\d+)", dsconf)
     if m:
-        dbpurpose = m.group("dbpurpose")  # 'best'
-        dbversion = m.group("dbversion")  # 'v1_3'
+        release   = release   or m.group("release")   # keep input value if present
+        dbpurpose = dbpurpose or m.group("dbpurpose")
+        dbversion = dbversion or m.group("dbversion")
         print("Extracted dbpurpose: %s, and dbversion: %s from a file"%(dbpurpose, dbversion))
+    else:
+        print("regex did NOT match dsconf!")
 
-    # Update dsconf with args.release
-    dsconf = f"MDC2020{args.release}_{dbpurpose}_{dbversion}"
+    dsconf = f"MDC2020{release}_{dbpurpose}_{dbversion}"
+
     # Build formatting context
     ctx = {
         'user': args.user,
-        'release': args.release,
+        'release': release,
         'desc': desc,
         'dsconf': dsconf,
         'sequence': sequence,
-        'dbpurpose': dbpurpose or args.dbpurpose,
-        'dbversion': dbversion or args.dbversion,
+        'dbpurpose': dbpurpose,
+        'dbversion': dbversion,
     }
 
     # Deterministic seed based on input filename
@@ -147,17 +154,18 @@ def write_fcl_file(input_fname: str, args) -> tuple[str, list[str]]:
     # Derive FCL filename from first output
     print("out_files: %s"%out_files)
     first = out_files[0]
-    cfg_name = Path(first).stem
-    fcl_name = f"cnf.{cfg_name}.fcl"
+    fields    = first.split('.')
+    cfg_name  = '.'.join(fields[1:-1])     # drop the file-family and the original extension (art/root)
+    fcl_name  = f"cnf.{cfg_name}.fcl"      # now 6 fields
     Path(fcl_name).write_text(fcl_content)
     logging.info(f"Written FCL: {fcl_name}")
     return fcl_name, out_files
 
 def replace_file_fields(filename: str, first_field: str, last_field: str) -> str:
     parts = filename.split('.')
-    if len(parts) < 4:
-        raise ValueError(f"Expected at least 4 dot-separated fields, got {len(parts)}: {filename!r}")
-    parts[3] = f"{parts[3]}-{parts[0]}"
+    if len(parts) != 6:
+        raise ValueError(f"Expected exactly 6 dot-separated fields, got {len(parts)}: {filename!r}")
+    # swap fields.
     parts[0] = first_field
     parts[-1] = last_field
 
