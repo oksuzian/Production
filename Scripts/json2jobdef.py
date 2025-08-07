@@ -30,7 +30,7 @@ def build_jobdef(config, job_args):
         cmd += config['extra_opts'].split()
     cmd += job_args
     
-    parfile = Path(get_parfile_name(config['owner'], config['desc'], config['dsconf']))
+    parfile = Path(f"cnf.{config['owner']}.{config['desc']}.{config['dsconf']}.0.tar")
     if parfile.exists(): parfile.unlink()
     run(' '.join(cmd), shell=True)
 
@@ -38,7 +38,7 @@ def save_jobdef(config):
     """
     Save job information to a dsconf-specific file with unique entries.
     """
-    parfile_name = get_parfile_name(config['owner'], config['desc'], config['dsconf'])
+    parfile_name = f"cnf.{config['owner']}.{config['desc']}.{config['dsconf']}.0.tar"
     
     # Query job count if njobs is -1
     njobs = config['njobs']
@@ -100,7 +100,7 @@ def main():
         job_args += build_pileup_args(config)
     
     build_jobdef(config, job_args)
-    parfile_name = get_parfile_name(config['owner'], config['desc'], config['dsconf'])
+    parfile_name = f"cnf.{config['owner']}.{config['desc']}.{config['dsconf']}.0.tar"
     if args.pushout:
         push_output(parfile_name)
     save_jobdef(config)
