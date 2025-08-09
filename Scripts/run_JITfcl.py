@@ -80,16 +80,20 @@ def main():
         print("Error: Unable to extract index from filename.")
         exit_abnormal()
 
-    mapfile = run_command(f"ls {CONDOR_DIR_INPUT}/merged*.txt").strip()
-    # Split the output into a list of lines.
+    # Find the mapfile robustly
+    mapfiles = sorted(glob.glob(os.path.join(CONDOR_DIR_INPUT, "merged*.txt")))
+    if not mapfiles:
+        print(f"Error: No 'merged*.txt' files found in {CONDOR_DIR_INPUT}")
+        exit_abnormal()
+    mapfile = mapfiles[0]
     with open(mapfile, 'r') as f:
         maplines = f.read().splitlines()
         
     print("len(maplines): %d, IND: %d"%(len(maplines), IND))
         
-    # Check that there are at least IND maplines.
-    if len(maplines) < IND:
-        raise ValueError(f"Expected at least {IND} maplines, but got only {len(maplines)}")
+    # Validate index bounds (0-based)
+    if IND < 0 or IND >= len(maplines):
+        raise ValueError(f"Index {IND} out of range for {len(maplines)} lines in {mapfile}")
     
     # Get the IND-th line (adjusting for Python's 0-index).
     mapline = maplines[IND]
@@ -112,11 +116,12 @@ def main():
 
     FCL = os.path.basename(TARF)[:-6] + f".{IND}.fcl"
 
-    #unset BEARER_TOKEN
-    print(f"BEARER_TOKEN before unset: {os.environ.get('BEARER_TOKEN')}")
-    os.environ.pop('BEARER_TOKEN', None)
-    # Check if the variable is unset
-    print(f"BEARER_TOKEN after unset: {os.environ.get('BEARER_TOKEN')}")
+    # Unset BEARER_TOKEN without printing its value
+    if 'BEARER_TOKEN' in os.environ:
+        os.environ.pop('BEARER_TOKEN', None)
+        print("BEARER_TOKEN environment variable unset")
+    else:
+        print("BEARER_TOKEN not set")
 
     infiles = run_command(f"mu2ejobiodetail --jobdef {TARF} --index {IND} --inputs")
     # Generate FCL without input if infiles is empty

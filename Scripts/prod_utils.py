@@ -156,9 +156,14 @@ def push_output(file, location='disk'):
     with open('outputs.txt', 'w') as f:
         f.write(f"{location} {file} none\n")
     
-    # Check if file exists on SAM
-    loc = run(f"samweb locate-file {file}", capture=True, shell=True)
-    if not loc:
+    # Check if file exists on SAM without exiting on failure
+    try:
+        proc = subprocess.run(f"samweb locate-file {file}", shell=True, capture_output=True, text=True, check=False)
+        exists = proc.returncode == 0 and bool(proc.stdout.strip())
+    except Exception:
+        exists = False
+    
+    if not exists:
         # File doesn't exist on SAM, push it
         print(f"Pushing {file} to SAM...")
         run('pushOutput outputs.txt', shell=True)

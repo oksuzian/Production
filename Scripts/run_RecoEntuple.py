@@ -97,6 +97,10 @@ def write_fcl_file(input_fname: str, args) -> tuple[str, list[str]]:
 
     #Extract dbpurpose and dbversion if available in filename
     m = re.search(r"MDC2020(?P<release>\w+)_(?P<dbpurpose>[^_]+)_(?P<dbversion>v\d+_\d+)", dsconf)
+    
+    # Initialize from args; override if present in filename
+    dbpurpose = args.dbpurpose
+    dbversion = args.dbversion
     if m:
         dbpurpose = m.group("dbpurpose")  # 'best'
         dbversion = m.group("dbversion")  # 'v1_3'
@@ -111,8 +115,8 @@ def write_fcl_file(input_fname: str, args) -> tuple[str, list[str]]:
         'desc': desc,
         'dsconf': dsconf,
         'sequence': sequence,
-        'dbpurpose': dbpurpose or args.dbpurpose,
-        'dbversion': dbversion or args.dbversion,
+        'dbpurpose': dbpurpose,
+        'dbversion': dbversion,
     }
 
     # Deterministic seed based on input filename
