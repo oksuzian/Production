@@ -11,7 +11,10 @@ exit_abnormal() {
 }
 OWNER="mu2e"
 INRELEASE=MDC2020
-INVERSION=at
+DIOVERSION=at
+RMCVERSION=at
+RPCVERSION=az
+IPAVERSION=ax
 TAG=""
 VERBOSE=1
 SETUP=/cvmfs/mu2e.opensciencegrid.org/Musings/SimJob/MDC2020at/setup.sh
@@ -33,6 +36,18 @@ while getopts ":-:" options; do
           ;;
         setup)
           SETUP=${!OPTIND} OPTIND=$(( $OPTIND + 1 ))
+          ;;
+        dioversion)
+          DIOVERSION=${!OPTIND} OPTIND=$(( $OPTIND + 1 ))
+          ;;
+        rmcversion)
+          RMCVERSION=${!OPTIND} OPTIND=$(( $OPTIND + 1 ))
+          ;;
+        rpcversion)
+          RPCVERSION=${!OPTIND} OPTIND=$(( $OPTIND + 1 ))
+          ;;
+        ipaversion)
+          IPAVERSION=${!OPTIND} OPTIND=$(( $OPTIND + 1 ))
           ;;
         *)
           echo "Unknown option " ${OPTARG}
@@ -63,7 +78,7 @@ COSMICTAG="MDC2020ar"
 GEN=""
 CONFIG=${TAG}.txt
 OUTRELEASE="MDC2020"
-OUTVERSION="at"
+OUTVERSION="az"
 
 while IFS='= ' read -r col1 col2
 do 
@@ -100,9 +115,6 @@ do
     if [[ "${col1}" == "CosmicTag" ]] ; then
       COSMICTAG=${col2}
     fi
-    if [[ "${col1}" == "pisurv" ]] ; then
-      SURV=${col2}
-    fi
     
 done <${CONFIG}
 echo "extracted config from Stage 1"
@@ -119,15 +131,16 @@ rm *.tar
 
 echo "accessing files, making file lists"
 mu2eDatasetFileList "dts.mu2e.Cosmic${GEN}SignalAll.${COSMICTAG}.art" | head -${NJOBS} > filenames_${GEN}Cosmic
-mu2eDatasetFileList "dts.mu2e.DIOtail${DIO_EMIN}.${INRELEASE}${INVERSION}.art"| head -${NJOBS} > filenames_DIO
-mu2eDatasetFileList "dts.mu2e.RPCInternal.${INRELEASE}as.art" | head -${NJOBS} > filenames_RPCInternal
-mu2eDatasetFileList "dts.mu2e.RPCExternal.${INRELEASE}as.art" | head -${NJOBS} > filenames_RPCExternal
-mu2eDatasetFileList "dts.mu2e.RMCInternal.${INRELEASE}${INVERSION}.art" | head -${NJOBS} > filenames_RMCInternal
-mu2eDatasetFileList "dts.mu2e.RMCExternalCat.${INRELEASE}${INVERSION}.art" | head -${NJOBS} > filenames_RMCExternal
-mu2eDatasetFileList "dts.mu2e.IPAMuminusMichel.${INRELEASE}${INVERSION}.art" | head -${NJOBS} > filenames_IPAMichel
+mu2eDatasetFileList "dts.mu2e.DIOtail${DIO_EMIN}.${INRELEASE}${DIOVERSION}.art"| head -${NJOBS} > filenames_DIO
+mu2eDatasetFileList "dts.mu2e.RPCInternalPhysical.${INRELEASE}${RPCVERSION}.art" | head -${NJOBS} > filenames_RPCInternal
+mu2eDatasetFileList "dts.mu2e.RPCExternalPhysical.${INRELEASE}${RPCVERSION}.art" | head -${NJOBS} > filenames_RPCExternal
+mu2eDatasetFileList "dts.mu2e.RMCInternal.${INRELEASE}${RMCVERSION}.art" | head -${NJOBS} > filenames_RMCInternal
+#mu2eDatasetFileList "dts.mu2e.RMCExternalCat.${INRELEASE}${RMCVERSION}.art" | head -${NJOBS} > filenames_RMCExternal
+samListLocations --dim "dh.dataset=dts.mu2e.RMCExternalCat.MDC2020at.art and event_count>600" | head -${NJOBS}  &> filenames_RMCExternal 
+mu2eDatasetFileList "dts.mu2e.IPAMuminusMichel.${INRELEASE}${IPAVERSION}.art" | head -${NJOBS} > filenames_IPAMichel
 
 echo "making template fcl"
-make_template_fcl.py --BB=${BB} --release=${OUTRELEASE}${OUTVERSION}  --tag=${TAG} --verbose=${VERBOSE} --livetime=${LIVETIME} --run=${RUN} --dioemin=${DIO_EMIN} --rpcemin=${RPC_EMIN} --rmcemin=${RMC_EMIN} --rmckmax=${RMC_kmax} --ipaemin=${IPA_EMIN} --tmin=${TMIN} --samplingseed=${SAMPLINGSEED} --surv ${SURV} --prc "DIO" "${GEN}Cosmic" "RPCInternal" "RPCExternal" "RMCInternal" "RMCExternal" "IPAMichel"
+make_template_fcl.py --BB=${BB} --release=${OUTRELEASE}${OUTVERSION}  --tag=${TAG} --verbose=${VERBOSE} --livetime=${LIVETIME} --run=${RUN} --dioemin=${DIO_EMIN} --rpcemin=${RPC_EMIN} --rmcemin=${RMC_EMIN} --rmckmax=${RMC_kmax} --ipaemin=${IPA_EMIN} --tmin=${TMIN} --samplingseed=${SAMPLINGSEED} --prc "DIO" "${GEN}Cosmic" "RPCInternal" "RPCExternal" "RMCInternal" "RMCExternal" "IPAMichel"
 
 ##### Below is genEnsemble and Grid:
 echo "remove old files"
@@ -142,12 +155,12 @@ rm filenames_IPAMichel_${NJOBS}.txt
 
 echo "get NJOBS files and list"
 samweb list-files "dh.dataset=dts.mu2e.Cosmic${GEN}SignalAll.${COSMICTAG}.art" | head -${NJOBS} > filenames_${GEN}Cosmic_${NJOBS}.txt
-samweb list-files "dh.dataset=dts.mu2e.DIOtail${DIO_EMIN}.${INRELEASE}${INVERSION}.art"  | head -${NJOBS} > filenames_DIO_${NJOBS}.txt
-samweb list-files "dh.dataset=dts.mu2e.RPCInternal.${INRELEASE}as.art  and availability:anylocation"  | head -${NJOBS}  >  filenames_RPCInternal_${NJOBS}.txt
-samweb list-files "dh.dataset=dts.mu2e.RPCExternal.${INRELEASE}as.art  and availability:anylocation"  | head -${NJOBS}  >  filenames_RPCExternal_${NJOBS}.txt
-samweb list-files "dh.dataset=dts.mu2e.RMCInternal.${INRELEASE}${INVERSION}.art  and availability:anylocation"  | head -${NJOBS}  >  filenames_RMCInternal_${NJOBS}.txt
-samweb list-files "dh.dataset=dts.mu2e.RMCExternalCat.${INRELEASE}${INVERSION}.art  and availability:anylocation"  | head -${NJOBS}  >  filenames_RMCExternal_${NJOBS}.txt
-samweb list-files "dh.dataset=dts.mu2e.IPAMuminusMichel.${INRELEASE}${INVERSION}.art  and availability:anylocation"  | head -${NJOBS}  >  filenames_IPAMichel_${NJOBS}.txt
+samweb list-files "dh.dataset=dts.mu2e.DIOtail${DIO_EMIN}.${INRELEASE}${DIOVERSION}.art"  | head -${NJOBS} > filenames_DIO_${NJOBS}.txt
+samweb list-files "dh.dataset=dts.mu2e.RPCInternalPhysical.${INRELEASE}${RPCVERSION}.art  and availability:anylocation"  | head -${NJOBS}  >  filenames_RPCInternal_${NJOBS}.txt
+samweb list-files "dh.dataset=dts.mu2e.RPCExternalPhysical.${INRELEASE}${RPCVERSION}.art  and availability:anylocation"  | head -${NJOBS}  >  filenames_RPCExternal_${NJOBS}.txt
+samweb list-files "dh.dataset=dts.mu2e.RMCInternal.${INRELEASE}${RMCVERSION}.art  and availability:anylocation"  | head -${NJOBS}  >  filenames_RMCInternal_${NJOBS}.txt
+samweb list-files "dh.dataset=dts.mu2e.RMCExternalCat.${INRELEASE}${RMCVERSION}.art  and availability:anylocation and event_count>600"  | head -${NJOBS}  >  filenames_RMCExternal_${NJOBS}.txt
+samweb list-files "dh.dataset=dts.mu2e.IPAMuminusMichel.${INRELEASE}${IPAVERSION}.art  and availability:anylocation"  | head -${NJOBS}  >  filenames_IPAMichel_${NJOBS}.txt
 
 
 DSCONF=${OUTRELEASE}${OUTVERSION}
@@ -171,9 +184,11 @@ echo "Created definiton: idx_${index_dataset}"
 samweb describe-definition idx_${index_dataset}
 
 echo "submit jobs"
-cmd="mu2ejobsub --jobdef cnf.${OWNER}.ensemble${TAG}.${INRELEASE}${OUTVERSION}.0.tar --firstjob=0 --njobs=${NJOBS}  --default-protocol ifdh --default-location tape"
+cmd="mu2ejobsub --jobdef cnf.${OWNER}.ensemble${TAG}.${INRELEASE}${OUTVERSION}.0.tar --firstjob=0 --njobs=${NJOBS}  --default-protocol ifdh --default-location tape --location dts.mu2e.RPCExternalPhysical.MDC2020az.art:disk "
 echo "Running: $cmd"
 $cmd
+
+#mu2ejobsub --jobdef cnf.mu2e.ensembleMDS2b.MDC2020az.0.tar --firstjob=0 --njobs=822  --default-protocol ifdh --default-location tape --location dts.mu2e.RPCExternalPhysical.MDC2020az.art:disk 
 
 # upload to SAM/tape:
 #printJson --no-parents cnf.sophie.ensemble${TAG}.${INRELEASE}${INVERSION}.0.tar > cnf.sophie.ensemble${TAG}.${INRELEASE}${INVERSION}.0.tar.json

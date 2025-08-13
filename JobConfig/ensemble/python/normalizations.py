@@ -184,9 +184,8 @@ def rpc_normalization(onspilltime, tmin, internal, emin, run_mode = '1BB'):
   npistops = 41798702 ## from above (MDC2020aw)
   target_stopped_pi_per_POT =  0.003924801 * 0.522483775 # from above (MDC2020ak)
   npifilter = 4378518 # from above (MDC2020aw)
-  time_eff = npifilter/npistops  
-  total_sum_of_weights =  37468# from filter
-  selected_sum_of_weights =  5.7055#from filter
+  n_piresample = 1959*5e6 # from Yuri FIXME needs to be added to sim table above
+  selected_sum_of_weights = 21369.36 # from SumWeight product FIXME needs to be added to sim table above
   #------- end of the hack --------#
   spec = open(os.path.join(os.environ["MUSE_WORK_DIR"],"Production/JobConfig/ensemble/rpcspectrum.tbl")) #Bistrilich
   energy = []
@@ -211,10 +210,7 @@ def rpc_normalization(onspilltime, tmin, internal, emin, run_mode = '1BB'):
     print("RPC_tmin=",tmin)
     print("RPC_fraction_sampled=",rpcESampleFrac)
     print("pistoprate=",target_stopped_pi_per_POT)
-    print("pitimeeff=", time_eff)
-    #print("pisurv=", avg_survival_prob)
-    #print("pitotalweight=", total_sum_of_weights)
-  physics_events = POT * target_stopped_pi_per_POT * time_eff * RPC_per_stopped_pion * rpcESampleFrac * selected_sum_of_weights/npistops
+  physics_events = POT * target_stopped_pi_per_POT * (npifilter/npistops) * (selected_sum_of_weights/n_piresample) * RPC_per_stopped_pion * rpcESampleFrac
 
   if int(internal) == 1:
     physics_events *= internalRPC_per_RPC;

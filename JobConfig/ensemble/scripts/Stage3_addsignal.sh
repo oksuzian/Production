@@ -158,7 +158,7 @@ echo "npseudo_experiments= ${NEXP}">> ${KNOWN}.txt
 rm filenames_All_${SIGNAL}
 rm filenames_All_${KNOWN}
 echo "looking for mcs.mu2e.${SIGNAL}OnSpillTriggered.${RELEASE}_${DBPURPOSE}_${DBVERSION}.art"
-samweb list-files "dh.dataset=mcs.mu2e.${SIGNAL}OnSpillTriggered.${RELEASE}_${DBPURPOSE}_${DBVERSION}.art  and availability:anylocation" > filenames_All_${SIGNAL}
+samweb list-files "dh.dataset=mcs.mu2e.${SIGNAL}OnSpillTriggered.${RELEASE}_${DBPURPOSE}_${DBVERSION}.art  and availability:anylocation" > filenames_All_${SIGNAL} #FIXME - need to use mixed files
 $(tail filenames_All_${SIGNAL})
 samweb list-files "dh.dataset=mcs.${OWNER}.${KNOWN}Triggered.v0.art  and availability:anylocation" > filenames_All_${KNOWN}
 
@@ -186,7 +186,7 @@ rm *.tar
 while [ $i -le ${NEXP} ]
 do
   rm template_$i.fcl
-echo '#include "Production/JobConfig/common/artcat.fcl"' >> template_$i.fcl
+echo '#include "Production/JobConfig/common/artcat.fcl"' >> template_$i.fcl # FIXME - make this an EventNtuple job
 echo 'outputs.out.fileName: "'${OUTFILENAME}'"' >> template_$i.fcl
   cmd="mu2ejobdef --embed template_$i.fcl --setup ${SETUP} --desc ${KNOWN}${SIGNAL}${RATE} --dsconf ${RELEASE}_${DBPURPOSE}_${DBVERSION}_$i --inputs=filenames_Chosen_$i  --merge-factor=1"
   echo "Running: $cmd"

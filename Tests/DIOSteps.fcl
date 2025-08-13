@@ -4,3 +4,4 @@
 outputs.Output.fileName : "dts.tester.DIOtail.Test.1.art"
 services.TFileService.fileName: "nts.owner.GenPlots.version.sequencer.root"
 
+outputs.PrimaryOutput.fileName: "dts.owner.DIOtail.version.sequencer.art"

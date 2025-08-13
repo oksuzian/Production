@@ -47,10 +47,8 @@ while getopts ":-:" options; do
     esac
 done
 
-rm DIO.txt
-rm CeMLL.txt
-rm cosmic.txt
-rm gen.txt 
+rm *.txt
+
 ls logs/* &> logs.txt
 
 while IFS='= ' read -r col1
@@ -100,3 +98,4 @@ echo $temp >> ipa.txt
 sed -i -e 's/ /\n/g' ipa.txt
 temp2=$(awk '{s+=$1} END {print s}' ipa.txt)
 echo "total ipa " ${temp2}
+
