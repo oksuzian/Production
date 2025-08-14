@@ -3,7 +3,6 @@ import os
 
 # Define the directory where your log files are located
 log_directory = "logs"  
-input_file_name = "log.mu2e.ensembleMDS2b.MDC2020az.001201_00000000.log"  # Replace with the actual name of your input file
 output_file_name = "extracted_data.txt"
 output_csv_file_name = "output_data.csv"
 
