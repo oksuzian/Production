@@ -1,0 +1,15 @@
+#
+# RMC Internal, flat photon energy spectrum
+#
+
+#include "Production/JobConfig/primary/RMC.fcl"
+physics.producers.generate.decayProducts.mode : "internal"
+physics.producers.generate.decayProducts.spectrum : {
+    elow          : 70
+    ehi           : 102
+    spectrumShape : "flat"
+    verbosity     : 0
+}
+
+physics.producers.FindMCPrimary.PrimaryProcess : "mu2eInternalRMC"
+outputs.PrimaryOutput.fileName : "dts.owner.RMCFlatInternal.version.sequencer.art"
