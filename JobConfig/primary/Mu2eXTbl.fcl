@@ -16,7 +16,7 @@ physics.producers.generate : {
       pdgId            :  11
       spectrumVariable : "totalEnergy"
       spectrumShape    : "tabulated"
-      spectrumFileName : "Offline/ConditionsService/data/mu2eXS0.tbl" 
+      spectrumFileName : "Offline/ConditionsService/data/Mu2eX/mu2eX_PRD84113010.tbl"
       //options: mu2eXS0.tbl, mu2eXV1.tbl,mu2eXS1.tbl (2005.07894) or mu2eX.tbl (1110.2874)
       ehi              : 104.97
       elow             : 100.
