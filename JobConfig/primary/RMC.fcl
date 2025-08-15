@@ -21,5 +21,6 @@ physics.producers.generate : {
     }
     mode : @nil #Options are "external" "internal" or "physical"
   }
+  selectOne : true
   verbosity : 0
 }
