@@ -1,0 +1,14 @@
+#
+# OnSpill with Loop helix seed fits
+#
+#include "Production/JobConfig/recoMC/OnSpill.fcl"
+# re-configure to a seed fit
+
+physics.producers.KKDe : @local::Mu2eKinKal.producers.KKDeSeedFit
+physics.producers.KKDe.ModuleSettings.HelixSeedCollections : [ "MHDe" ]
+physics.producers.KKDmu : @local::Mu2eKinKal.producers.KKDmuSeedFit
+physics.producers.KKDmu.ModuleSettings.HelixSeedCollections : [ "MHDmu" ]
+physics.producers.KKUe : @local::Mu2eKinKal.producers.KKUeSeedFit
+physics.producers.KKUe.ModuleSettings.HelixSeedCollections : [ "MHUe" ]
+physics.producers.KKUmu : @local::Mu2eKinKal.producers.KKUmuSeedFit
+physics.producers.KKUmu.ModuleSettings.HelixSeedCollections : [ "MHUmu" ]
