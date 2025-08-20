@@ -41,7 +41,10 @@ Mixing : {
   DetStepFilter: {
     module_type: MixingFilter
   }
+  
 }
+
+    
 Mixing : {
   @table::Mixing
   producers : {
@@ -76,14 +79,18 @@ Mixing : {
     EleBeamFlashMixer : @local::Mixing.DetStepMixer
     MuBeamFlashMixer : @local::Mixing.DetStepMixer
     NeutralsFlashMixer : @local::Mixing.DetStepMixer
-  }
+    DTSFilter : {
+      module_type : FixedFilter
+      ReturnValue : true
+    }
 
-  StepMixSequence : [ MuStopPileupMixer, EleBeamFlashMixer, MuBeamFlashMixer, NeutralsFlashMixer ]
+}
+  StepMixSequence : [  MuStopPileupMixer, EleBeamFlashMixer, MuBeamFlashMixer, NeutralsFlashMixer ]
   StepFilterSequence : [ MuStopPileupFilter, EleBeamFlashFilter, MuBeamFlashFilter, NeutralsFlashFilter ]
   # when mixing early events the intensity must be scaled down
   EarlyReductionFactor : 1.0e-2
 }
-Mixing.PileupMixSequence : [ PBISim, @sequence::Mixing.StepMixSequence, @sequence::Mixing.StepFilterSequence ]
+Mixing.PileupMixSequence : [ PBISim, DTSFilter, @sequence::Mixing.StepMixSequence, @sequence::Mixing.StepFilterSequence ]
 Mixing.MixSequence : [ @sequence::Mixing.PileupMixSequence, @sequence::Digitize.DigitizeSequence ]
 # override the Trigger 'PrepareDigis' sequence; the mixers must preceed the digi making
 TrigRecoSequences.cfoDataGen: [ @sequence::Mixing.PileupMixSequence, @sequence::Digitize.DigitizeSequence ]

@@ -13,7 +13,13 @@ DIO_per_stopped_muon = 0.391 # 1 - captures_per_stopped_muon
 RPC_per_stopped_pion = 0.0215; # from reference, uploaded on docdb-469
 internalRPC_per_RPC = 0.00690; # from reference, uploaded on docdb-717
 IPA_decays_per_stopped_muon = 0.92990
-      
+
+# place holders
+target_stopped_mu_per_POT = 1.0
+rate = 1.0
+dutyfactor = 1.0
+NPOT = 0.
+
 # get muon stopped rates from DB
 dbtool = DbService.DbTool()
 dbtool.init()
@@ -26,8 +32,6 @@ rr = dbtool.getResult()
 This first section focuses on muon stop backgrounds at the target: DIO and CE
 """
 # get number of target muon stops:
-target_stopped_mu_per_POT = 1.0
-rate = 1.0
 lines= rr.split("\n")
 for line in lines:
     words = line.split(",")
@@ -38,7 +42,7 @@ for line in lines:
 #print(f"Final stops rate muon {target_stopped_mu_per_POT}")
 
 def get_duty_factor(run_mode = '1BB'):
-  dutyfactor = 1.
+  
   if(run_mode == '1BB'):
     # 1BB
     dutyfactor = 0.323
@@ -51,7 +55,7 @@ def get_duty_factor(run_mode = '1BB'):
 def getPOT(onspilltime, run_mode = '1BB',printout=False, frac=1): #livetime in seconds
     # numbers from SU2020 
     # see https://github.com/Mu2e/su2020/blob/master/analysis/pot_normalization.org
-    NPOT = 0.
+    
     if(run_mode == 'custom'):
       # assume some fraction of 1BB
       mean_PBI_low = 1.6e7*frac

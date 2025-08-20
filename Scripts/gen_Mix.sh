@@ -248,16 +248,33 @@ fi
 
 # Override dts filters conditioned on primary
 if [ "${ENSEMBLE}" == 0 ]; then
+  if [ "${PRIMARY_DESC}" == *"DIOtail"* ]; then
+    filter="Production/JobConfig/mixing/filters/DIOtail.fcl"
+  fi
+  els
   filter="Production/JobConfig/mixing/filters/${PRIMARY_DESC}.fcl"
   if test -f "${PRODUCTION_INC}/${filter}"; then
     echo "#include \"${filter}\"" >> mix.fcl
   fi
 fi
 
+# Override dts filters conditioned on primary
+if [ "${ENSEMBLE}" == 0 ]; then
+  if [ "${PRIMARY_DESC}" == *"DIOtail"* ]; then
+    filter="Production/JobConfig/mixing/filters/DIOtail.fcl"
+  else
+    filter="Production/JobConfig/mixing/filters/${PRIMARY_DESC}.fcl"
+  fi
+  if test -f "${PRODUCTION_INC}/${filter}"; then
+    echo "#include \"${filter}\"" >> mix.fcl
+  fi
+fi
+
+
 if [ "${ENSEMBLE}" == 1 ]; then
-  echo "ensemble ${ENSEMBLE}"
   echo "#include \"Production/JobConfig/mixing/filters/DIOtail.fcl\"" >> mix.fcl
   echo "#include \"Production/JobConfig/mixing/filters/IPAMuminusMichel.fcl\"" >> mix.fcl
+  echo "#include \"Production/JobConfig/ensemble/fcl/DTSFilter.fcl\"" >> mix.fcl
 fi
 
 # set the skips
