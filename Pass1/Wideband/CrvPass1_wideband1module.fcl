@@ -28,7 +28,7 @@ physics :
   {
     CrvDigi :
     {
-      module_type   : CrvDigisFromArtdaqFragments
+      module_type   : CrvDigisFromArtdaqFragmentsFEBII
       diagLevel     : 0
       useSubsystem0 : true
     }
@@ -85,8 +85,10 @@ physics.producers.CrvCoincidenceClusterFinder.sectorConfig:
 services.TFileService.fileName : "crvRecoWideband.root"
 services.GeometryService.inputFile: "Offline/Mu2eG4/geom/geom_Wideband1module.txt"
 services.ProditionsService.crvStatus.useDb: false
-services.ProditionsService.crvCalib.useDb: true
-services.DbService.textFile : ["Offline/CRVConditions/data/calib_wideband1module.txt"]
+services.ProditionsService.crvCalib.useDb: false
+services.ProditionsService.crvCalib.pedestal: 2047
+#services.ProditionsService.crvCalib.useDb: true
+#services.DbService.textFile : ["Offline/CRVConditions/data/calib_wideband1module.txt"]
 services.DbService.verbose : 0
 #services.message.destinations.log.categories.ArtReport.reportEvery : 1
 #services.message.destinations.log.categories.ArtReport.limit : 1
