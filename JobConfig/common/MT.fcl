@@ -1,5 +1,6 @@
 # Set Multi-Threading variables
 
 physics.producers.g4run.module_type : "Mu2eG4MT"
+# these numbers need to be optimized TODO
 services.scheduler.num_schedules : 2
 services.scheduler.num_threads   : 2

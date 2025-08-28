@@ -96,7 +96,6 @@ physics.producers.g4run.inputs: {
 }
 # copy over VD hits
 physics.producers.g4run.SDConfig.preSimulatedHits:  ["beamResampler:virtualdetector"]
-#include "Production/JobConfig/common/MT.fcl"
 #include "Production/JobConfig/common/epilog.fcl"
 #include "Production/JobConfig/pileup/epilog.fcl"
 # reconfigure StepPoint producers to avoid double-counting particles from the mustop filter deep copy
