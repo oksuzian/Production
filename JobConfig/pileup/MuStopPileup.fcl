@@ -101,7 +101,6 @@ outputs : {
     fileName: "dts.owner.MuStopPileup.version.sequencer.art"
   }
 }
-#include "Production/JobConfig/common/MT.fcl"
 #include "Production/JobConfig/common/epilog.fcl"
 #include "Production/JobConfig/pileup/epilog.fcl"
 # No time cut; muons decay late anyways, this lets us use the output for both regulary and 'Early' mixing

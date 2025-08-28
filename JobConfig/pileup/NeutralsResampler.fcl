@@ -72,6 +72,5 @@ physics.producers.g4run.inputs: {
     outInstance: "eventlevel"
   }
 }
-#include "Production/JobConfig/common/MT.fcl"
 #include "Production/JobConfig/common/epilog.fcl"
 #include "Production/JobConfig/pileup/epilog.fcl"

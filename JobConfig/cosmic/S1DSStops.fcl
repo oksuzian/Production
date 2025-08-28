@@ -68,7 +68,6 @@ physics.producers.g4run.Mu2eG4CommonCut: @local::Cosmic.Mu2eG4CommonCutCosmicS1
 #
 # final configuration
 #
-#include "Production/JobConfig/common/MT.fcl"
 #include "Production/JobConfig/common/epilog.fcl"
 
 physics.trigger_paths : [ S1Path, S1LowPath ]
