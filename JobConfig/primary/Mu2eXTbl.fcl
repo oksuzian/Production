@@ -1,0 +1,29 @@
+#
+# generates the Mu(-) --> e(-) + X where X is a BSM particle. Spectrum based on arXiv:2005.07894 or 1110.2874
+# Sophie Middleton, 2021, 2025
+
+#include "Production/JobConfig/primary/TargetStopParticle.fcl"
+process_name: Mu2eX
+
+physics.producers.generate : {
+  module_type : SingleProcessGenerator
+  inputSimParticles: TargetStopResampler
+  stoppingTargetMaterial : "Al"
+  decayProducts :
+  {
+    tool_type : Mu2eXGenerator
+    spectrum : {
+      pdgId            :  11
+      spectrumVariable : "totalEnergy"
+      spectrumShape    : "tabulated"
+      spectrumFileName : "Offline/ConditionsService/data/Mu2eX/mu2eX_PRD84113010.tbl"
+      //options: mu2eXS0.tbl, mu2eXV1.tbl,mu2eXS1.tbl (2005.07894) or mu2eX.tbl (1110.2874)
+      ehi              : 104.97
+      elow             : 100.
+    }
+  }
+  verbosity : 0
+}
+
+physics.producers.FindMCPrimary.PrimaryProcess : "Mu2eX"
+outputs.PrimaryOutput.fileName: "dts.owner.Mu2eXTbl.version.sequencer.art"

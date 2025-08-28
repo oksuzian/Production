@@ -19,7 +19,8 @@ usage() {
   [ --neutmix (opt) # of neutral pileup files ]   
   [ --elemix (opt) # of electron pileup files ]   
   [ --mustopmix (opt) # of mustop daughter pileup files ]   [ --mubeammix (opt) # of mubeam pileup files ]   
-  [ --primary_dataset dts.mu2e.desc.dsconf.art ]"
+  [ --primary_dataset dts.mu2e.desc.dsconf.art ]
+  [ --ensemble 0 or 1 ]"
 }
 
 # Function: Exit with error.
@@ -44,6 +45,7 @@ MUSTOPNMIXIN=2
 MUBEAMNMIXIN=1
 FIELD="Offline/Mu2eG4/geom/bfgeom_no_tsu_ps_v01.txt"
 PRIMARY_DATASET=""
+ENSEMBLE=0
 PUSHOUT=false
 
 # Loop: Get the next option;
@@ -109,6 +111,10 @@ while getopts ":-:" options; do
           ;;
         primary_dataset)
             PRIMARY_DATASET=${!OPTIND}
+            OPTIND=$(( $OPTIND + 1 ))
+            ;;
+        ensemble)
+            ENSEMBLE=${!OPTIND}
             OPTIND=$(( $OPTIND + 1 ))
             ;;
 	pushout)
@@ -241,9 +247,34 @@ if [ "${PRIMARY_DESC}" == "NoPrimary" ]; then
 fi
 
 # Override dts filters conditioned on primary
-filter="Production/JobConfig/mixing/filters/${PRIMARY_DESC}.fcl"
-if test -f "${PRODUCTION_INC}/${filter}"; then
-  echo "#include \"${filter}\"" >> mix.fcl
+if [ "${ENSEMBLE}" == 0 ]; then
+  if [ "${PRIMARY_DESC}" == *"DIOtail"* ]; then
+    filter="Production/JobConfig/mixing/filters/DIOtail.fcl"
+  fi
+  els
+  filter="Production/JobConfig/mixing/filters/${PRIMARY_DESC}.fcl"
+  if test -f "${PRODUCTION_INC}/${filter}"; then
+    echo "#include \"${filter}\"" >> mix.fcl
+  fi
+fi
+
+# Override dts filters conditioned on primary
+if [ "${ENSEMBLE}" == 0 ]; then
+  if [ "${PRIMARY_DESC}" == *"DIOtail"* ]; then
+    filter="Production/JobConfig/mixing/filters/DIOtail.fcl"
+  else
+    filter="Production/JobConfig/mixing/filters/${PRIMARY_DESC}.fcl"
+  fi
+  if test -f "${PRODUCTION_INC}/${filter}"; then
+    echo "#include \"${filter}\"" >> mix.fcl
+  fi
+fi
+
+
+if [ "${ENSEMBLE}" == 1 ]; then
+  echo "#include \"Production/JobConfig/mixing/filters/DIOtail.fcl\"" >> mix.fcl
+  echo "#include \"Production/JobConfig/mixing/filters/IPAMuminusMichel.fcl\"" >> mix.fcl
+  echo "#include \"Production/JobConfig/ensemble/fcl/DTSFilter.fcl\"" >> mix.fcl
 fi
 
 # set the skips

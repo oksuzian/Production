@@ -34,9 +34,9 @@ def main(args):
 
   # extract normalization of each background/signal process:
   norms = {
-          "DIO": dio_normalization(livetime,dioemin, args.BB),
           "CRYCosmic": cry_onspill_normalization(livetime, args.BB),
           "CORSIKACosmic": corsika_onspill_normalization(livetime, args.BB),
+          "DIO": dio_normalization(livetime, dioemin, args.BB),
           "RPCInternal": rpc_normalization(livetime, args.tmin, 1, args.rpcemin, args.BB),
           "RPCExternal": rpc_normalization(livetime, args.tmin, 0, args.rpcemin, args.BB),
           "RMCInternal": rmc_normalization(livetime, 1, args.rmcemin, args.rmckmax, args.BB),
@@ -70,7 +70,7 @@ def main(args):
       # start counters
       reco_events = 0
       gen_events = 0
-      
+      livetime=0
       # loop over files in list
       for line in ffns:
           
@@ -83,18 +83,9 @@ def main(args):
           # use ROOT to get the events in that file
           fin = ROOT.TFile(fn)
           te = fin.Get("Events")
-          if signal == "RPCInternal" or signal == "RPCExternal":
-                bl = te.GetListOfBranches()
-                bn = ""
-                for i in range(bl.GetEntries()):
-                    if bl[i].GetName().startswith("mu2e::EventWeight"):
-                        bn = bl[i].GetName()
-                for i in range(te.GetEntries()):
-                    te.GetEntry(i)
-                    reco_events += getattr(te,bn).product().weight()
-          else:
-            # determine total number of events surviving all cuts
-            reco_events += te.GetEntries()
+
+          # determine total number of events surviving all cuts
+          reco_events += te.GetEntries()
           if int(args.verbose) == 2:
             print(" reco events ", reco_events)
         
@@ -106,11 +97,14 @@ def main(args):
               # find the right branch
               bl = t.GetListOfBranches()
               bn = ""
+              
               for i in range(bl.GetEntries()):
                   if bl[i].GetName().startswith("mu2e::CosmicLivetime"):
                       bn = bl[i].GetName()
               for i in range(t.GetEntries()):
                   t.GetEntry(i)
+                  
+                  livetime+=getattr(t,bn).product().liveTime()
                   gen_events += getattr(t,bn).product().liveTime()
           else:
               # find the right branch
@@ -124,8 +118,8 @@ def main(args):
                   t.GetEntry(i)
                   gen_events += getattr(t,bn).product().count()
           
-          if signal == "RPCInternal" or signal == "RPCExternal":
-            gen_events *= float(args.surv) # survival probability
+          #if signal == "RPCInternal" or signal == "RPCExternal":
+          #  gen_events *= float(args.surv) # survival probability
           
           if int(args.verbose) == 2:
             print("total gen events ",gen_events)
@@ -137,6 +131,7 @@ def main(args):
       
       # factors in efficiency
       mean_reco_events[signal] = mean_gen_events*reco_events/float(gen_events) 
+      print("NORM",mean_gen_events,"RECO",reco_events, "GEN",float(gen_events),"EXPECTED EVENTS:",mean_reco_events[signal] )
       if int(args.verbose) == 1:
         print(signal,"GEN_EVENTS:",gen_events,"RECO_EVENTS:",reco_events,"EXPECTED EVENTS:",mean_reco_events[signal])
 
@@ -219,7 +214,6 @@ if __name__ == "__main__":
     parser.add_argument("--run", help="run number")
     parser.add_argument("--samplingseed", help="samplingseed")
     parser.add_argument("--tag", help="ouput file tag")
-    parser.add_argument("--surv", help="pion surv prob")
     parser.add_argument("--prc", help="list of signals e.g CE DIO Cosmic", nargs='+')
     args = parser.parse_args()
     (args) = parser.parse_args()
