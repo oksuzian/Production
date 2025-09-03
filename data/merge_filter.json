@@ -145,4 +145,5 @@
 	"merge_factor": 5,
 	"simjob_setup": "/cvmfs/mu2e.opensciencegrid.org/Musings/SimJob/MDC2020ba/setup.sh"
     }
+	
 ]

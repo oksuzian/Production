@@ -15,7 +15,7 @@
         "fcl": ["Production/JobConfig/mixing/Mix.fcl"],
         "merge_events": [2000],
         "inloc": ["tape"],
-        "outloc": ["tape"],
+        "outloc": [{"dig.mu2e.*.art": "tape"}],
         "owner": ["mu2e"],
         "fcl_overrides": [
             {
@@ -44,7 +44,7 @@
         "fcl": ["Production/JobConfig/mixing/Mix.fcl"],
         "merge_events": [2000],
         "inloc": ["tape"],
-        "outloc": ["tape"],
+        "outloc": [{"dig.mu2e.*.art": "tape"}],
         "fcl_overrides": [
             {
                 "services.DbService.purpose": "MDC2020_perfect",
@@ -72,7 +72,7 @@
         "fcl": ["Production/JobConfig/mixing/Mix.fcl"],
         "merge_events": [2000],
         "inloc": ["tape"],
-        "outloc": ["tape"],
+        "outloc": [{"dig.mu2e.*.art": "tape"}],
         "fcl_overrides": [
             {
                 "services.DbService.purpose": "MDC2020_best",
@@ -94,15 +94,13 @@
         "mustop_count": [2],
         "dsconf": ["MDC2020ba_best_v1_3"],
         "mixconf": [2],
-        "pbeam": ["Mix1BB", "Mix2BB"],
+        "pbeam": ["Mix1BB"],
         "owner": ["mu2e"],
         "simjob_setup": ["/cvmfs/mu2e.opensciencegrid.org/Musings/SimJob/MDC2020ba/setup.sh"],
         "fcl": ["Production/JobConfig/mixing/Mix.fcl"],
         "merge_events": [2000],
         "inloc": ["tape"],
-		"outloc": {
-			"dig.mu2e.*.art": "tape"
-		},
+        "outloc": [{"dig.mu2e.*.art": "tape"}],
         "fcl_overrides": [
             {
                 "services.DbService.purpose": "MDC2020_best",
@@ -131,7 +129,7 @@
         "fcl": ["Production/JobConfig/mixing/Mix.fcl"],
         "merge_events": [2000],
         "inloc": ["tape"],
-        "outloc": ["tape"],
+        "outloc": [{"dig.mu2e.*.art": "tape"}],
         "fcl_overrides": [
             {
                 "services.DbService.purpose": "MDC2020_best",
@@ -160,7 +158,7 @@
         "fcl": ["Production/JobConfig/mixing/Mix.fcl"],
         "merge_events": [2000],
         "inloc": ["tape"],
-        "outloc": ["tape"],
+        "outloc": [{"dig.mu2e.*.art": "tape"}],
         "fcl_overrides": [
             {
                 "services.DbService.purpose": "MDC2020_best",
