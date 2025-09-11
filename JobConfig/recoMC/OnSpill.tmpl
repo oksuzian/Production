@@ -1,0 +1,6 @@
+#include "Production/JobConfig/recoMC/OnSpill.fcl"
+
+services.DbService.purpose: "MDC2020_{dbpurpose}"
+services.DbService.version: "{dbversion}"
+services.DbService.verbose: 2
+outputs.LoopHelixOutput.fileName:    "mcs.mu2e.{desc}.{dsconf}.{sequence}.art"

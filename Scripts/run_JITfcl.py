@@ -9,96 +9,59 @@ from pathlib import Path
 import textwrap
 import glob
 import shutil
-
-# Function: Exit with error.
-def exit_abnormal():
-    usage()
-    sys.exit(1)
-
-# Function: Print a help message.
-def usage():
-    print("Usage: script_name.py [--copy_input_mdh --copy_input_ifdh]")
-    print("e.g. run_JITfcl.py --copy_input_mdh")
-
-# Function to run a shell command and return the output while streaming
-def run_command(command, hard_fail=True):
-    print(f"Running: {command}")
-    process = subprocess.Popen(command, shell=True, stdout=subprocess.PIPE, stderr=subprocess.STDOUT, text=True)
-    output = []  # Collect the command output
-    for line in process.stdout:
-        print(line, end="")  # Print each line in real-time
-        output.append(line.strip())  # Collect the output lines
-    process.wait()  # Wait for the command to complete
-
-    if process.returncode != 0:
-        print(f"Error running command: {command}")
-        if hard_fail:
-            exit_abnormal()
-
-    return "\n".join(output)  # Return the full output as a string
-
-# Replace the first and last fields
-def replace_file_extensions(input_str, first_field, last_field):
-    fields = input_str.split('.')
-    fields[0] = first_field
-    fields[-1] = last_field
-    return '.'.join(fields)
+from mu2e_poms_util.prod_utils import make_jobdefs_list, run, push_output, replace_file_extensions
 
 def main():
     parser = argparse.ArgumentParser(description="Process some inputs.")
-    parser.add_argument("--copy_input_mdh", action="store_true", help="Copy input files using mdh")
-    parser.add_argument("--copy_input_ifdh", action="store_true", help="Copy input files using ifhd")
+    parser.add_argument("--copy_input", action="store_true", help="Copy input files using mdh")
     parser.add_argument('--dry_run', action='store_true', help='Print commands without actually running pushOutput')
     parser.add_argument('--test_run', action='store_true', help='Run 10 events only')
     parser.add_argument('--save_root', action='store_true', help='Save root and art output files')
     
     args = parser.parse_args()
-    copy_input_mdh = args.copy_input_mdh
-    copy_input_ifdh = args.copy_input_ifdh
+    copy_input = args.copy_input
 
     #check token before proceeding
-    run_command(f"httokendecode -H", hard_fail=False)
+    run(f"httokendecode -H", shell=True)
     
     fname = os.getenv("fname")
     if not fname:
         print("Error: fname environment variable is not set.")
-        exit_abnormal()
+        sys.exit(1)
 
     print(f"{datetime.now()} starting fclless submission")
     print(f"args: {sys.argv}")
     print(f"fname={fname}")
     print(f"pwd={os.getcwd()}")
     print("ls of default dir")
-    run_command("ls -al")        
+    run("ls -al", shell=True)        
     
     CONDOR_DIR_INPUT = os.getenv("CONDOR_DIR_INPUT", ".")
-    run_command(f"ls -ltr {CONDOR_DIR_INPUT}")
+    run(f"ls -ltr {CONDOR_DIR_INPUT}", shell=True)
 
     try:
         IND = int(fname.split('.')[4].lstrip('0') or '0')
     except (IndexError, ValueError) as e:
         print("Error: Unable to extract index from filename.")
-        exit_abnormal()
+        sys.exit(1)
 
-    mapfile = run_command(f"ls {CONDOR_DIR_INPUT}/merged*.txt").strip()
-    # Split the output into a list of lines.
-    with open(mapfile, 'r') as f:
-        maplines = f.read().splitlines()
-        
-    print("len(maplines): %d, IND: %d"%(len(maplines), IND))
-        
-    # Check that there are at least IND maplines.
-    if len(maplines) < IND:
-        raise ValueError(f"Expected at least {IND} maplines, but got only {len(maplines)}")
+    mapfile = run(f"ls {CONDOR_DIR_INPUT}/jobdefs_*.txt", capture=True, shell=True).strip()
+    jobdefs_list = make_jobdefs_list(Path(mapfile))
     
-    # Get the IND-th line (adjusting for Python's 0-index).
-    mapline = maplines[IND]
-    print(f"The {IND}th line is: {mapline}")
+    print(f"len(jobdefs_list): {len(jobdefs_list)}, IND: {IND}")
+        
+    # Check that there are at least IND job definitions.
+    if len(jobdefs_list) < IND:
+        raise ValueError(f"Expected at least {IND} job definitions, but got only {len(jobdefs_list)}")
+    
+    # Get the IND-th job definition (adjusting for Python's 0-index).
+    jobdef = jobdefs_list[IND]
+    print(f"The {IND}th job definition is: {jobdef}")
 
-    # Split the line into fields (assuming whitespace-separated).
-    fields = mapline.split()
+    # Split the job definition into fields (parfile job_index inloc outloc).
+    fields = jobdef.split()
     if len(fields) != 4:
-        raise ValueError(f"Expected 4 fields (parfile njobs inloc outloc) in the line, but got: {mapline}")
+        raise ValueError(f"Expected 4 fields (parfile job_index inloc outloc) in the job definition, but got: {jobdef}")
 
     # Assign the fields to the appropriate variables.
     TARF = fields[0]
@@ -106,7 +69,7 @@ def main():
     INLOC = fields[2]     # use inloc from map file
     OUTLOC = fields[3]    # use outloc from map file
 
-    run_command(f"mdh copy-file -e 3 -o -v -s disk -l local {TARF}")
+    run(f"mdh copy-file -e 3 -o -v -s disk -l local {TARF}", shell=True)
 
     print(f"IND={IND} TARF={TARF} INLOC={INLOC} OUTLOC={OUTLOC}")
 
@@ -118,28 +81,28 @@ def main():
     # Check if the variable is unset
     print(f"BEARER_TOKEN after unset: {os.environ.get('BEARER_TOKEN')}")
 
-    infiles = run_command(f"mu2ejobiodetail --jobdef {TARF} --index {IND} --inputs")
+    infiles = run(f"mu2ejobiodetail --jobdef {TARF} --index {IND} --inputs", capture=True, shell=True)
     # Generate FCL without input if infiles is empty
     if not infiles.strip():
-        run_command(f"mu2ejobfcl --jobdef {TARF} --index {IND} > {FCL}")
-    elif copy_input_mdh:
-        run_command(f"mu2ejobfcl --jobdef {TARF} --index {IND} --default-proto file --default-loc dir:{os.getcwd()}/indir > {FCL}")
+        run(f"mu2ejobfcl --jobdef {TARF} --index {IND} > {FCL}", shell=True)
+    elif copy_input:
+        run(f"mu2ejobfcl --jobdef {TARF} --index {IND} --default-proto file --default-loc dir:{os.getcwd()}/indir > {FCL}", shell=True)
         print("infiles: %s"%infiles)
-        run_command(f"mdh copy-file -e 3 -o -v -s {INLOC} -l local {infiles}")
-        run_command(f"mkdir indir; mv *.art indir/")
+        run(f"mdh copy-file -e 3 -o -v -s {INLOC} -l local {infiles}", shell=True)
+        run(f"mkdir indir; mv *.art indir/", shell=True)
     else:
-        run_command(f"mu2ejobfcl --jobdef {TARF} --index {IND} --default-proto root --default-loc {INLOC} > {FCL}")
+        run(f"mu2ejobfcl --jobdef {TARF} --index {IND} --default-proto root --default-loc {INLOC} > {FCL}", shell=True)
 
     print(f"{datetime.now()} submit_fclless {FCL} content")
     with open(FCL, 'r') as f:
         print(f.read())
 
     if args.test_run:
-        run_command(f"mu2e -n 10 -c {FCL}")
+        run(f"mu2e -n 10 -c {FCL}", shell=True)
     else:
-        run_command(f"mu2e -c {FCL}")
+        run(f"mu2e -c {FCL}", shell=True)
 
-    run_command(f"ls {fname}")
+    run(f"ls {fname}", shell=True)
 
     if args.save_root:
         out_fnames = glob.glob("*.art") + glob.glob("*.root")
@@ -169,11 +132,11 @@ def main():
     Path("output.txt").write_text(out_content)
 
     # Push output
-    run_command(f"httokendecode -H", hard_fail=False)
+    run(f"httokendecode -H", shell=True)
     if args.dry_run:
         print("[DRY RUN] Would run: pushOutput output.txt")
     else:
-        run_command("pushOutput output.txt")
+        run("pushOutput output.txt", shell=True)
 
 #    run_command("rm -f *.root *.art *.txt")
 

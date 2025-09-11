@@ -73,7 +73,7 @@ Reconstruction : {
   HighRecoMCProducts : [
     "keep *_compressRecoMCs_*_*",
     "keep *_CrvCoincidenceClusterMCAssns_*_*",
-    "keep *_SelectReco_*_*"
+    "keep *_*_*_*"
   ]
   GeneralMCProducts : [
     @sequence::Digitize.GeneralMCProducts

@@ -1,0 +1,3 @@
+tape dig.mu2e.PbarSTGunOnSpillTriggered.MDC2020None_best_v1_3.001202_00000004.art parents_dts.mu2e.PbarSTGun.MDC2020ar.001202_00000004.art
+tape dig.mu2e.PbarSTGunOnSpillTriggerable.MDC2020None_best_v1_3.001202_00000004.art parents_dts.mu2e.PbarSTGun.MDC2020ar.001202_00000004.art
+disk log.mu2e.PbarSTGunOnSpillTriggered.MDC2020None_best_v1_3.001202_00000004.log parents_dts.mu2e.PbarSTGun.MDC2020ar.001202_00000004.art
