@@ -2,13 +2,11 @@
 
 process_name: artsplit
 
-# read only the first 100 events
+# read only the first n events
 source: {
   module_type: RootInput
   fileNames: @nil
-  //[ "/pnfs/mu2e/tape/phy-sim/mcs/mu2e/CeMLeadingLogOnSpillTriggered/MDC2020au_perfect_v1_3/art/71/3e/mcs.mu2e.CeMLeadingLogOnSpillTriggered.MDC2020au_perfect_v1_3.001202_00001366.art" ]
   maxEvents: 0
-  //1150
 }
 
 services: { 
@@ -25,6 +23,6 @@ physics: {
 outputs: {
   out: {
     module_type: RootOutput
-    fileName: "first2300_2.art"
+    fileName: @nil
   }
 }
