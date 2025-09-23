@@ -10,7 +10,9 @@ usage() { echo "Usage: $0
   --dbpurpose = db purpose of input mcs files e.g. perfect or best
   --dbversion = db version e.g. v1_3
   --nexp = number of sets of mixed samples or 'pseudo experiments' to make default is 1
-  --chosenlivetime = chose a livetime in seconds e.g 86000
+  --chooselivetime = chose a livetime in seconds e.g 86000
+  
+  NOTE: assumes signal and known are the same versions
 "
 }
 
@@ -23,8 +25,8 @@ OWNER="mu2e"
 KNOWN="MDS2a" #background sample tag
 RATE=1e-13
 SIGNAL="CeMLeadingLog" #name as given to primary during production
-RELEASE="MDC2020au"
-DBPURPOSE="perfect"
+RELEASE="MDC2020ba"
+DBPURPOSE="best"
 DBVERSION="v1_3"
 NEXP=1
 CHOOSE=0.
@@ -82,7 +84,19 @@ done
 # step 1: check livetime of the tag
 GEN_LIVETIME=""
 GEN_JOBS=""
+# extract config file from disk:
 CONFIG=${KNOWN}.txt
+
+echo "running: mu2eDatasetFileList cnf.${OWNER}.ensemble${KNOWN}.${RELEASE}${CURRENT}.txt"
+
+mu2eDatasetFileList cnf.${OWNER}.ensemble${KNOWN}.${RELEASE}${CURRENT}.txt >> config.txt
+# Read each line (file path) from the input file
+while IFS= read -r file_path; do
+    if [ -f "$file_path" ]; then
+        cp "$file_path" ${KNOWN}.txt
+    fi
+done < config.txt
+
 while IFS='= ' read -r col1 col2
 do 
     if [[ "${col1}" == "livetime" ]] ; then
@@ -112,7 +126,7 @@ fi
 echo "livetime ${LIVETIME}s is initated, watch for changes...."
 
 # find how many known files are for livetime
-N_TOTAL_KNOWN=$(samDatasetsSummary.sh mcs.${OWNER}.${KNOWN}Triggered.v0.art  | awk '/Files/ {print $2}')
+N_TOTAL_KNOWN=$(samDatasetsSummary.sh mcs.${OWNER}.ensemble${KNOWN}Mix${BB}Triggered.${RELEASE}_${DBPURPOSE}_${DBVERSION}.art  | awk '/Files/ {print $2}')
 LIVETIME_PER_FILE=$(awk "BEGIN {printf \"%.0f\", ${GEN_LIVETIME}/${N_TOTAL_KNOWN}}")
 echo "livetime per file ${LIVETIME_PER_FILE}"
 N_KNOWN_FILES_TO_USE=$(awk "BEGIN {printf \"%.0f\", ${LIVETIME}/${LIVETIME_PER_FILE}}")
@@ -122,30 +136,16 @@ echo "${N_KNOWN_FILES_TO_USE} files of ${KNOWN} to be used with livetime of ${LI
 LIVETIME=$(awk "BEGIN {printf \"%.0f\", ${N_KNOWN_FILES_TO_USE}*${LIVETIME_PER_FILE}}")
 echo "IMPORTANT: livetime ${LIVETIME}s is selected based on need for integar number of files"
 
-
-# calculate yield of signal for chose rate, if > 0 then proceed --> use python scripts
-NSIG=$(calculateEvents.py --livetime ${LIVETIME} --prc ${SIGNAL} --BB ${BB} --rue ${RATE})
-echo "${RATE} for ${BB} and ${LIVETIME} s means ${NSIG} events will be sampled"
-
 # understand how many events are present, and what fraction we need to sample
-NGEN=(samDatasetsSummary.sh mcs.mu2e.${SIGNAL}OnSpillTriggered.${RELEASE}_${DBPURPOSE}_${DBVERSION}.art  | awk '/Generated/ {print $2}') # 4980 #FIXME
-#
-echo "sample mcs.mu2e.${SIGNAL}OnSpillTriggered.${RELEASE}_${DBPURPOSE}_${DBVERSION}.art contains ${NGEN} gen events"
+echo "accessing " mcs.${OWNER}.${SIGNAL}Mix${BB}Triggered.${RELEASE}_${DBPURPOSE}_${DBVERSION}.art
+NGEN=10000000
+#(samDatasetsSummary.sh mcs.${OWNER}.${SIGNAL}Mix${BB}Triggered.${RELEASE}_${DBPURPOSE}_${DBVERSION}.art  | awk '/Generated/ {print $2}') #FIXME
 
-# figure out fraction of signal dataset to sample:
-N_TOTAL_SIGNAL=$(samDatasetsSummary.sh mcs.mu2e.${SIGNAL}OnSpillTriggered.${RELEASE}_${DBPURPOSE}_${DBVERSION}.art  | awk '/Files/ {print $2}')
-EVENTS_PER_FILE=$(awk "BEGIN {printf \"%.0f\", ${NGEN}/${N_TOTAL_SIGNAL}}")
-echo "signal sample has ${N_TOTAL_SIGNAL} files with ${EVENTS_PER_FILE} events per file"
-N_SIGNAL_FILES_TO_USE=$(awk "BEGIN {printf \"%.0f\", ${NSIG}/${EVENTS_PER_FILE}}")
-echo "based on requested rate, will use ${N_SIGNAL_FILES_TO_USE} signal files"
-NSIG=$(awk "BEGIN {printf \"%.2f\", ${N_SIGNAL_FILES_TO_USE}*${EVENTS_PER_FILE}}") 
-
-#FIXME - need some poisson stats included
-#FIXME - catch when < 1 file
+echo "sample mcs.${OWNER}.${SIGNAL}Mix${BB}Triggered.${RELEASE}_${DBPURPOSE}_${DBVERSION}.art contains ${NGEN} gen events"
 
 # recheck rate for new Nfiles
-RATE=$(calculateEvents.py --livetime ${LIVETIME} --BB ${BB} --nsig ${NSIG} --prc "GetRATE" )
-echo "can only sample full files, sampling ${N_SIGNAL_FILES_TO_USE} files so ${NSIG} and ${RATE}"
+#RATE=$(calculateEvents.py --livetime ${LIVETIME} --BB ${BB} --nsig ${NSIG} --prc "GetRATE" )
+#echo "can only sample full files, sampling ${N_SIGNAL_FILES_TO_USE} files so ${NSIG} and ${RATE}"
 
 #need to store this somewhere, amend the .config and make an associated config for combined sample with nexp, rate, livetime_rate added at end of original.
 echo "======= combined samples info =========">> ${KNOWN}.txt
@@ -157,52 +157,77 @@ echo "npseudo_experiments= ${NEXP}">> ${KNOWN}.txt
 # build complete list
 rm filenames_All_${SIGNAL}
 rm filenames_All_${KNOWN}
-echo "looking for mcs.mu2e.${SIGNAL}OnSpillTriggered.${RELEASE}_${DBPURPOSE}_${DBVERSION}.art"
-samweb list-files "dh.dataset=mcs.mu2e.${SIGNAL}OnSpillTriggered.${RELEASE}_${DBPURPOSE}_${DBVERSION}.art  and availability:anylocation" > filenames_All_${SIGNAL} #FIXME - need to use mixed files
-$(tail filenames_All_${SIGNAL})
-samweb list-files "dh.dataset=mcs.${OWNER}.${KNOWN}Triggered.v0.art  and availability:anylocation" > filenames_All_${KNOWN}
+rm filenames_*
+echo "looking for mcs.${OWNER}.${SIGNAL}Mix${BB}Triggered.${RELEASE}_${DBPURPOSE}_${DBVERSION}.art"
+mu2eDatasetFileList "mcs.${OWNER}.${SIGNAL}Mix${BB}Triggered.${RELEASE}_${DBPURPOSE}_${DBVERSION}.art" > filenames_All_${SIGNAL} 
 
-# step 9: make nexp random lists
+mu2eDatasetFileList nts.mu2e.ensemble${KNOWN}Mix${BB}Triggered.${RELEASE}_${DBPURPOSE}_${DBVERSION}_v06_06_00.root > filenames_All_${KNOWN}
+
+# step: split the signal files to get an exact number:
 i=1
 while [ $i -le ${NEXP} ]
 do
-  rm filenames_Chosen_$i
-  shuf -n ${N_SIGNAL_FILES_TO_USE} filenames_All_${SIGNAL} > temp #test sample
-  shuf -n ${N_KNOWN_FILES_TO_USE} filenames_All_${KNOWN} >> temp
-  shuf temp > filenames_Chosen_$i
+  # remove old files
+  rm ntuple_$i.fcl
+  rm splitter_$i.fcl
+  
+  # calculate yield of signal for chose rate, if > 0 then proceed --> use python scripts
+  NSIG=$(calculateEvents.py --livetime ${LIVETIME} --prc ${SIGNAL} --BB ${BB} --rue ${RATE})
+  echo "${RATE} for ${BB} and ${LIVETIME} s means ${NSIG} events will be sampled"
+  NSIG=$(awk "BEGIN {printf \"%.0f\", ${NSIG}}")
+
+  # calculate number of files
+  N_TOTAL_SIGNAL=$(samDatasetsSummary.sh mcs.${OWNER}.${SIGNAL}Mix${BB}Triggered.${RELEASE}_${DBPURPOSE}_${DBVERSION}.art  | awk '/Files/ {print $2}')
+  EVENTS_PER_FILE=$(awk "BEGIN {printf \"%.0f\", ${NGEN}/${N_TOTAL_SIGNAL}}")
+  echo "signal sample has ${N_TOTAL_SIGNAL} files with ${EVENTS_PER_FILE} events per file"
+  N_SIGNAL_FILES_TO_USE=$(awk "BEGIN {printf \"%.0f\", ${NSIG}/${EVENTS_PER_FILE}}")
+  
+  # if its < 1 file the above will be 0, so we need to make sure we use at least 1 file here
+  if (( N_SIGNAL_FILES_TO_USE == 0 )); then
+    N_SIGNAL_FILES_TO_USE=1
+  fi
+  echo "based on requested rate, will use ${N_SIGNAL_FILES_TO_USE} signal files"
+  
+  # build the splitter .fcl file and run on the chosen samples
+  echo "will sample ${N_SIGNAL_FILES_TO_USE} signal files"
+  # randomly select a file here
+  shuf -n ${N_SIGNAL_FILES_TO_USE} filenames_All_${SIGNAL} > temp
+  shuf temp > filenames_ChosenSig_$i
   rm temp
-  i=$((i + 1))
-done
-
-#step 10: configure fcl that will sample at this rate and mix the signal with background
-if [[ -n $SETUP ]]; then
-  echo "Using user-provided setup $SETUP"
-else
-  SETUP=/cvmfs/mu2e.opensciencegrid.org/Musings/SimJob/${RELEASE}/setup.sh
-fi
-OUTFILENAME="mcs.${OWNER}.${KNOWN}${SIGNAL}.DSCONF.SEQ.art" #FIXME - need to include derived rate
-i=1
-rm *.tar
-while [ $i -le ${NEXP} ]
-do
-  rm template_$i.fcl
-echo '#include "Production/JobConfig/common/artcat.fcl"' >> template_$i.fcl # FIXME - make this an EventNtuple job
-echo 'outputs.out.fileName: "'${OUTFILENAME}'"' >> template_$i.fcl
-  cmd="mu2ejobdef --embed template_$i.fcl --setup ${SETUP} --desc ${KNOWN}${SIGNAL}${RATE} --dsconf ${RELEASE}_${DBPURPOSE}_${DBVERSION}_$i --inputs=filenames_Chosen_$i  --merge-factor=1"
+  # construct .fcl
+  echo "#include \"Production/JobConfig/ensemble/fcl/split.fcl\"" > splitter_$i.fcl
+  echo "source.fileNames: [" >> splitter_$i.fcl
+  while IFS= read -r line; do
+    echo "adding file: " $line
+    echo "\"$line\"" >> splitter_$i.fcl
+    if (( ${N_SIGNAL_FILES_TO_USE} > 1 )); then
+      echo "," >> splitter_$i.fcl
+    fi
+  done < "filenames_ChosenSig_$i"
+  echo "]" >> splitter_$i.fcl
+  echo "source.maxEvents: ${NSIG}" >> splitter_$i.fcl
+  echo "outputs.out.fileName: \"mcs.${OWNER}.${SIGNAL}Mix${BB}TriggeredSplit.${RELEASE}_${DBPURPOSE}_${DBVERSION}.${i}.art\"" >> splitter_$i.fcl
+  cmd=$(mu2e -c splitter_$i.fcl)
+  echo "Running: $cmd"
+  # run the splitting function
+  $cmd
+  
+  # make the ntuples
+  echo "#include \"EventNtuple/fcl/from_mcs-mockdata.fcl\"" >> ntuple_$i.fcl
+  echo "services.TFileService.fileName: \"nts.${OWNER}.${SIGNAL}Mix${BB}TriggeredSplit.${RELEASE}_${DBPURPOSE}_${DBVERSION}.${i}.root\"" >> ntuple_$i.fcl
+  cmd=$(mu2e -c ntuple_$i.fcl mcs.${OWNER}.${SIGNAL}Mix${BB}TriggeredSplit.${RELEASE}_${DBPURPOSE}_${DBVERSION}.${i}.art)
   echo "Running: $cmd"
   $cmd
-  rm template_$i.fcl
-  i=$((i + 1))
-done
+  ls nts.${OWNER}.${SIGNAL}Mix${BB}TriggeredSplit.${RELEASE}_${DBPURPOSE}_${DBVERSION}.${i}.root > temp
 
-#step 11: submit to the grid (will be nexp jobs submitted, need to be careful here)
-i=1
-NJOBS=$(awk "BEGIN {printf \"%.0f\", ${N_SIGNAL_FILES_TO_USE}+${N_KNOWN_FILES_TO_USE}}")
-echo "number of total jobs: ${NJOBS}" # assumes merge is 1
-while [ $i -le ${NEXP} ]
-do
-  cmd="mu2ejobsub --jobdef cnf.${OWNER}.${KNOWN}${SIGNAL}.${RELEASE}_${DBPURPOSE}_${DBVERSION}_$i.0.tar --firstjob=0 --njobs=${NJOBS} --default-protocol ifdh --default-location tape  --disk 40GB"
-  echo "Running: $cmd"
+  # create randomly mixed list of ntuples
+  shuf -n ${N_KNOWN_FILES_TO_USE} filenames_All_${KNOWN} >> temp
+  shuf temp > filenames_ChosenMixed_$i
+  rm temp
   i=$((i + 1))
-  #$cmd
+
 done
+mkdir fcl
+mv *.fcl fcl
+echo "finished compiling list of chosen ntuples"
+rm *.csv

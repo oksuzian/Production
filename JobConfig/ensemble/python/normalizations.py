@@ -3,7 +3,9 @@ import DbService
 import argparse
 import ROOT
 import math
+import random
 import os
+import numpy as np
 
 # numbers
 captures_per_stopped_muon = 0.609 # from AL capture studies
@@ -101,9 +103,9 @@ def getPOT(onspilltime, run_mode = '1BB',printout=False, frac=1): #livetime in s
 # get CE normalization:
 def ce_normalization(onspilltime, rue, run_mode = '1BB'):
     POT = getPOT(onspilltime, run_mode)
-    
-    #print(f"Expected CE's {POT * target_stopped_mu_per_POT * captures_per_stopped_muon * rue}")
-    return POT * target_stopped_mu_per_POT * captures_per_stopped_muon * rue
+    N_CE = POT * target_stopped_mu_per_POT * captures_per_stopped_muon * rue
+    Poisson = np.random.poisson(lam=(N_CE ))
+    return  Poisson
 
 # get DIO normalization:
 def dio_normalization(onspilltime, emin, run_mode = '1BB'):
