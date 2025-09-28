@@ -41,7 +41,7 @@ physics :
     {
       module_type             : CrvTimingStudies
       crvRecoPulseModuleLabel : CrvRecoPulses
-      PEthreshold             : 10  //PEs
+      PEthreshold             : 20  //PEs
     }
   }
 
@@ -73,6 +73,7 @@ outputs:
   }
 }
 
+physics.producers.CrvRecoPulses.pedestalUndershootThreshold : -10000.0 //always use the 1st ADC sample
 physics.producers.CrvCoincidenceClusterFinder.verboseLevel: 0
 physics.producers.CrvCoincidenceClusterFinder.sectorConfig:
       [
