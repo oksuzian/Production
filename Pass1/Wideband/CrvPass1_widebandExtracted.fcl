@@ -30,7 +30,7 @@ physics :
     {
       module_type   : CrvDigisFromArtdaqFragments
       diagLevel     : 0
-      useSubsystem0 : true
+      useSubsystem0 : false
     }
     CrvRecoPulses: @local::CrvRecoPulses
     CrvCoincidenceClusterFinder: @local::CrvCoincidenceClusterFinder
