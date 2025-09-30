@@ -44,6 +44,13 @@ physics.producers.g4run.Mu2eG4CommonCut: @local::Cosmic.Mu2eG4CommonCutCosmicNoF
 physics.producers.FindMCPrimary.PrimaryGenIds: ["CosmicCRY", "CosmicCORSIKA"]
 # since these data aren't resampled we have to apply the cosmic time offset here
 physics.producers.cosmicTimeOffset.cosmicModuleLabel : "generate"
+
+#
+# final configuration
+#
+#include "Production/JobConfig/common/epilog.fcl"
+#include "Production/JobConfig/primary/epilog.fcl"
+#
 # need to offset the GenParticles
 
 physics.end_paths : [ EndPath ]
