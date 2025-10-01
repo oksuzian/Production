@@ -1,0 +1,28 @@
+#include "Offline/fcl/minimalMessageService.fcl"
+
+process_name: artsplit
+
+# read only the first n events
+source: {
+  module_type: RootInput
+  fileNames: @nil
+  maxEvents: 0
+}
+
+services: { 
+  message: @local::default_message 
+}
+
+physics: { 
+  e1: [out]  
+  end_paths: [e1] 
+  trigger_paths: []
+}
+
+# write everything you read to a new file
+outputs: {
+  out: {
+    module_type: RootOutput
+    fileName: @nil
+  }
+}

@@ -246,27 +246,21 @@ if [ "${PRIMARY_DESC}" == "NoPrimary" ]; then
   echo '#include "Production/JobConfig/mixing/NoPrimary.fcl"' >> mix.fcl
 fi
 
-# Override dts filters conditioned on primary
-if [ "${ENSEMBLE}" == 0 ]; then
-  if [ "${PRIMARY_DESC}" == *"DIOtail"* ]; then
-    filter="Production/JobConfig/mixing/filters/DIOtail.fcl"
-  fi
-  els
-  filter="Production/JobConfig/mixing/filters/${PRIMARY_DESC}.fcl"
-  if test -f "${PRODUCTION_INC}/${filter}"; then
-    echo "#include \"${filter}\"" >> mix.fcl
-  fi
-fi
 
 # Override dts filters conditioned on primary
 if [ "${ENSEMBLE}" == 0 ]; then
-  if [ "${PRIMARY_DESC}" == *"DIOtail"* ]; then
+  if [[ "${PRIMARY_DESC}" == *"DIOtail"* ]]; then
     filter="Production/JobConfig/mixing/filters/DIOtail.fcl"
+    # Extract the numeric suffix from name
+    [[ "${PRIMARY_DESC}" =~ [0-9]+$ ]]
+    minE="${BASH_REMATCH[0]}"
+    echo "Extracted number: $minE"
+    
   else
     filter="Production/JobConfig/mixing/filters/${PRIMARY_DESC}.fcl"
   fi
   if test -f "${PRODUCTION_INC}/${filter}"; then
-    echo "#include \"${filter}\"" >> mix.fcl
+    
   fi
 fi
 
