@@ -254,13 +254,11 @@ if [ "${ENSEMBLE}" == 0 ]; then
     # Extract the numeric suffix from name
     [[ "${PRIMARY_DESC}" =~ [0-9]+$ ]]
     minE="${BASH_REMATCH[0]}"
-    echo "Extracted number: $minE"
-    
   else
     filter="Production/JobConfig/mixing/filters/${PRIMARY_DESC}.fcl"
   fi
   if test -f "${PRODUCTION_INC}/${filter}"; then
-    
+    echo "#include \"${filter}\"" >> mix.fcl
   fi
 fi
 
