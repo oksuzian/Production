@@ -113,6 +113,33 @@ Reconstruction : {
       CrvCoincidenceClusterCollection : "CrvCoincidenceClusterFinder"
       KalSeedCollections  : [ "KKDe", "KKDmu", "KKUe", "KKUmu", "KKLine", "KKCHmu" ]
     }
+    # regrow
+    RegrowSH : {
+      @table::TrkHitReco.makeSH
+      StrawDigiCollectionTag  : "SelectReco"
+      StrawDigiADCWaveformCollectionTag : "SelectReco"
+    }
+    RegrowLH : {
+      module_type : RegrowLoopHelix
+      ComboHitCollection : RegrowSH
+      StrawDigiIndexMap : "SelectReco:StrawDigiMap"
+      CaloClusterCollection : "CaloClusterMaker"
+      RefitSettings : {
+        @table::Mu2eKinKal.REGROW
+        BFieldCorrection : true
+      }
+      KKFitSettings: {
+        @table::Mu2eKinKal.producers.KKDe.KKFitSettings
+        SampleSurfaces : ["ST_Outer","ST_Front","ST_Back"]
+        AddHits : false
+      }
+      ExtrapolationSettings : @local::Mu2eKinKal.LHDRIFTXTRAP
+      MaterialSettings : @local::Mu2eKinKal.MAT
+      Extend: true
+      debug : 0
+    }
+
+
   }
 
   filters : {
@@ -365,4 +392,25 @@ Reconstruction.Output : {
     @sequence::Reconstruction.HighRecoProducts
   ]
 }
+
+Reconstruction.RegrowOutput : {
+  module_type : RootOutput
+  fileName:  @nil
+  outputCommands : [
+    @sequence::Reconstruction.GeneralProducts,
+    @sequence::Reconstruction.HighRecoProducts,
+    "drop *_*_*_Digitize",
+    "keep *_EWMProducer_*_Digitize",
+    "keep *_PBISim_*_Digitize",
+    "drop *_*_*_Reconstruct",
+    "keep mu2e::Calo*_*_*_Reconstruct",
+    "keep mu2e::Crv*_*_*_Reconstruct",
+    "keep mu2e::KalSeed*_SelectReco_*_*",
+    "keep *_compressRecoMCs_*_*",
+    "keep *_SelectReco_*_*",
+    "keep mu2e::KalSeed*_KKDe_*_*",
+    "keep mu2e::KalSeed*_*_*_Regrow" ]
+  SelectEvents : [ "RegrowPath" ]
+}
+
 END_PROLOG

@@ -1,0 +1,5 @@
+#
+# MC version of regrowKL
+#
+#include "Production/JobConfig/reco/regrowKL.fcl"
+Reconstruction.producers.RegrowKL.KalSeedMCAssns : "SelectReco"
