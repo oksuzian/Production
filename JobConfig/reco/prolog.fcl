@@ -395,7 +395,7 @@ Reconstruction.Output : {
 
 Reconstruction.RegrowOutput : {
   module_type : RootOutput
-  fileName:  @nil
+  fileName    : @nil
   outputCommands : [
     @sequence::Reconstruction.GeneralProducts,
     @sequence::Reconstruction.HighRecoProducts,
@@ -409,8 +409,9 @@ Reconstruction.RegrowOutput : {
     "keep *_compressRecoMCs_*_*",
     "keep *_SelectReco_*_*",
     "keep mu2e::KalSeed*_KKDe_*_*",
-    "keep mu2e::KalSeed*_*_*_Regrow" ]
-  SelectEvents : [ "RegrowPath" ]
+    "keep mu2e::KalSeed*_KKLine_*_*",
+    "keep mu2e::KalSeed*_*_*_Regrow"
+  ]
 }
 
 END_PROLOG

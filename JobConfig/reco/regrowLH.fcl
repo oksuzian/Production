@@ -36,6 +36,7 @@ physics : {
       KalSeedCollection : KKDe
       ComboHitCollection : RegrowSH
       StrawDigiIndexMap : "SelectReco:StrawDigiMap"
+      CaloClusterCollection : "CaloClusterMaker"
       KalSeedMCAssns : "SelectReco"
       RefitSettings : {
         @table::Mu2eKinKal.REGROW
@@ -48,21 +49,18 @@ physics : {
       }
       ExtrapolationSettings : @local::Mu2eKinKal.LHDRIFTXTRAP
       MaterialSettings : @local::Mu2eKinKal.producers.KKDe.MaterialSettings
-      Extend: true
+      Extend: false
       debug : 0
     }
   }
-  filters : {
-  }
-  analyzers: {
-  }
   RegrowPath : [ RegrowSH, RegrowLH ]
-  OutputPath : [ LoopHelixOutput ]
-  PrintPath : [ res]
+  OutputPath : [ RegrowOutput ]
 }
 outputs: {
-  RegrowOutput : @local::Reconstruction.RegrowOutput
-  fileName: "rec.owner.RegrowLH.version.sequencer.art"
+  RegrowOutput : {
+    @table::Reconstruction.RegrowOutput
+    fileName: "rec.owner.RegrowLH.version.sequencer.art"
+  }
 }
 
 physics.trigger_paths : [ RegrowPath ]
