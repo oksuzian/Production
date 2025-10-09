@@ -1,0 +1,6 @@
+#
+# MC version of regrowLH
+#
+#include "Production/JobConfig/reco/regrowLH.fcl"
+Reconstruction.producers.RegrowLH.KalSeedMCAssns : "SelectReco"
+outputs.RegrowOutout.fileName: "mcs.owner.RegrowLH.version.sequencer.art"

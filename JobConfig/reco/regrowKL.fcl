@@ -1,0 +1,50 @@
+#
+# This script will regrow a KalSeed collection back into full KKTrack objects.
+#
+# Original Author: Dave Brown (LBNL) 9/01/2025
+#
+#include "Offline/fcl/minimalMessageService.fcl"
+#include "Offline/fcl/standardServices.fcl"
+#include "Offline/TrkHitReco/fcl/prolog.fcl"
+#include "Offline/Mu2eKinKal/fcl/prolog.fcl"
+#include "Production/JobConfig/recoMC/prolog.fcl"
+#
+process_name: Regrow
+source : { module_type : RootInput }
+services : @local::Services.Reco
+physics : {
+  producers : {
+    RegrowSH : {
+      @table::TrkHitReco.makeSH
+      StrawDigiCollectionTag  : "SelectReco"
+      StrawDigiADCWaveformCollectionTag : "SelectReco"
+    }
+    RegrowKL : {
+      module_type : RegrowKinematicLine
+      KalSeedCollection : KKLine
+      ComboHitCollection : RegrowSH
+      StrawDigiIndexMap : "SelectReco:StrawDigiMap"
+      KalSeedMCAssns : "SelectReco"
+      RefitSettings : {
+        @table::Mu2eKinKal.REGROW
+        BFieldCorrection : false
+      }
+      KKFitSettings : @local::Mu2eKinKal.KLDriftFit.KKFitSettings
+      ExtrapolationSettings : @local::Mu2eKinKal.LHDRIFTXTRAP
+      MaterialSettings : @local::Mu2eKinKal.MAT
+      debug : 0
+    }
+  }
+  RegrowPath : [ RegrowSH, RegrowKL ]
+  OutputPath : [ RegrowOutput ]
+}
+outputs: {
+  RegrowOutput : {
+    @table::Reconstruction.RegrowOutput
+    fileName: "rec.owner.RegrowKL.version.sequencer.art"
+  }
+}
+
+physics.trigger_paths : [ RegrowPath ]
+physics.end_paths : [ OutputPath ]
+services.TimeTracker.printSummary: true
