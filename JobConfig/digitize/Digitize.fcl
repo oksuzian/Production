@@ -17,6 +17,7 @@ physics : {
   TriggerableLHPath : [ @sequence::Digitize.DigitizeSequence, @sequence::Digitize.TriggerableLHSequence ]
   TriggerableCHPath : [ @sequence::Digitize.DigitizeSequence, @sequence::Digitize.TriggerableCHSequence ]
   TriggerableTwoTrackPath : [ @sequence::Digitize.DigitizeSequence, @sequence::Digitize.TriggerableTwoTrackSequence ]
+  TriggerableCaloPath : [ @sequence::Digitize.DigitizeSequence, @sequence::Digitize.TriggerableCaloSequence ]
   # define the trigger sequences and paths
   @table::TrigRecoSequences
   @table::TrigSequences

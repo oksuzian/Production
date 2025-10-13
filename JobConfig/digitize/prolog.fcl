@@ -116,6 +116,19 @@ Digitize: {
       prescaleFactor : 1 # by default, prescale all events (n % 1 != 1 for all n)
       prescaleOffset : 1
     }
+    # Triggerable calo events
+    TriggerableCalo : {
+      module_type : CaloShowerSimFilter
+      MinParticleEnergy : 75.0
+      MinTotalEnergy    : 75.0
+      CaloShowerSimCollection : "compressDigiMCs"
+      particleTypes : [11, -11, 13, -13, 211, -211, 22]
+    }
+    TriggerableCaloPrescale : {
+      module_type : Prescaler
+      prescaleFactor : 1
+      prescaleOffset : 0
+    }
     @table::TrigFilters.filters
   }
 
@@ -135,6 +148,7 @@ Digitize: {
   TriggerableLHSequence : [ TriggerableLHPrescale, TriggerableLH ]
   TriggerableCHSequence : [ TriggerableCHPrescale, TriggerableCH ]
   TriggerableTwoTrackSequence : [ TriggerableTwoTrackPrescale, TriggerableTwoTrack ]
+  TriggerableCaloSequence : [ TriggerableCaloPrescale, TriggerableCalo ]
 
   TriggerProducts : [
     "keep art::TriggerResults_*_*_*",
