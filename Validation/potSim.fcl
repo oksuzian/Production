@@ -29,5 +29,3 @@ outputs.fullOutput.fileName: "sim.owner.val-potSim.dsconf.seq.art"
 source.maxEvents: 500
 # Initialze seeding of random engines
 services.SeedService.baseSeed         :  8
-# latest geometry
-services.GeometryService.inputFile : "Offline/Mu2eG4/geom/geom_common_current.txt"

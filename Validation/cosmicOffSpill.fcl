@@ -6,8 +6,10 @@ services.SeedService.baseSeed: 8
 
 source.maxEvents: 20
 source.fileNames : [
-"/cvmfs/mu2e.opensciencegrid.org/DataFiles/Validation/dts.mu2e.CosmicCORSIKA.MDC2020ad.001202.art"
+  #"/cvmfs/mu2e.opensciencegrid.org/DataFiles/Validation/dts.mu2e.CosmicCORSIKA.MDC2020ad.001202.art"
+"/pnfs/mu2e/tape/phy-sim/dts/mu2e/CosmicCRYAll/MDC2025ac/art/c2/93/dts.mu2e.CosmicCRYAll.MDC2025ac.001430_00000000.art"
 ]
 outputs.TriggeredOutput.fileName : "dig.owner.cosmicOffSpill.seq.art"
 outputs.TriggerableOutput.fileName : "/dev/null"
 #include "Production/Validation/database.fcl"
+#include "Offline/CRVResponse/fcl/epilog_run1a_v01.fcl"

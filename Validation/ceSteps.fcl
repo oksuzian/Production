@@ -1,6 +1,6 @@
 #include "Production/JobConfig/primary/CeEndpoint.fcl"
 
-source.firstRun: 1200
+source.firstRun: 1430
 source.maxEvents: 20
 
 services.scheduler.wantSummary: true
@@ -8,10 +8,11 @@ services.TimeTracker.printSummary: true
 services.SeedService.baseSeed: 8
 # muon stops file from MDC2020 validation
 physics.filters.TargetStopResampler.fileNames : [
-  "/cvmfs/mu2e.opensciencegrid.org/DataFiles/Validation/sim.brownd.MuminusStops.MDC2020d.001202_00000000.art"
+  "/cvmfs/mu2e.opensciencegrid.org/DataFiles/Validation/sim.mu2e.TargetStopsVal.MDC2025ac.001430_00000000.art"
 ]
 physics.filters.TargetStopResampler.mu2e.MaxEventsToSkip: 0
 services.GeometryService.inputFile : "Offline/Mu2eG4/geom/geom_common_current.txt"
 outputs.PrimaryOutput.fileName : "dts.owner.ceSteps.dsconf.seq.art"
 
 #include "Production/Validation/database.fcl"
+#include "Offline/CRVResponse/fcl/epilog_run1a_v01.fcl"
