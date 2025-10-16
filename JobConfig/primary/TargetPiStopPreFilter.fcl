@@ -12,4 +12,6 @@ outputs : {
 physics.EndPath : [ @sequence::StopFilter.EndSequence, StopFilterOutput ]
 physics.end_paths : [ EndPath ]
 physics.filters.PionFilter.simParticles : "TargetPiStopFilter"
+physics.filters.PionFilter.tmin : @local::RPCInfo.minPionStopTime
+physics.filters.PionFilter.processCode : @local::RPCInfo.pionStoppingCode
 outputs.StopFilterOutput.fileName  : "sim.owner.PiMinusFilter.version.sequencer.art"
