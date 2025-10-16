@@ -2,17 +2,17 @@
 # It produces functionally equivalent output as the standard module but is slower, so don't use this script for timing studies
 # add the trigger MC matching to the appropriate paths
 # apr
-physics.apr_highP : [@sequence::physics.apr_highP, TTAprKSFMC ]
-physics.apr_highP_stopTarg : [@sequence::physics.apr_highP_stopTarg, TTAprKSFMC ]
-physics.apr_lowP_stopTarg : [@sequence::physics.apr_lowP_stopTarg, TTAprKSFMC ]
-physics.apr_highP_stopTarg_multiTrk : [@sequence::physics.apr_highP_stopTarg_multiTrk, TTAprKSFMC ]
+physics.apr_TrkDe_80m70p : [@sequence::physics.apr_TrkDe_80m70p, TTAprKSFMC ]
+physics.apr_TrkDe_80m70p_D0200 : [@sequence::physics.apr_TrkDe_80m70p_D0200, TTAprKSFMC ]
+physics.apr_TrkDe_50_D0200 : [@sequence::physics.apr_TrkDe_50_D0200, TTAprKSFMC ]
+physics.apr_TwoTrkDe_80m70p_D0200 : [@sequence::physics.apr_TwoTrkDe_80m70p_D0200, TTAprKSFMC ]
 # tpr
-physics.tprDe_highP : [@sequence::physics.tprDe_highP, TTTprDeKSFMC ]
-physics.tprDe_highP_stopTarg : [@sequence::physics.tprDe_highP_stopTarg, TTTprDeKSFMC ]
-physics.tprDe_lowP_stopTarg : [@sequence::physics.tprDe_lowP_stopTarg, TTTprDeKSFMC ]
+physics.tpr_TrkDe_80m70p : [@sequence::physics.tpr_TrkDe_80m70p, TTTprDeKSFMC ]
+physics.tpr_TrkDe_80m70p_D0200 : [@sequence::physics.tpr_TrkDe_80m70p_D0200, TTTprDeKSFMC ]
+physics.tpr_TrkDe_50_D0200 : [@sequence::physics.tpr_TrkDe_50_D0200, TTTprDeKSFMC ]
 # cpr
-physics.cprDe_highP : [@sequence::physics.cprDe_highP, TTCprDeKSFMC ]
-physics.cprDe_highP_stopTarg : [@sequence::physics.cprDe_highP_stopTarg, TTCprDeKSFMC ]
-physics.cprDe_lowP_stopTarg : [@sequence::physics.cprDe_lowP_stopTarg, TTCprDeKSFMC ]
+physics.cpr_TrkDe_80m70p : [@sequence::physics.cpr_TrkDe_80m70p, TTCprDeKSFMC ]
+physics.cpr_TrkDe_80m70p_D0200 : [@sequence::physics.cpr_TrkDe_80m70p_D0200, TTCprDeKSFMC ]
+physics.cpr_TrkDe_50_D0200 : [@sequence::physics.cpr_TrkDe_50_D0200, TTCprDeKSFMC ]
 # mpr
-physics.mprDe_highP_stopTarg : [@sequence::physics.mprDe_highP_stopTarg, TTMprDeKSFMC ]
+physics.mpr_TrkDe_80m70p_D0200 : [@sequence::physics.mpr_TrkDe_80m70p_D0200, TTMprDeKSFMC ]
