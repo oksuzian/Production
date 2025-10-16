@@ -11,4 +11,5 @@ outputs : {
 }
 physics.EndPath : [ @sequence::StopFilter.EndSequence, StopFilterOutput ]
 physics.end_paths : [ EndPath ]
+physics.filters.PionFilter.simParticles : "TargetPiStopFilter"
 outputs.StopFilterOutput.fileName  : "sim.owner.PiMinusFilter.version.sequencer.art"
