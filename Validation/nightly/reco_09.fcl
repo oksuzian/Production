@@ -1,14 +1,9 @@
 #include "Production/Validation/reco.fcl"
 source.fileNames : [
-"root://fndcadoor.fnal.gov/pnfs/fnal.gov/usr/mu2e/tape/phy-sim/dig/mu2e/FlatePlusMix1BBSignal/MDC2020r_best_v1_0/art/02/82/dig.mu2e.FlatePlusMix1BBSignal.MDC2020r_best_v1_0.001210_00000010.art",
-"root://fndcadoor.fnal.gov/pnfs/fnal.gov/usr/mu2e/tape/phy-sim/dig/mu2e/FlatePlusMix1BBSignal/MDC2020r_best_v1_0/art/c9/d3/dig.mu2e.FlatePlusMix1BBSignal.MDC2020r_best_v1_0.001210_00000011.art",
-"root://fndcadoor.fnal.gov/pnfs/fnal.gov/usr/mu2e/tape/phy-sim/dig/mu2e/FlatePlusMix1BBSignal/MDC2020r_best_v1_0/art/e3/56/dig.mu2e.FlatePlusMix1BBSignal.MDC2020r_best_v1_0.001210_00000012.art",
-"root://fndcadoor.fnal.gov/pnfs/fnal.gov/usr/mu2e/tape/phy-sim/dig/mu2e/FlatePlusMix1BBSignal/MDC2020r_best_v1_0/art/52/1b/dig.mu2e.FlatePlusMix1BBSignal.MDC2020r_best_v1_0.001210_00000013.art",
-"root://fndcadoor.fnal.gov/pnfs/fnal.gov/usr/mu2e/tape/phy-sim/dig/mu2e/FlatePlusMix1BBSignal/MDC2020r_best_v1_0/art/98/ac/dig.mu2e.FlatePlusMix1BBSignal.MDC2020r_best_v1_0.001210_00000014.art",
-"root://fndcadoor.fnal.gov/pnfs/fnal.gov/usr/mu2e/tape/phy-sim/dig/mu2e/FlatePlusMix1BBSignal/MDC2020r_best_v1_0/art/77/dd/dig.mu2e.FlatePlusMix1BBSignal.MDC2020r_best_v1_0.001210_00000015.art",
-"root://fndcadoor.fnal.gov/pnfs/fnal.gov/usr/mu2e/tape/phy-sim/dig/mu2e/FlatePlusMix1BBSignal/MDC2020r_best_v1_0/art/99/ee/dig.mu2e.FlatePlusMix1BBSignal.MDC2020r_best_v1_0.001210_00000016.art",
-"root://fndcadoor.fnal.gov/pnfs/fnal.gov/usr/mu2e/tape/phy-sim/dig/mu2e/FlatePlusMix1BBSignal/MDC2020r_best_v1_0/art/76/48/dig.mu2e.FlatePlusMix1BBSignal.MDC2020r_best_v1_0.001210_00000017.art",
-"root://fndcadoor.fnal.gov/pnfs/fnal.gov/usr/mu2e/tape/phy-sim/dig/mu2e/FlatePlusMix1BBSignal/MDC2020r_best_v1_0/art/0e/a7/dig.mu2e.FlatePlusMix1BBSignal.MDC2020r_best_v1_0.001210_00000018.art",
-"root://fndcadoor.fnal.gov/pnfs/fnal.gov/usr/mu2e/tape/phy-sim/dig/mu2e/FlatePlusMix1BBSignal/MDC2020r_best_v1_0/art/a0/71/dig.mu2e.FlatePlusMix1BBSignal.MDC2020r_best_v1_0.001210_00000019.art"
+"root://fndcadoor.fnal.gov:1094/mu2e/tape/phy-sim/dig/mu2e/FlatePlusMix1BBTriggered/MDC2020aw_best_v1_3/art/8a/56/dig.mu2e.FlatePlusMix1BBTriggered.MDC2020aw_best_v1_3.001210_00000126.art",
+"root://fndcadoor.fnal.gov:1094/mu2e/tape/phy-sim/dig/mu2e/FlatePlusMix1BBTriggered/MDC2020aw_best_v1_3/art/60/c8/dig.mu2e.FlatePlusMix1BBTriggered.MDC2020aw_best_v1_3.001210_00000524.art",
+"root://fndcadoor.fnal.gov:1094/mu2e/tape/phy-sim/dig/mu2e/FlatePlusMix1BBTriggered/MDC2020aw_best_v1_3/art/dd/83/dig.mu2e.FlatePlusMix1BBTriggered.MDC2020aw_best_v1_3.001210_00000458.art",
+"root://fndcadoor.fnal.gov:1094/mu2e/tape/phy-sim/dig/mu2e/FlatePlusMix1BBTriggered/MDC2020aw_best_v1_3/art/af/e8/dig.mu2e.FlatePlusMix1BBTriggered.MDC2020aw_best_v1_3.001210_00000088.art",
+"root://fndcadoor.fnal.gov:1094/mu2e/tape/phy-sim/dig/mu2e/FlatePlusMix1BBTriggered/MDC2020aw_best_v1_3/art/ca/14/dig.mu2e.FlatePlusMix1BBTriggered.MDC2020aw_best_v1_3.001210_00000171.art"
 ]
 outputs.LoopHelixOutput.fileName: "reco_09.art"
