@@ -1,6 +1,6 @@
 #include "Production/Validation/reco.fcl"
 source.fileNames : [
-"root://fndcadoor.fnal.gov/pnfs/fnal.gov/usr/mu2e/tape/phy-sim/dig/mu2e/CeEndpointMix1BBSignal/MDC2020r_best_v1_0/art/5b/32/dig.mu2e.CeEndpointMix1BBSignal.MDC2020r_best_v1_0.001210_00000002.art",
-"root://fndcadoor.fnal.gov/pnfs/fnal.gov/usr/mu2e/tape/phy-sim/dig/mu2e/CeEndpointMix1BBSignal/MDC2020r_best_v1_0/art/5b/a9/dig.mu2e.CeEndpointMix1BBSignal.MDC2020r_best_v1_0.001210_00000003.art"
+"root://fndcadoor.fnal.gov:1094/mu2e/tape/phy-sim/dig/mu2e/ensembleMDS2cMix1BBTriggered/MDC2020ba_best_v1_3/art/3d/c4/dig.mu2e.ensembleMDS2cMix1BBTriggered.MDC2020ba_best_v1_3.001201_00000117.art",
+"root://fndcadoor.fnal.gov:1094/mu2e/tape/phy-sim/dig/mu2e/ensembleMDS2cMix1BBTriggered/MDC2020ba_best_v1_3/art/1f/5b/dig.mu2e.ensembleMDS2cMix1BBTriggered.MDC2020ba_best_v1_3.001201_00000011.art"
 ]
 outputs.LoopHelixOutput.fileName: "reco_01.art"
