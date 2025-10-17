@@ -3,8 +3,6 @@
 #
 #include "Production/JobConfig/mixing/Mix.fcl"
 physics.producers.MakeSS : { module_type : NullProducer }
-# temporary fix: this won't be needed after starting MDC2025 production
-physics.producers.compressDigiMCs.surfaceStepTags : [ "compressDetStepMCs" ]
 # complete the mixing config
 services.SeedService.baseSeed         :  8
 source.fileNames : [ "dts.owner.ceSteps.dsconf.seq.art" ]
@@ -32,3 +30,5 @@ physics.producers.PBISim.cutMax: 2.0e5
 outputs.TriggeredOutput.fileName: "dig.owner.ceMix.dsconf.seq.art"
 outputs.TriggerableOutput.fileName: "/dev/null"
 #include "Production/Validation/database.fcl"
+#include "Offline/CRVResponse/fcl/epilog_run1a_v01.fcl"
+

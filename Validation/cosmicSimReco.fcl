@@ -13,7 +13,7 @@ process_name : cosmicSimReco
 
 source : {
   module_type :EmptyEvent
-  firstRun: 1200
+  firstRun: 1430
 }
 services : @local::Services.Sim
 
@@ -93,13 +93,6 @@ outputs : {
     ]
   }
 }
-# fix MakeSS config (overwritten by digi, reco)
-physics.producers.MakeSS : {
-  @table::CommonMC.MakeSS
-  VDStepPointMCs : "g4run:virtualdetector"
-  AbsorberStepPointMCs : "g4run:protonabsorber"
-  TargetStepPointMCs : "g4run:stoppingtarget"
-}
 
 #include "Production/JobConfig/primary/epilog.fcl"
 #include "Production/JobConfig/digitize/epilog.fcl"
@@ -151,3 +144,4 @@ source.maxEvents: 50000
 # Initialze seeding of random engines
 services.SeedService.baseSeed         :  8
 #include "Production/Validation/database.fcl"
+#include "Offline/CRVResponse/fcl/epilog_run1a_v01.fcl"

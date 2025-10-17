@@ -1,6 +1,5 @@
 #
 #include "Production/JobConfig/recoMC/OnSpill.fcl"
-#include "Production/JobConfig/recoMC/MakeSurfaceSteps.fcl"
 #
 # restrict path and output
 #
