@@ -16,3 +16,5 @@ services.ProditionsService.strawElectronics.useDb: true
 services.ProditionsService.strawElectronics.verbose: 0
 # don't use database time offsets in digitization
 services.ProditionsService.strawElectronics.overrideDbTimeOffsets : true
+# CRV overrides for run1a
+#include "Offline/CRVResponse/fcl/epilog_run1a_v01.fcl"

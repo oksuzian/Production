@@ -5,3 +5,5 @@ services.ProditionsService.trackerStatus.Settings.useDb: true
 services.ProditionsService.trackerStatus.Settings.verbose: 0
 services.ProditionsService.strawElectronics.useDb: true
 services.ProditionsService.strawElectronics.verbose: 0
+# CRV overrides for run1a
+#include "Offline/CRVReco/fcl/epilog_run1a_v01.fcl"
