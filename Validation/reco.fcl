@@ -39,4 +39,3 @@ services.TimeTracker.printSummary: true
 services.TFileService.fileName : "nts.owner.val-reco.dsconf.seq.root"
 
 #include "Production/Validation/database.fcl"
-services.GeometryService.inputFile : "Offline/Mu2eG4/geom/geom_common_MDC2020.txt"
