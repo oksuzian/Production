@@ -1,24 +1,5 @@
 #include "Production/Validation/reco.fcl"
 source.fileNames : [
-"root://fndcadoor.fnal.gov:1094/mu2e/tape/phy-sim/dig/mu2e/CePlusEndpointOnSpillTriggered/MDC2020au_best_v1_3/art/2b/b7/dig.mu2e.CePlusEndpointOnSpillTriggered.MDC2020au_best_v1_3.001210_00000182.art",
-"root://fndcadoor.fnal.gov:1094/mu2e/tape/phy-sim/dig/mu2e/CePlusEndpointOnSpillTriggered/MDC2020au_best_v1_3/art/2a/76/dig.mu2e.CePlusEndpointOnSpillTriggered.MDC2020au_best_v1_3.001210_00000837.art",
-"root://fndcadoor.fnal.gov:1094/mu2e/tape/phy-sim/dig/mu2e/CePlusEndpointOnSpillTriggered/MDC2020au_best_v1_3/art/97/bf/dig.mu2e.CePlusEndpointOnSpillTriggered.MDC2020au_best_v1_3.001210_00000458.art",
-"root://fndcadoor.fnal.gov:1094/mu2e/tape/phy-sim/dig/mu2e/CePlusEndpointOnSpillTriggered/MDC2020au_best_v1_3/art/4e/b5/dig.mu2e.CePlusEndpointOnSpillTriggered.MDC2020au_best_v1_3.001210_00000278.art",
-"root://fndcadoor.fnal.gov:1094/mu2e/tape/phy-sim/dig/mu2e/CePlusEndpointOnSpillTriggered/MDC2020au_best_v1_3/art/cf/b9/dig.mu2e.CePlusEndpointOnSpillTriggered.MDC2020au_best_v1_3.001210_00000190.art",
-"root://fndcadoor.fnal.gov:1094/mu2e/tape/phy-sim/dig/mu2e/CePlusEndpointOnSpillTriggered/MDC2020au_best_v1_3/art/69/73/dig.mu2e.CePlusEndpointOnSpillTriggered.MDC2020au_best_v1_3.001210_00000471.art",
-"root://fndcadoor.fnal.gov:1094/mu2e/tape/phy-sim/dig/mu2e/CePlusEndpointOnSpillTriggered/MDC2020au_best_v1_3/art/73/a1/dig.mu2e.CePlusEndpointOnSpillTriggered.MDC2020au_best_v1_3.001210_00000127.art",
-"root://fndcadoor.fnal.gov:1094/mu2e/tape/phy-sim/dig/mu2e/CePlusEndpointOnSpillTriggered/MDC2020au_best_v1_3/art/f1/ca/dig.mu2e.CePlusEndpointOnSpillTriggered.MDC2020au_best_v1_3.001210_00000886.art",
-"root://fndcadoor.fnal.gov:1094/mu2e/tape/phy-sim/dig/mu2e/CePlusEndpointOnSpillTriggered/MDC2020au_best_v1_3/art/65/13/dig.mu2e.CePlusEndpointOnSpillTriggered.MDC2020au_best_v1_3.001210_00000310.art",
-"root://fndcadoor.fnal.gov:1094/mu2e/tape/phy-sim/dig/mu2e/CePlusEndpointOnSpillTriggered/MDC2020au_best_v1_3/art/65/a5/dig.mu2e.CePlusEndpointOnSpillTriggered.MDC2020au_best_v1_3.001210_00000832.art",
-"root://fndcadoor.fnal.gov:1094/mu2e/tape/phy-sim/dig/mu2e/CePlusEndpointOnSpillTriggered/MDC2020au_best_v1_3/art/95/0a/dig.mu2e.CePlusEndpointOnSpillTriggered.MDC2020au_best_v1_3.001210_00000912.art",
-"root://fndcadoor.fnal.gov:1094/mu2e/tape/phy-sim/dig/mu2e/CePlusEndpointOnSpillTriggered/MDC2020au_best_v1_3/art/86/60/dig.mu2e.CePlusEndpointOnSpillTriggered.MDC2020au_best_v1_3.001210_00000291.art",
-"root://fndcadoor.fnal.gov:1094/mu2e/tape/phy-sim/dig/mu2e/CePlusEndpointOnSpillTriggered/MDC2020au_best_v1_3/art/5a/07/dig.mu2e.CePlusEndpointOnSpillTriggered.MDC2020au_best_v1_3.001210_00000834.art",
-"root://fndcadoor.fnal.gov:1094/mu2e/tape/phy-sim/dig/mu2e/CePlusEndpointOnSpillTriggered/MDC2020au_best_v1_3/art/1f/5a/dig.mu2e.CePlusEndpointOnSpillTriggered.MDC2020au_best_v1_3.001210_00000756.art",
-"root://fndcadoor.fnal.gov:1094/mu2e/tape/phy-sim/dig/mu2e/CePlusEndpointOnSpillTriggered/MDC2020au_best_v1_3/art/32/f9/dig.mu2e.CePlusEndpointOnSpillTriggered.MDC2020au_best_v1_3.001210_00000110.art",
-"root://fndcadoor.fnal.gov:1094/mu2e/tape/phy-sim/dig/mu2e/CePlusEndpointOnSpillTriggered/MDC2020au_best_v1_3/art/e6/81/dig.mu2e.CePlusEndpointOnSpillTriggered.MDC2020au_best_v1_3.001210_00000885.art",
-"root://fndcadoor.fnal.gov:1094/mu2e/tape/phy-sim/dig/mu2e/CePlusEndpointOnSpillTriggered/MDC2020au_best_v1_3/art/39/29/dig.mu2e.CePlusEndpointOnSpillTriggered.MDC2020au_best_v1_3.001210_00000065.art",
-"root://fndcadoor.fnal.gov:1094/mu2e/tape/phy-sim/dig/mu2e/CePlusEndpointOnSpillTriggered/MDC2020au_best_v1_3/art/ff/59/dig.mu2e.CePlusEndpointOnSpillTriggered.MDC2020au_best_v1_3.001210_00000856.art",
-"root://fndcadoor.fnal.gov:1094/mu2e/tape/phy-sim/dig/mu2e/CePlusEndpointOnSpillTriggered/MDC2020au_best_v1_3/art/69/e4/dig.mu2e.CePlusEndpointOnSpillTriggered.MDC2020au_best_v1_3.001210_00000119.art",
-"root://fndcadoor.fnal.gov:1094/mu2e/tape/phy-sim/dig/mu2e/CePlusEndpointOnSpillTriggered/MDC2020au_best_v1_3/art/0b/10/dig.mu2e.CePlusEndpointOnSpillTriggered.MDC2020au_best_v1_3.001210_00000279.art"
+"root://fndcadoor.fnal.gov:1094/mu2e/tape/phy-sim/dig/mu2e/CePlusEndpointOnSpillTriggered/MDC2025ad_best_v1_3/art/eb/7d/dig.mu2e.CePlusEndpointOnSpillTriggered.MDC2025ad_best_v1_3.001430_00000708.art"
 ]
 outputs.LoopHelixOutput.fileName: "reco_07.art"

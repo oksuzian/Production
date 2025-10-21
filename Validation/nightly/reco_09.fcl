@@ -1,9 +1,5 @@
 #include "Production/Validation/reco.fcl"
 source.fileNames : [
-"root://fndcadoor.fnal.gov:1094/mu2e/tape/phy-sim/dig/mu2e/FlatePlusMix1BBTriggered/MDC2020aw_best_v1_3/art/8a/56/dig.mu2e.FlatePlusMix1BBTriggered.MDC2020aw_best_v1_3.001210_00000126.art",
-"root://fndcadoor.fnal.gov:1094/mu2e/tape/phy-sim/dig/mu2e/FlatePlusMix1BBTriggered/MDC2020aw_best_v1_3/art/60/c8/dig.mu2e.FlatePlusMix1BBTriggered.MDC2020aw_best_v1_3.001210_00000524.art",
-"root://fndcadoor.fnal.gov:1094/mu2e/tape/phy-sim/dig/mu2e/FlatePlusMix1BBTriggered/MDC2020aw_best_v1_3/art/dd/83/dig.mu2e.FlatePlusMix1BBTriggered.MDC2020aw_best_v1_3.001210_00000458.art",
-"root://fndcadoor.fnal.gov:1094/mu2e/tape/phy-sim/dig/mu2e/FlatePlusMix1BBTriggered/MDC2020aw_best_v1_3/art/af/e8/dig.mu2e.FlatePlusMix1BBTriggered.MDC2020aw_best_v1_3.001210_00000088.art",
-"root://fndcadoor.fnal.gov:1094/mu2e/tape/phy-sim/dig/mu2e/FlatePlusMix1BBTriggered/MDC2020aw_best_v1_3/art/ca/14/dig.mu2e.FlatePlusMix1BBTriggered.MDC2020aw_best_v1_3.001210_00000171.art"
+"root://fndcadoor.fnal.gov:1094/mu2e/tape/phy-sim/dig/mu2e/CePlusEndpointOnSpillTriggered/MDC2025ad_best_v1_3/art/b5/3e/dig.mu2e.CePlusEndpointOnSpillTriggered.MDC2025ad_best_v1_3.001430_00000902.art"
 ]
 outputs.LoopHelixOutput.fileName: "reco_09.art"
