@@ -48,7 +48,7 @@ FIELD="Offline/Mu2eG4/geom/bfgeom_no_tsu_ps_v01.txt"
 PRIMARY_DATASET=""
 ENSEMBLE=0
 PUSHOUT=false
-DBSIM="MDC2020" # temporary: should be Sim
+DBSIM="Sim"
 TB=""
 
 # Loop: Get the next option;
