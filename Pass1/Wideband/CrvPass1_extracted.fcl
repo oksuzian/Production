@@ -28,7 +28,7 @@ physics :
   {
     CrvDigi :
     {
-      module_type   : CrvDigisFromArtdaqFragments
+      module_type   : CrvDigisFromArtdaqFragmentsFEBII
       diagLevel     : 0
       useSubsystem0 : false
     }
@@ -53,7 +53,7 @@ outputs:
   outfileReco :
   {
     module_type   :   RootOutput
-    fileName      :   "crvRecoWideband.art"
+    fileName      :   "crvRecoExtracted.art"
     outputCommands : [ "keep *_*_*_*" ,
                        "drop artdaq::*_*_*_*" ,
                        "drop mu2e::CrvDigis_*_NZS_*" ]
@@ -61,7 +61,7 @@ outputs:
   outfileNZS :
   {
     module_type   :   RootOutput
-    fileName      :   "crvDigiNZSWideband.art"
+    fileName      :   "crvDigiNZSExtracted.art"
     outputCommands : [ "drop *_*_*_*" ,
                        "keep mu2e::DAQerrors_*_*_*" ,
                        "keep mu2e::CrvDAQerrors_*_*_*" ,
@@ -113,11 +113,14 @@ physics.producers.CrvCoincidenceClusterFinder.sectorConfig:
         }
       ]
 
-services.TFileService.fileName : "crvRecoWideband.root"
-services.GeometryService.inputFile: "Offline/Mu2eG4/geom/geom_WidebandExtracted.txt"
-services.ProditionsService.crvStatus.useDb: true
-services.ProditionsService.crvCalib.useDb: true
-services.DbService.textFile : ["Offline/CRVConditions/data/status_widebandExtracted.txt","Offline/CRVConditions/data/calib_widebandExtracted.txt"]
+services.TFileService.fileName : "crvRecoExtracted.root"
+services.GeometryService.inputFile: "Offline/Mu2eG4/geom/geom_common_extracted.txt"
+#services.ProditionsService.crvStatus.useDb: true
+#services.ProditionsService.crvCalib.useDb: true
+services.ProditionsService.crvStatus.useDb: false
+services.ProditionsService.crvCalib.useDb: false
+services.ProditionsService.crvCalib.pedestal: 2047
+#services.DbService.textFile : ["Offline/CRVConditions/data/status_extracted.txt","Offline/CRVConditions/data/calib_extracted.txt"]
 services.DbService.verbose : 2
 services.TimeTracker.printSummary: true
 services.scheduler.wantSummary: true

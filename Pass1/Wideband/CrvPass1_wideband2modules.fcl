@@ -28,7 +28,7 @@ physics :
   {
     CrvDigi :
     {
-      module_type   : CrvDigisFromArtdaqFragments
+      module_type   : CrvDigisFromArtdaqFragmentsFEBII
       diagLevel     : 0
       useSubsystem0 : false
     }
@@ -37,11 +37,16 @@ physics :
   }
   analyzers :
   {
-    CrvDQMcollector: @local::CrvDQMcollector
+    CrvTimingStudies :
+    {
+      module_type             : CrvTimingStudies
+      crvRecoPulseModuleLabel : CrvRecoPulses
+      PEthreshold             : 20  //PEs
+    }
   }
 
   t1 : [ CrvDigi, CrvRecoPulses, CrvCoincidenceClusterFinder ]
-  e1 : [ CrvDQMcollector, outfileReco, outfileNZS ]
+  e1 : [ CrvTimingStudies, outfileReco, outfileNZS ]
 
   trigger_paths  : [t1]
   end_paths      : [e1]
@@ -63,43 +68,17 @@ outputs:
     module_type   :   RootOutput
     fileName      :   "crvDigiNZSWideband.art"
     outputCommands : [ "drop *_*_*_*" ,
-                       "keep mu2e::DAQerrors_*_*_*" ,
                        "keep mu2e::CrvDAQerrors_*_*_*" ,
                        "keep mu2e::CrvDigis_*_NZS_*" ]
   }
 }
 
+physics.producers.CrvRecoPulses.pedestalUndershootThreshold : -10000.0 //always use the 1st ADC sample
 physics.producers.CrvCoincidenceClusterFinder.verboseLevel: 0
 physics.producers.CrvCoincidenceClusterFinder.sectorConfig:
       [
         {
-          CRVSector : "EX"
-          PEthreshold : 8
-          maxTimeDifferenceAdjacentPulses : 10
-          maxTimeDifference : 10
-          minOverlapTimeAdjacentPulses : 30
-          minOverlapTime : 30
-          minSlope :-6
-          maxSlope : 6
-          maxSlopeDifference : 4
-          coincidenceLayers : 3
-          minClusterPEs : 0
-        },
-        {
-          CRVSector : "T1"
-          PEthreshold : 8
-          maxTimeDifferenceAdjacentPulses : 10
-          maxTimeDifference : 10
-          minOverlapTimeAdjacentPulses : 30
-          minOverlapTime : 30
-          minSlope :-6
-          maxSlope : 6
-          maxSlopeDifference : 4
-          coincidenceLayers : 3
-          minClusterPEs : 0
-        },
-        {
-          CRVSector : "T2"
+          CRVSector : "W1"
           PEthreshold : 8
           maxTimeDifferenceAdjacentPulses : 10
           maxTimeDifference : 10
@@ -114,11 +93,12 @@ physics.producers.CrvCoincidenceClusterFinder.sectorConfig:
       ]
 
 services.TFileService.fileName : "crvRecoWideband.root"
-services.GeometryService.inputFile: "Offline/Mu2eG4/geom/geom_WidebandExtracted.txt"
-services.ProditionsService.crvStatus.useDb: true
-services.ProditionsService.crvCalib.useDb: true
-services.DbService.textFile : ["Offline/CRVConditions/data/status_widebandExtracted.txt","Offline/CRVConditions/data/calib_widebandExtracted.txt"]
-services.DbService.verbose : 2
-services.TimeTracker.printSummary: true
-services.scheduler.wantSummary: true
-services.message.destinations.log.outputStatistics : true
+services.GeometryService.inputFile: "Offline/Mu2eG4/geom/geom_Wideband2modules.txt"
+services.ProditionsService.crvStatus.useDb: false
+services.ProditionsService.crvCalib.useDb: false
+services.ProditionsService.crvCalib.pedestal: 2047
+services.DbService.verbose : 0
+#services.message.destinations.log.categories.ArtReport.reportEvery : 1
+#services.message.destinations.log.categories.ArtReport.limit : 1
+#services.message.destinations.log.categories.ArtReport.timespan : 300
+
