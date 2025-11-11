@@ -37,14 +37,11 @@ Mixing : {
       MaxEventsToSkip: @nil
     }
   }
-
   DetStepFilter: {
     module_type: MixingFilter
   }
-  
 }
 
-    
 Mixing : {
   @table::Mixing
   producers : {
@@ -84,7 +81,7 @@ Mixing : {
       ReturnValue : true
     }
 
-}
+  }
   StepMixSequence : [  MuStopPileupMixer, EleBeamFlashMixer, MuBeamFlashMixer, NeutralsFlashMixer ]
   StepFilterSequence : [ MuStopPileupFilter, EleBeamFlashFilter, MuBeamFlashFilter, NeutralsFlashFilter ]
   # when mixing early events the intensity must be scaled down

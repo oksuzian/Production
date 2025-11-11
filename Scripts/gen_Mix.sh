@@ -5,21 +5,22 @@
 
 # Function: Print a help message.
 usage() {
-  echo "Usage: $0   [ --primary primary physics process name ]   
-  [ --campaign campaign name e.g. MDC2020 ]   
-  [ --mver mixin (input) campaign version e.g. 'p' ]   
-  [ --over output campaign version e.g. 'v' ]   
-  [ --pbeam proton beam intensity e.g. Mix1BB (one Booster Batch), Mix2BB, MixLow, or MixSeq (sequential)]   
-  [ --dbpurpose purpose of db e.g. perfect, startup, best  ]   
-  [ --dbversion db version ]   
-  [ --early (opt) for early digitization.  Intensity will be set to 'Low' ]   
-  [ --merge-events (opt) merge events, default 5000 ]   
-  [ --owner (opt) default mu2e ]   
-  [ --field (opt) default = DS +TSD, override for special runs ]   
-  [ --neutmix (opt) # of neutral pileup files ]   
-  [ --elemix (opt) # of electron pileup files ]   
-  [ --mustopmix (opt) # of mustop daughter pileup files ]   [ --mubeammix (opt) # of mubeam pileup files ]   
+  echo "Usage: $0   [ --primary primary physics process name ]
+  [ --campaign campaign name e.g. MDC2020 ]
+  [ --mver mixin (input) campaign version e.g. 'p' ]
+  [ --over output campaign version e.g. 'v' ]
+  [ --pbeam proton beam intensity e.g. Mix1BB (one Booster Batch), Mix2BB, MixLow, or MixSeq (sequential)]
+  [ --dbpurpose purpose of db e.g. perfect, startup, best  ]
+  [ --dbversion db version ]
+  [ --early (opt) for early digitization.  Intensity will be set to 'Low' ]
+  [ --merge-events (opt) merge events, default 5000 ]
+  [ --owner (opt) default mu2e ]
+  [ --field (opt) default = DS +TSD, override for special runs ]
+  [ --neutmix (opt) # of neutral pileup files ]
+  [ --elemix (opt) # of electron pileup files ]
+  [ --mustopmix (opt) # of mustop daughter pileup files ]   [ --mubeammix (opt) # of mubeam pileup files ]
   [ --primary_dataset dts.mu2e.desc.dsconf.art ]
+  [ --tarball (opt) location of tarball ]
   [ --ensemble 0 or 1 ]"
 }
 
@@ -39,14 +40,16 @@ PBEAM=""
 EARLY=""
 MERGE_EVENTS=5000 #source events in mixing
 OWNER=mu2e
-NEUTNMIXIN=50
-ELENMIXIN=25
+NEUTNMIXIN=40
+ELENMIXIN=50
 MUSTOPNMIXIN=2
 MUBEAMNMIXIN=1
 FIELD="Offline/Mu2eG4/geom/bfgeom_no_tsu_ps_v01.txt"
 PRIMARY_DATASET=""
 ENSEMBLE=0
 PUSHOUT=false
+DBSIM="Sim"
+TB=""
 
 # Loop: Get the next option;
 while getopts ":-:" options; do
@@ -110,30 +113,33 @@ while getopts ":-:" options; do
           OPTIND=$(( $OPTIND + 1 ))
           ;;
         primary_dataset)
-            PRIMARY_DATASET=${!OPTIND}
-            OPTIND=$(( $OPTIND + 1 ))
-            ;;
+          PRIMARY_DATASET=${!OPTIND}
+          OPTIND=$(( $OPTIND + 1 ))
+          ;;
         ensemble)
-            ENSEMBLE=${!OPTIND}
-            OPTIND=$(( $OPTIND + 1 ))
-            ;;
-	pushout)
-	    PUSHOUT=${!OPTIND}
-	    OPTIND=$(( $OPTIND + 1 ))
-	    ;;
-
-      esac
-      ;;
-    :)
-      echo "Error: -${OPTARG} requires an argument."
-      exit_abnormal
-      ;;
-    *)
-      echo "Unknown option ${OPTARG}"
-      exit_abnormal
-      ;;
-  esac
-done
+          ENSEMBLE=${!OPTIND}
+          OPTIND=$(( $OPTIND + 1 ))
+          ;;
+        pushout)
+          PUSHOUT=${!OPTIND}
+          OPTIND=$(( $OPTIND + 1 ))
+          ;;
+        tarball)
+          TB=${!OPTIND}
+          OPTIND=$(( $OPTIND + 1 ))
+          ;;
+        esac
+        ;;
+      :)
+        echo "Error: -${OPTARG} requires an argument."
+        exit_abnormal
+        ;;
+      *)
+        echo "Unknown option ${OPTARG}"
+        exit_abnormal
+        ;;
+    esac
+  done
 
 
 # basic tests
@@ -228,11 +234,11 @@ echo $MERGE_FACTOR
 
 # Setup the beam intensity model
 case "$PBEAM" in
-    Mix1BB) pbeam_fcl=OneBB.fcl ;;
-    Mix2BB) pbeam_fcl=TwoBB.fcl ;;
-    MixLow) pbeam_fcl=LowIntensity.fcl ;;
-    MixSeq) pbeam_fcl=NoPrimaryPBISequence.fcl ;;
-    *) echo "Unknown PBEAM $PBEAM"; exit_abnormal ;;
+  Mix1BB) pbeam_fcl=OneBB.fcl ;;
+  Mix2BB) pbeam_fcl=TwoBB.fcl ;;
+  MixLow) pbeam_fcl=LowIntensity.fcl ;;
+  MixSeq) pbeam_fcl=NoPrimaryPBISequence.fcl ;;
+  *) echo "Unknown PBEAM $PBEAM"; exit_abnormal ;;
 esac
 echo "#include \"Production/JobConfig/mixing/${pbeam_fcl}\"" >> mix.fcl
 
@@ -276,7 +282,7 @@ echo physics.filters.NeutralsFlashMixer.mu2e.MaxEventsToSkip: ${nskip_NeutralsFl
 echo physics.filters.MuStopPileupMixer.mu2e.MaxEventsToSkip: ${nskip_MuStopPileup} >> mix.fcl
 
 # setup database access, for SimEfficiences and digi parameters
-echo services.DbService.purpose: ${CAMPAIGN}_${DBPURPOSE} >> mix.fcl
+echo services.DbService.purpose: ${DBSIM}_${DBPURPOSE} >> mix.fcl
 echo services.DbService.version: ${DBVERSION} >> mix.fcl
 echo services.DbService.verbose : 2 >> mix.fcl
 echo "services.GeometryService.bFieldFile : \"${FIELD}\"" >> mix.fcl
@@ -284,13 +290,19 @@ echo "services.GeometryService.bFieldFile : \"${FIELD}\"" >> mix.fcl
 echo outputs.TriggeredOutput.fileName: \"dig.owner.${DESC}Triggered.version.sequencer.art\" >> mix.fcl
 echo outputs.TriggerableOutput.fileName: \"dig.owner.${DESC}Triggerable.version.sequencer.art\" >> mix.fcl
 
+
+JDSETUP=" --setup ${SETUP} "
+if [ "${TB}" != "" ]; then
+  JDSETUP=" --code ${TB} "
+fi
+
 cmd=(
-    mu2ejobdef --dsconf=${DSCONF} --dsowner=${OWNER} --description=${DESC} --embed mix.fcl --setup ${SETUP}
-    --inputs=${PRIMARY_DESC}.txt --merge-factor=${MERGE_FACTOR}
-    --auxinput=${MUSTOPNMIXIN}:physics.filters.MuStopPileupMixer.fileNames:${MUSTOPPILEUP}
-    --auxinput=${ELENMIXIN}:physics.filters.EleBeamFlashMixer.fileNames:${EBEAMPILEUP}
-    --auxinput=${MUBEAMNMIXIN}:physics.filters.MuBeamFlashMixer.fileNames:${MUBEAMPILEUP}
-    --auxinput=${NEUTNMIXIN}:physics.filters.NeutralsFlashMixer.fileNames:${NPILEUP}
+  mu2ejobdef --dsconf=${DSCONF} --dsowner=${OWNER} --description=${DESC} --embed mix.fcl ${JDSETUP}
+  --inputs=${PRIMARY_DESC}.txt --merge-factor=${MERGE_FACTOR}
+  --auxinput=${MUSTOPNMIXIN}:physics.filters.MuStopPileupMixer.fileNames:${MUSTOPPILEUP}
+  --auxinput=${ELENMIXIN}:physics.filters.EleBeamFlashMixer.fileNames:${EBEAMPILEUP}
+  --auxinput=${MUBEAMNMIXIN}:physics.filters.MuBeamFlashMixer.fileNames:${MUBEAMPILEUP}
+  --auxinput=${NEUTNMIXIN}:physics.filters.NeutralsFlashMixer.fileNames:${NPILEUP}
 )
 
 echo "Running: ${cmd[*]}"
@@ -301,7 +313,12 @@ parfile="cnf.${OWNER}.${DESC}.${DSCONF}.0.tar"
 echo "parfile: $parfile"
 
 test_fcl=${parfile}.fcl
-mu2ejobfcl --jobdef $parfile --index 0 --default-proto root --default-loc tape > ${test_fcl}
+mu2ejobfcl --jobdef $parfile --index 0 --default-proto root --default-loc tape \
+  --location "dts.mu2e.MuBeamFlashCat.${MIXINCONF}.art:tape"  \
+  --location "dts.mu2e.NeutralsFlashCat.${MIXINCONF}.art:disk"  \
+  --location "dts.mu2e.EleBeamFlashCat.${MIXINCONF}.art:disk"  \
+  --location "dts.mu2e.MuStopPileupCat.${MIXINCONF}.art:disk"  \
+  > ${test_fcl}
 cat ${test_fcl}
 
 

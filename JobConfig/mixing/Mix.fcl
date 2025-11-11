@@ -40,6 +40,7 @@ outputs.TriggeredOutput.SelectEvents : @local::Digitize.SignalTriggers
 outputs.TriggerableOutput.SelectEvents : [ @sequence::physics.TriggerablePaths ]
 # Final configuration
 #include "Production/JobConfig/common/epilog.fcl"
+#include "Production/JobConfig/digitize/epilog.fcl"
 #include "Production/JobConfig/digitize/OnSpill_epilog.fcl"
 #include "mu2e-trig-config/core/trigDigiInputsEpilog.fcl"
 #include "Production/JobConfig/mixing/epilog.fcl"
