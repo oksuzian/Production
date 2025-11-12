@@ -10,25 +10,46 @@ process_name : pedestalFinderWideband
 source :
 {
   module_type : RootInput
+  fileNames   : @nil
+  maxEvents   : -1
 }
 services :
 {
+  @table::Services.Core
   @table::Services.Reco
 }
 
 physics: {
   producers :
   {
+    CrvDigi :
+    {
+      module_type   : CrvDigisFromArtdaqFragmentsFEBII
+      diagLevel     : 0
+      useSubsystem0 : false
+      produceZS     : false
+    }
   }
   analyzers:
   {
     CrvPedestalFinder: @local::CrvPedestalFinder
   }
 
-  TriggerPath : [ ]
-  EndPath :     [ CrvPedestalFinder ]
+  TriggerPath : [ CrvDigi ]
+  EndPath :     [ CrvPedestalFinder, outfileNZS ]
   trigger_paths : [ TriggerPath ]
   end_paths :     [ EndPath ]
+}
+outputs:
+{
+  outfileNZS :
+  {
+    module_type   :   RootOutput
+    fileName      :   "crvDigiNZSExtracted.art"
+    outputCommands : [ "drop *_*_*_*" ,
+                       "keep mu2e::CrvDAQerrors_*_*_*" ,
+                       "keep mu2e::CrvDigis_*_NZS_*" ]
+  }
 }
 
 physics.analyzers.CrvPedestalFinder.tmpDBfileName  : "pedestalsExtracted.txt"
