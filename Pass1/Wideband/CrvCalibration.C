@@ -1,6 +1,6 @@
 void CrvCalibration(const std::string &inputFileName, const std::string &outputFileName)
 {
-    TFile *inputFile = TFile::Open(inputFileName.c_str());
+    TFile *inputFile = TFile::Open(inputFileName.c_str(),"update");
     inputFile->cd("CrvCalibration");
     TTree *treePedestals = (TTree*)gDirectory->FindObjectAny("crvPedestals");
     size_t channel;
@@ -62,6 +62,7 @@ void CrvCalibration(const std::string &inputFileName, const std::string &outputF
     }
 
     outputFile<<std::endl;
+    inputFile->Write(0,TFile::kWriteDelete);
 
     //time offsets
     TTree *treeTimeOffsets = (TTree*)gDirectory->FindObjectAny("crvTimeOffsets");

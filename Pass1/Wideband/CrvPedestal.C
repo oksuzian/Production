@@ -1,6 +1,6 @@
 void CrvPedestal(const std::string &inputFileName, const std::string &outputFileName)
 {
-    TFile *inputFile = TFile::Open(inputFileName.c_str());
+    TFile *inputFile = TFile::Open(inputFileName.c_str(),"update");
     inputFile->cd("CrvPedestalFinder");
     TList *keys = gDirectory->GetListOfKeys();
 
@@ -43,6 +43,7 @@ void CrvPedestal(const std::string &inputFileName, const std::string &outputFile
     }
 
     outputFile<<std::endl;
+    inputFile->Write(0,TFile::kWriteDelete);
 
     //time offsets
     TTree *treeTimeOffsets = (TTree*)gDirectory->FindObjectAny("crvTimeOffsets");
