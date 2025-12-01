@@ -6,5 +6,5 @@ physics.producers.CaloHitTruthMatch.primaryParticle : "compressDigiMCs"
 
 # patch CRV
 physics.producers.CrvCoincidenceClusterMatchMC.crvWaveformsModuleLabel : "compressDigiMCs"
-physics.producers.CrvCoincidenceClusterMCAssns.crvCoincidenceTags : [ "CrvCoincidenceClusterFinder" ]
+physics.producers.CrvCoincidenceClusterMCAssns.crvCoincidenceTags : [ "SelectReco:CrvCoincidenceClusterFinder" ]
 physics.producers.CrvCoincidenceClusterMCAssns.crvCoincidenceMCTags : [ "compressRecoMCs:CrvCoincidenceClusterMatchMC" ]
