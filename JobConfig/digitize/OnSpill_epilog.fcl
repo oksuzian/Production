@@ -2,17 +2,17 @@
 # It produces functionally equivalent output as the standard module but is slower, so don't use this script for timing studies
 # add the trigger MC matching to the appropriate paths
 # apr
-physics.apr_TrkDe_80m70p : [@sequence::physics.apr_TrkDe_80m70p, TTAprKSFMC ]
-physics.apr_TrkDe_80m70p_D0200 : [@sequence::physics.apr_TrkDe_80m70p_D0200, TTAprKSFMC ]
-physics.apr_TrkDe_50_D0200 : [@sequence::physics.apr_TrkDe_50_D0200, TTAprKSFMC ]
-physics.apr_TwoTrkDe_80m70p_D0200 : [@sequence::physics.apr_TwoTrkDe_80m70p_D0200, TTAprKSFMC ]
+physics.apr_TrkDe_80m70p : [@sequence::physics.apr_TrkDe_80m70p, TrigAprKSFMC ]
+physics.apr_TrkDe_80m70p_D0200 : [@sequence::physics.apr_TrkDe_80m70p_D0200, TrigAprKSFMC ]
+physics.apr_TrkDe_50_D0200 : [@sequence::physics.apr_TrkDe_50_D0200, TrigAprKSFMC ]
+physics.apr_TwoTrkDe_80m70p_D0200 : [@sequence::physics.apr_TwoTrkDe_80m70p_D0200, TrigAprKSFMC ]
 # tpr
-physics.tpr_TrkDe_80m70p : [@sequence::physics.tpr_TrkDe_80m70p, TTTprDeKSFMC ]
-physics.tpr_TrkDe_80m70p_D0200 : [@sequence::physics.tpr_TrkDe_80m70p_D0200, TTTprDeKSFMC ]
-physics.tpr_TrkDe_50_D0200 : [@sequence::physics.tpr_TrkDe_50_D0200, TTTprDeKSFMC ]
+physics.tpr_TrkDe_80m70p : [@sequence::physics.tpr_TrkDe_80m70p, TrigTprDeKSFMC ]
+physics.tpr_TrkDe_80m70p_D0200 : [@sequence::physics.tpr_TrkDe_80m70p_D0200, TrigTprDeKSFMC ]
+physics.tpr_TrkDe_50_D0200 : [@sequence::physics.tpr_TrkDe_50_D0200, TrigTprDeKSFMC ]
 # cpr
-physics.cpr_TrkDe_80m70p : [@sequence::physics.cpr_TrkDe_80m70p, TTCprDeKSFMC ]
-physics.cpr_TrkDe_80m70p_D0200 : [@sequence::physics.cpr_TrkDe_80m70p_D0200, TTCprDeKSFMC ]
-physics.cpr_TrkDe_50_D0200 : [@sequence::physics.cpr_TrkDe_50_D0200, TTCprDeKSFMC ]
+physics.cpr_TrkDe_80m70p : [@sequence::physics.cpr_TrkDe_80m70p, TrigCprDeKSFMC ]
+physics.cpr_TrkDe_80m70p_D0200 : [@sequence::physics.cpr_TrkDe_80m70p_D0200, TrigCprDeKSFMC ]
+physics.cpr_TrkDe_50_D0200 : [@sequence::physics.cpr_TrkDe_50_D0200, TrigCprDeKSFMC ]
 # mpr
-physics.mpr_TrkDe_80m70p_D0200 : [@sequence::physics.mpr_TrkDe_80m70p_D0200, TTMprDeKSFMC ]
+physics.mpr_TrkDe_80m70p_D0200 : [@sequence::physics.mpr_TrkDe_80m70p_D0200, TrigMprDeKSFMC ]
