@@ -1,0 +1,43 @@
+#
+# Drop the trigger results and re-run the trigger in addition to standard reco
+#
+
+# Reco includes
+#include "Offline/fcl/minimalMessageService.fcl"
+#include "Offline/fcl/standardServices.fcl"
+#include "Production/JobConfig/reco/prolog.fcl"
+
+# Trigger info, replacing the changes made in includes above
+#include "mu2e-trig-config/core/trigProducers.fcl"
+#include "mu2e-trig-config/core/trigFilters.fcl"
+#include "mu2e-trig-config/core/trigRecoSequences.fcl"
+
+BEGIN_PROLOG
+# override the trigger digitization sequence (must be before trigSequences)
+TrigRecoSequences.artFragmentsGen : []
+END_PROLOG
+
+#include "mu2e-trig-config/core/trigSequences.fcl"
+
+#include "mu2e-trig-config/gen/trig_physMenuPSConfig_OnSpill.fcl"
+#include "mu2e-trig-config/gen/trig_physMenu_OnSpill.fcl"
+#
+process_name: Reconstruct
+source : { module_type : RootInput }
+services : @local::Services.Reco
+physics : {
+  producers : {
+  	@table::TrigProducers.producers
+    @table::Reconstruction.producers
+  }
+  filters : {
+    @table::TrigFilters.filters
+    @table::Trig_physMenuPSConfig
+    @table::Reconstruction.filters
+  }
+  analyzers: @local::Reconstruction.analyzers
+  @table::TrigSequences
+  trigger_paths : [ @sequence::Trig_physMenu.trigger_paths ]
+}
+# the following is a placeholder
+#include "Production/Validation/database.fcl"
