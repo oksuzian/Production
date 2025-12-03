@@ -7,14 +7,15 @@
 # add trigger filters
 physics.filters : { @table::physics.filters @table::Trig_extrPosMenuPSConfig }
 # Define the default list of triggerable paths
-physics.TriggerablePaths : [ "TriggerableLHPath" ]
+physics.TriggerablePaths : [    "TriggerableLHPath",    "TriggerableCaloPath"]
+physics.TriggerableBits  : [ "20:TriggerableLHPath", "25:TriggerableCaloPath"]
 # add the trigger paths
-physics.trigger_paths : ["DigitizePath", @sequence::physics.TriggerablePaths, @sequence::Trig_extrPosMenu.trigger_paths]
+physics.trigger_paths : ["DigitizePath", @sequence::physics.TriggerableBits, @sequence::Trig_extrPosMenu.trigger_paths]
 # configure 'Triggered' output to be calibration triggers
 outputs.TriggeredOutput.SelectEvents : [
   @sequence::Digitize.TrkTriggers,
-  @sequence::Digitize.CaloTriggers ]
-outputs.TriggerableOutput.SelectEvents : [ @sequence::physics.TriggerablePaths ]
+  @sequence::Digitize.CaloTriggers,
+  @sequence::physics.TriggerablePaths ]
 # set the spill type
 physics.producers.EWMProducer.SpillType : 0
 # Temporarily turn off Crv noise
