@@ -117,7 +117,8 @@ Reconstruction.Output : {
     @sequence::Reconstruction.GeneralProducts,
     @sequence::Reconstruction.GeneralMCProducts,
     @sequence::Reconstruction.HighRecoProducts,
-    @sequence::Reconstruction.HighRecoMCProducts
+    @sequence::Reconstruction.HighRecoMCProducts,
+    @sequence::Reconstruction.MidRecoProducts
   ]
 }
 END_PROLOG
