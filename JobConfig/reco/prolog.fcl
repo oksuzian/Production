@@ -314,6 +314,7 @@ Reconstruction : {
   # Middle reco products, pat rec intermediate results
   MidRecoProducts : [
     "keep mu2e::HelixSeeds_MH*_*_*",
+    "keep mu2e::HelixSeed*Assns_*_*_*",
     "keep mu2e::TimeClusters_MH*_*_*"
   ]
   # Low reco products, useful for debugging and event display
@@ -389,7 +390,8 @@ Reconstruction.Output : {
   fileName    : @nil
   outputCommands : [ "drop *_*_*_*",
     @sequence::Reconstruction.GeneralProducts,
-    @sequence::Reconstruction.HighRecoProducts
+    @sequence::Reconstruction.HighRecoProducts,
+    @sequence::Reconstruction.MidRecoProducts
   ]
 }
 
@@ -399,6 +401,7 @@ Reconstruction.RegrowOutput : {
   outputCommands : [
     @sequence::Reconstruction.GeneralProducts,
     @sequence::Reconstruction.HighRecoProducts,
+    @sequence::Reconstruction.MidRecoProducts,
     "drop *_*_*_Digitize",
     "drop *_*_*_Mix",
     "keep *_EWMProducer_*_*",
@@ -407,6 +410,9 @@ Reconstruction.RegrowOutput : {
     "keep mu2e::Calo*_*_*_Reconstruct",
     "keep mu2e::Crv*_*_*_Reconstruct",
     "keep mu2e::KalSeed*_SelectReco_*_*",
+    "keep mu2e::HelixSeed*_*_*_*",
+    "keep mu2e::TimeClusters_*_*_*",
+    "keep mu2e::IntensityInfo*_*_*_*",
     "keep *_compressRecoMCs_*_*",
     "keep *_SelectReco_*_*",
     "keep mu2e::KalSeed*_KKDe_*_*",
