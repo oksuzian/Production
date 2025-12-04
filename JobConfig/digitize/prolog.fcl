@@ -51,22 +51,22 @@ Digitize: {
       halfWidth : 0
     }
 # Trigger MC matching instances for each helix algorithm
-    TTAprKSFMC : {
+    TrigAprKSFMC : {
       @table::CommonMC.TTSelectRecoMC
       ComboHitCollection : "TrigFlagPH"
       KalSeedCollections  : [ "TrigAprKSF" ]
     }
-    TTTprDeKSFMC : {
+    TrigTprDeKSFMC : {
       @table::CommonMC.TTSelectRecoMC
       ComboHitCollection : "TrigFlagPH"
       KalSeedCollections  : [ "TrigKSFDe" ]
     }
-    TTMprDeKSFMC : {
+    TrigMprDeKSFMC : {
       @table::CommonMC.TTSelectRecoMC
       ComboHitCollection : "TrigFlagPH"
       KalSeedCollections  : [ "TrigKSFMprDe" ]
     }
-    TTCprDeKSFMC : {
+    TrigCprDeKSFMC : {
       @table::CommonMC.TTSelectRecoMC
       ComboHitCollection : "TrigFlagPH"
       KalSeedCollections  : [ "TrigCalSeedFitDe" ]
@@ -161,9 +161,10 @@ Digitize: {
     "keep mu2e::HelixSeed*Assns_Trig*_*_*",
     "keep mu2e::TimeClusters_Trig*Merger*_*_*",
     "keep mu2e::KalSeeds_Trig*_*_*",
-    "keep mu2e::KalSeedMCs_TT*KSFMC_*_*",
-    "keep mu2e::KalSeedmu2e::KalSeedMCvoidart::Assns_TT*KSFMC_*_*",
-    "keep mu2e::RecoCount_TT*KSFMC_*_*",
+    "keep mu2e::KalSeeds_TT*_*_*",
+    "keep mu2e::KalSeedMCs_Trig*KSFMC_*_*",
+    "keep mu2e::KalSeedmu2e::KalSeedMCvoidart::Assns_Trig*KSFMC_*_*",
+    "keep mu2e::RecoCount_Trig*KSFMC_*_*"
     "keep mu2e::IntensityInfo*_Trig*_*_*",
     "keep mu2e::IntensityInfo*_TT*_*_*"
   ]
