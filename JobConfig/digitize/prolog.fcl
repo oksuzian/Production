@@ -164,7 +164,7 @@ Digitize: {
     "keep mu2e::KalSeeds_TT*_*_*",
     "keep mu2e::KalSeedMCs_Trig*KSFMC_*_*",
     "keep mu2e::KalSeedmu2e::KalSeedMCvoidart::Assns_Trig*KSFMC_*_*",
-    "keep mu2e::RecoCount_Trig*KSFMC_*_*"
+    "keep mu2e::RecoCount_Trig*KSFMC_*_*",
     "keep mu2e::IntensityInfo*_Trig*_*_*",
     "keep mu2e::IntensityInfo*_TT*_*_*"
   ]
