@@ -16,6 +16,7 @@ physics : {
       strawGasStepTag : "FindMCPrimary"
       caloShowerStepTag : "FindMCPrimary"
       crvStepTag : "FindMCPrimary"
+      surfaceStepTag : "FindMCPrimary"
       simParticleTags : [ "FindMCPrimary" ]
       mcTrajectoryTag : "FindMCPrimary"
       stepPointMCTags : [ "FindMCPrimary:virtualdetector", "FindMCPrimary:protonabsorber", "FindMCPrimary:stoppingtarget" ]
