@@ -14,8 +14,9 @@ This script handles the first stage of generating inputs for a new simulation ca
 
 The script uses long-form arguments (`--option value`).
 
-```bash
-Stage1_makeinputs.sh [OPTIONS]```
+```
+Stage1_makeinputs.sh [OPTIONS]
+```
 
 ### **3. Arguments & Parameters**
 
