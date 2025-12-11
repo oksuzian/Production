@@ -22,7 +22,7 @@ exit_abnormal() {
   exit 1
 }
 OWNER="mu2e"
-KNOWN="MDS2a" #background sample tag
+KNOWN="MDS2c" #background sample tag
 RATE=1e-13
 SIGNAL="CeMLeadingLog" #name as given to primary during production
 RELEASE="MDC2020ba"
@@ -30,7 +30,7 @@ DBPURPOSE="best"
 DBVERSION="v1_3"
 NEXP=1
 CHOOSE=0.
-SETUP="" #musing path
+EVENTNTUPLE="MDC2020-000"
 
 while getopts ":-:" options; do
   case "${options}" in
@@ -161,7 +161,8 @@ rm filenames_*
 echo "looking for mcs.${OWNER}.${SIGNAL}Mix${BB}Triggered.${RELEASE}_${DBPURPOSE}_${DBVERSION}.art"
 mu2eDatasetFileList "mcs.${OWNER}.${SIGNAL}Mix${BB}Triggered.${RELEASE}_${DBPURPOSE}_${DBVERSION}.art" > filenames_All_${SIGNAL} 
 
-mu2eDatasetFileList nts.mu2e.ensemble${KNOWN}Mix${BB}Triggered.${RELEASE}_${DBPURPOSE}_${DBVERSION}_v06_06_00.root > filenames_All_${KNOWN}
+
+mu2eDatasetFileList nts.mu2e.ensemble${KNOWN}Mix${BB}Triggered.${EVENTNTUPLE}.root > filenames_All_${KNOWN}
 
 # step: split the signal files to get an exact number:
 i=1
@@ -195,7 +196,9 @@ do
   shuf temp > filenames_ChosenSig_$i
   rm temp
   # construct .fcl
-  echo "#include \"Production/JobConfig/ensemble/fcl/split.fcl\"" > splitter_$i.fcl
+  echo "Building configs WARNING: this will fail if you dont have the correct permissions"
+  echo "#include \"Production/JobConfig/ensemble/fcl/split.fcl\"" >> splitter_$i.fcl
+  
   echo "source.fileNames: [" >> splitter_$i.fcl
   while IFS= read -r line; do
     echo "adding file: " $line
@@ -213,6 +216,7 @@ do
   $cmd
   
   # make the ntuples
+  echo "making ntuples"
   echo "#include \"EventNtuple/fcl/from_mcs-mockdata.fcl\"" >> ntuple_$i.fcl
   echo "services.TFileService.fileName: \"nts.${OWNER}.${SIGNAL}Mix${BB}TriggeredSplit.${RELEASE}_${DBPURPOSE}_${DBVERSION}.${i}.root\"" >> ntuple_$i.fcl
   cmd=$(mu2e -c ntuple_$i.fcl mcs.${OWNER}.${SIGNAL}Mix${BB}TriggeredSplit.${RELEASE}_${DBPURPOSE}_${DBVERSION}.${i}.art)
