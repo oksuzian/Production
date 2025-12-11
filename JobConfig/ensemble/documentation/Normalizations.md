@@ -69,9 +69,9 @@ $$
 Calculates the expected number of **Conversion Electron (CE)** events (the signal).
 
 * **$\lambda$ (Mean Expected Events):**
-    $$
-    \lambda = \text{Total POT} \times \frac{\mu_{\text{stopped}}}{\text{POT}} \times \frac{\mu_{\text{captured}}}{\mu_{\text{stopped}}} \times \text{RUE}
-    $$
+$$
+\lambda = \text{Total POT} \times \frac{\mu_{\text{stopped}}}{\text{POT}} \times \frac{\mu_{\text{captured}}}{\mu_{\text{stopped}}} \times \text{RUE}
+$$
     Where RUE is the **Reconstructed Unfiltered Efficiency**.
 * **Result:** Samples the final event count from a **Poisson distribution** ($\text{np.random.poisson}(\lambda)$).
 
