@@ -104,7 +104,7 @@ $$
 \epsilon_{filter} = \frac{{N_{filters}}}{{N_{stops}}}
 $$ 
 
-(filter efficiency) 
+(**filter efficiency**) 
 
 and 
 
@@ -112,7 +112,7 @@ $$
 \epsilon_{surv} = \frac{\sum_{i} w_{i}}{N_{piresample}}
 $$ 
 
-(survival probability).
+(**survival probability**).
 
 * **Internal Conversion:** If enabled, scales the result by `INTERNAL_RPC_PER_RPC`.
 
