@@ -1,6 +1,6 @@
 ## ⚛️ Code Documentation: Mu2e Normalization Utility (`normalizations.py`)
 
-This script is a set of Python utilities designed for **particle physics analysis,** likely for the **Muon to Electron Conversion Experiment (Mu2e)**. It focuses on calculating the expected normalization factors (event counts) for various background and signal processes based on operational time and simulation data.
+This script is a set of Python utilities designed for normalizing a combined set of backgrounds (or known physics) contibutions for Mu2e. It focuses on calculating the expected normalization factors (event counts) for various background processes based on operational livetime, beam configuration/conditions and current understanding of the relative rates.
 
 ---
 
@@ -8,13 +8,13 @@ This script is a set of Python utilities designed for **particle physics analysi
 
 | Component | Description |
 | :--- | :--- |
-| **Purpose** | Calculates expected event yields for key Mu2e physics processes (CE, DIO, RMC, RPC, IPA Michel) based on simulation efficiencies and experiment parameters (POT, run time). |
+| **Purpose** | Calculates expected event yields for key Mu2e physics processes (DIO, RMC, RPC, IPA Michel) based on simulation efficiencies and experiment parameters (POT, run time). |
 | **Dependencies** | `DbService`, `argparse`, `ROOT`, `math`, `random`, `os`, `numpy` |
 | **Domain** | For use in Mu2e Mock Data Production |
 
 ### **2. Global Constants & Rates**
 
-The script defines global constants for fundamental physics interaction probabilities, primarily for negative muons and pions stopping in the target. These values are sourced from experimental data and dedicated simulations.
+The script defines global constants for fundamental physics interaction probabilities, primarily for muons and pions stopping in the target. These values are sourced from experimental (non-Mu2e) data and dedicated Mu2e simulations.
 
 | Group | Constant | Value | Description |
 | :--- | :--- | :--- | :--- |
@@ -36,7 +36,7 @@ The initial block establishes a connection to a database (`DbService.DbTool`) to
     * `target_stopped_muons_per_pot`: Rate of stopped muons in the target per POT.
     * `target_stopped_pions_per_pot`: Rate of stopped pions in the target per POT.
     * `num_pion_stops`, `num_pion_filters`, `num_pion_resamples`, `selected_sum_of_weights`: Simulation event counts and weights used to calculate complex pion survival probabilities.
-    * `ipa_stopped_mu_per_POT`: Rate of IPA (Incoming Particle Decay After Stopping) muons per POT.
+    * `ipa_stopped_mu_per_POT`: Rate of IPA muons per POT.
 
 ---
 
@@ -66,7 +66,7 @@ $$
 
 #### **`ce_normalization(on_spill_time, rue, run_mode='1BB')`**
 
-Calculates the expected number of **Coherent Electron (CE)** events (the signal).
+Calculates the expected number of **Conversion Electron (CE)** events (the signal).
 
 * **$\lambda$ (Mean Expected Events):**
     $$
@@ -74,6 +74,8 @@ Calculates the expected number of **Coherent Electron (CE)** events (the signal)
     $$
     Where RUE is the **Reconstructed Unfiltered Efficiency**.
 * **Result:** Samples the final event count from a **Poisson distribution** ($\text{np.random.poisson}(\lambda)$).
+
+Note: this function is used only in Stage3.
 
 #### **`dio_normalization(on_spill_time, e_min, run_mode='1BB')`**
 
@@ -104,7 +106,7 @@ Calculates expected **Radiative Muon Capture (RMC)** events, potentially includi
 
 #### **`ipaMichel_normalization(on_spill_time, ipa_de_min, run_mode='1BB')`**
 
-Calculates expected **Incoming Particle Decay After Stopping (IPA)** Michel electrons above a minimum energy.
+Calculates expected **IPA originating** Michel electrons above a minimum energy.
 
 * **Process:** Loads an efficiency table (`ipa_spec_eff.tbl`) to find the fraction of events passing the energy cut (`ipa_de_min`).
 * **Result:**
