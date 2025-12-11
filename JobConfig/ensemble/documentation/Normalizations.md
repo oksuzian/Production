@@ -101,14 +101,18 @@ Calculates expected **Radiative Pion Capture (RPC)** events, potentially includi
 * **Simulation Correction:** Applies complex correction factors derived from simulation globals: 
 
 $$
-\frac{\text{N}}{\text{N}}
-$$ (filter efficiency) 
+\frac{\text{num\_pion\_filters}}{\text{num\_pion\_stops}}
+$$ 
+
+(filter efficiency) 
 
 and 
 
 $$
 \frac{\text{selected\_sum\_of\_weights}}{\text{n\_piresample}}
-$$ (survival probability).
+$$ 
+
+(survival probability).
 
 * **Internal Conversion:** If enabled, scales the result by `INTERNAL_RPC_PER_RPC`.
 
