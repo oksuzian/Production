@@ -57,18 +57,18 @@ The following parameters control the script's behavior, file selection, and norm
     LIVETIME=$(awk '{sum += $1} END {print sum}' ${COSMICS}.livetime)
     ```
     * Runs the Mu2e job control utility (`mu2e`) on the list of input files (`-S ${COSMICS}`).
-    * The job runs an FCL (Fermilab Control Language) configuration designed to read the event headers and extract the recorded "Livetime" for each file.
+    * The job runs an FCL configuration designed to read the event headers and extract the recorded "Livetime" for each file.
     * The `awk` command sums the live times from all files to get the total `LIVETIME` (in seconds).
 
 4.  **Normalization Calculations (`calculateEvents.py` calls):**
 
-    The script makes multiple calls to `calculateEvents.py` (the Python script documented previously) to calculate the expected event counts for different processes. All results are appended to the output file (`${TAG}.txt`).
+    The script makes multiple calls to `calculateEvents.py` which uses `normalizations.py` (the Python script documented previously) to calculate the expected event counts for different processes. All results are appended to the output file (`${TAG}.txt`).
 
     | Process (`--prc`) | Description | Key Parameters |
     | :--- | :--- | :--- |
     | `POT` (implicit) | **Protons on Target (POT)** normalization. | `--printpot "print"` |
     | `${GEN}` | **Cosmic Ray Generator** normalization (e.g., for **CRY** or **CORSIKA**). | |
-    | `IPAMichel` | **Incoming Particle Decay After Stopping (IPA)** Michel background. | `--ipaemin 70` |
+    | `IPAMichel` | **IPA originating DIO** Michel background. | `--ipaemin 70` |
     | `DIO` | **Decay-in-Orbit (DIO)** electron background. | `--dioemin ${DEM_EMIN}` |
     | `RPC` (Internal = 1) | **Radiative Pion Capture (RPC)** **with** internal conversion. | `--tmin ${TMIN}`, `--internal 1`, `--rpcemin 50` |
     | `RPC` (Internal = 0) | **Radiative Pion Capture (RPC)** **without** internal conversion. | `--tmin ${TMIN}`, `--internal 0`, `--rpcemin 50` |
