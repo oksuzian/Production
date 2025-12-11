@@ -2,7 +2,7 @@
 
 ### **1. Overview**
 
-The `Stage3_addsignal.sh` script is designed for **signal injection and mixing** to create multiple "pseudo-experiment" datasets. This allows physicists to test reconstruction and analysis techniques under specific signal hypotheses without running full-scale, expensive simulations for every $R_{\mu e}$ rate.
+The `Stage3_addsignal.sh` script is designed for **signal injection** to create multiple mixed (signal + background) "pseudo-experiment" datasets. This allows physicists to test analysis techniques under specific signal hypotheses without running full-scale, expensive simulations for every $R_{\mu e}$ rate.
 
 | Component | Description |
 | :--- | :--- |
@@ -25,9 +25,9 @@ The following parameters control the mixing process and define the input dataset
 | Argument | Variable | Default | Description |
 | :--- | :--- | :--- | :--- |
 | `--known` | `KNOWN` | `MDS2c` | Tag of the pre-existing background ensemble (e.g., from Stage 2). |
-| `--signal` | `SIGNAL` | `CeMLeadingLog` | Name of the signal Monte Carlo sample (e.g., $e^-$-CE leading log). |
+| `--signal` | `SIGNAL` | `CeMLeadingLog` | Name of the signal Monte Carlo sample primary. |
 | `--rate` | `RATE` | $1 \times 10^{-13}$ | The hypothesized $\mathbf{R}_{\mu \mathbf{e}}$ conversion rate to use for sampling the signal yield. |
-| `--nexp` | `NEXP` | $1$ | **Number of Pseudo-Experiments:** How many mixed samples to create. |
+| `--nexp` | `NEXP` | $1$ | **Number of Pseudo-Experiments:** How many random mixed samples to create. |
 | `--chooselivetime` | `CHOOSE` | $0$ | Optional: Manually set a smaller live time (in seconds) to subsample the background ensemble. |
 | `--release` | `RELEASE` | `MDC2020ba` | The Mu2e software release tag. |
 | `--dbpurpose` | `DBPURPOSE` | `best` | Database purpose for input files (e.g., `best` or `perfect`). |
