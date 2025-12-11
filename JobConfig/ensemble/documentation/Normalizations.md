@@ -101,7 +101,7 @@ Calculates expected **Radiative Pion Capture (RPC)** events, potentially includi
 * **Simulation Correction:** Applies complex correction factors derived from simulation globals: 
 
 $$
-\frac{\text{num\_pion\_filters}}{\text{num\_pion\_stops}}
+\frac{\text{N_{filters}}}{\text{N_{stops}}}
 $$ 
 
 (filter efficiency) 
