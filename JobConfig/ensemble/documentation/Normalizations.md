@@ -69,11 +69,12 @@ $$
 Calculates the expected number of **Conversion Electron (CE)** events (the signal).
 
 * **$\text{r}$ (Mean Expected Events):**
+
 $$
-\text{r} = \text{Total POT} \times \frac{\mu_{\text{stopped}}}{\text{POT}} \times \frac{\mu_{\text{captured}}}{\mu_{\text{stopped}}} \times \text{RUE}
+\lambda = \text{Total POT} \times \frac{\mu_{\text{stopped}}}{\text{POT}} \times \frac{\mu_{\text{captured}}}{\mu_{\text{stopped}}} \times \text{RUE}
 $$
     Where Rmue is the **conversion rate relative to capture**.
-* **Result:** Samples the final event count from a **Poisson distribution** ($\text{np.random.poisson}(\text{r}$).
+* **Result:** Samples the final event count from a **Poisson distribution** ($\text{np.random.poisson}(\lambda)$).
 
 Note: this function is used only in Stage3.
 
