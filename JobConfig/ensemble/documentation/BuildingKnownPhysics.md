@@ -2,7 +2,7 @@
 
 ### **1. Overview**
 
-This script orchestrates the creation and submission of a massive grid job (an "ensemble" production) designed to simulate the final experimental conditions by mixing signal and various background events according to calculated physics rates. It leverages Fermilab's data handling (SAM) and job submission tools (`mu2ejobdef`, `mu2ejobsub`).
+This script orchestrates the creation and submission of a grid job (an "ensemble" production) designed to simulate the final experimental conditions by mixing various background events according to calculated physics rates. It leverages Mu2e's data handling (SAM) and job submission tools (`mu2ejobdef`, `mu2ejobsub`).
 
 | Component | Description |
 | :--- | :--- |
@@ -71,7 +71,7 @@ The script clears previous file lists and then uses two methods (`mu2eDatasetFil
     ```bash
     make_template_fcl.py --BB=${BB} --release=${RELEASE}${CURRENT} ...
     ```
-    This Python script generates the FCL (Fermilab Control Language) configuration file, which defines exactly *how* the simulation will mix and process the events. It requires the live time, beam mode, and all energy/time cuts as input, as well as the list of physics processes to include.
+    This Python script generates the FCL configuration file, which defines exactly *how* the simulation will mix and process the events. It requires the live time, beam mode, and all energy/time cuts as input, as well as the list of physics processes to include.
 
 2.  **Generate Job Definition (`mu2ejobdef`):**
     ```bash
