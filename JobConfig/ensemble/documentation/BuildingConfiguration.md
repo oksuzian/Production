@@ -2,7 +2,7 @@
 
 ### **1. Overview**
 
-This script handles the first stage of generating inputs for a new simulation campaign, often referred to as "Stage 1" or "MDS" (Mixing Dataset Stage) in Mu2e. Its primary function is to:
+This script handles the first stage of generating inputs for a new mock simulation campaign, referred to as "Stage 1" of the "MDS" (Mock Data Set) production in Mu2e. Its primary function is to:
 
 1.  **Parse Arguments:** Define and set all operational parameters (cosmic type, energy cuts, beam mode).
 2.  **File Access:** Locate and create a file list of raw simulation events from the cosmic ray generator.
@@ -22,8 +22,8 @@ Stage1_makeinputs.sh [OPTIONS]
 
 The following parameters control the script's behavior, file selection, and normalization calculation:
 
-| Argument | Variable | Default | Description |
-| :--- | :--- | :--- | :--- |
+| Argument   | Variable | Default | Description |
+| :---   | :--- | :--- | :--- |
 | `--cosmics` | `COSMICS` | `MDC2020ar` | Mu2e dataset tag for the cosmic ray simulation events (e.g., a specific production version). |
 | `--njobs` | `NJOBS` | `1` | The number of files/jobs to process from the selected cosmic dataset. |
 | `--livetime` | `LIVETIME` | `""` | Optional: Manually set the experiment live time (in seconds). Usually calculated by the script. |
