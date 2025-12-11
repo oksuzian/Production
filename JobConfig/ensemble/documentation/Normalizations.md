@@ -101,7 +101,7 @@ Calculates expected **Radiative Pion Capture (RPC)** events, potentially includi
 * **Simulation Correction:** Applies complex correction factors derived from simulation globals: 
 
 $$
-\frac{{N_{filters}}}{{N_{stops}}}
+\epsilon_{filter} = \frac{{N_{filters}}}{{N_{stops}}}
 $$ 
 
 (filter efficiency) 
@@ -109,7 +109,7 @@ $$
 and 
 
 $$
-\frac{\text{selected\_sum\_of\_weights}}{\text{n\_piresample}}
+\epsilon_{surv} = \frac{\text{\sum_{i} w_{i}}}{N_{piresample}}
 $$ 
 
 (survival probability).
