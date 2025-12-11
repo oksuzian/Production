@@ -130,9 +130,10 @@ Calculates expected **IPA originating** Michel electrons above a minimum energy.
 
 * **Process:** Loads an efficiency table (`ipa_spec_eff.tbl`) to find the fraction of events passing the energy cut (`ipa_de_min`).
 * **Result:**
-    $$
-    N_{\text{IPA}} = \text{Total POT} \times \frac{\text{IPA}\mu_{\text{stopped}}}{\text{POT}} \times \text{IPA}_{\text{Decay Rate}} \times \text{Fraction}(\text{E} > E_{\text{min}})
-    $$
+
+$$
+N_{\text{IPA}} = \text{Total POT} \times \frac{\text{IPA}\mu_{\text{stopped}}}{\text{POT}} \times \text{IPA}_{\text{Decay Rate}} \times \text{Fraction}(\text{E} > E_{\text{min}})
+$$
 
 #### **`get_ce_rmue(onspilltime, nsig, run_mode = '1BB')`**
 
