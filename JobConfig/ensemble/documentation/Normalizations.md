@@ -98,7 +98,12 @@ $$
 Calculates expected **Radiative Pion Capture (RPC)** events, potentially including **Internal Conversion** (if `internal=1`).
 
 * **Process:** Loads the RPC gamma energy spectrum (`rpcspectrum.tbl`).
-* **Simulation Correction:** Applies complex correction factors derived from simulation globals: $\frac{\text{num\_pion\_filters}}{\text{num\_pion\_stops}}$ (filter efficiency) and $\frac{\text{selected\_sum\_of\_weights}}{\text{n\_piresample}}$ (survival probability).
+* **Simulation Correction:** Applies complex correction factors derived from simulation globals: 
+
+$$
+\frac{\text{num\_pion\_filters}}{\text{num\_pion\_stops}}$ (filter efficiency) and $\frac{\text{selected\_sum\_of\_weights}}{\text{n\_piresample}}
+$$ (survival probability).
+
 * **Internal Conversion:** If enabled, scales the result by `INTERNAL_RPC_PER_RPC`.
 
 #### **`rmc_normalization(on_spill_time, internal, e_min, k_max=90.1, run_mode='1BB')`**
