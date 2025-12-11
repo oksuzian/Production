@@ -109,7 +109,7 @@ $$
 and 
 
 $$
-\epsilon_{surv} = \frac{\text{\sum_{i} w_{i}}}{N_{piresample}}
+\epsilon_{surv} = \frac{\sum_{i} w_{i}}{N_{piresample}}
 $$ 
 
 (survival probability).
