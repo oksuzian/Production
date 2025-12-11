@@ -90,7 +90,7 @@ Calculates the expected **Decay In Orbit (DIO)** events above a minimum energy $
 * **Result:**
 
 $$
-N_{\text{DIO}} = \text{POT} \times \frac{\mu_{\text{stopped}}}{\text{POT}} \times \text{DIO}_{\text{rate}} \times \text{Fraction}(\text{E} > E_{\text{min}})
+N_{\text{DIO}} = \text{Total POT} \times \frac{\mu_{\text{stopped}}}{\text{POT}} \times \text{DIO}_{\text{rate}} \times \text{Fraction}(\text{E} > E_{\text{min}})
 $$
 
 #### **`rpc_normalization(on_spill_time, t_min, internal, e_min, run_mode='1BB')`**
@@ -101,7 +101,7 @@ Calculates expected **Radiative Pion Capture (RPC)** events, potentially includi
 * **Simulation Correction:** Applies complex correction factors derived from simulation globals: 
 
 $$
-\frac{\text{num\_pion\_filters}}{\text{num\_pion\_stops}}
+\frac{\text{N}}{\text{N}}
 $$ (filter efficiency) 
 
 and 
