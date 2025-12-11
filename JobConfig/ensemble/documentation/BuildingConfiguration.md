@@ -23,7 +23,7 @@ Stage1_makeinputs.sh [OPTIONS]
 The following parameters control the script's behavior, file selection, and normalization calculation:
 
 | Argument   | Variable | Default | Description |
-| :---   | :--- | :--- | :--- |
+| :-----   | :--- | :--- | :--- |
 | `--cosmics` | `COSMICS` | `MDC2020ar` | Mu2e dataset tag for the cosmic ray simulation events (e.g., a specific production version). |
 | `--njobs` | `NJOBS` | `1` | The number of files/jobs to process from the selected cosmic dataset. |
 | `--livetime` | `LIVETIME` | `""` | Optional: Manually set the experiment live time (in seconds). Usually calculated by the script. |
