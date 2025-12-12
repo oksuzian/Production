@@ -10,17 +10,17 @@ exit_abnormal() {
   usage
   exit 1
 }
-COSMICS="MDC2020ar"
-NJOBS=1
+COSMICS="MDC2025ac" #TODO
+NJOBS=50
 LIVETIME="" #seconds
 DEM_EMIN=95
 BB=1BB
 TMIN=350
-TAG="MDS2a_test"
-STOPS="MDC2020p"
-RELEASE="MDC2020"
-VERSION="aw"
-GEN="CRYSignal" #cosmic generator name CRY or CORSIKA only Cat = "Signal"
+TAG="MDS3a"
+STOPS="MDC2025ac"
+RELEASE="MDC2025"
+VERSION="ac"
+GEN="Signal" #cosmic generator name CRY or CORSIKA only Cat = "Signal"
 # Loop: Get the next option;
 while getopts ":-:" options; do
   case "${options}" in
@@ -78,7 +78,7 @@ rm ${TAG}.txt
 rm ${COSMICS}
 
 echo "accessing files, making file lists"
-mu2eDatasetFileList "dts.mu2e.Cosmic${GEN}All.${COSMICS}.art" | head -${NJOBS} > ${COSMICS}
+mu2eDatasetFileList "dts.mu2e.Cosmic${GEN}.${COSMICS}.art" | head -${NJOBS} > ${COSMICS}
 
 
 echo -n "njobs= " >> ${TAG}.txt

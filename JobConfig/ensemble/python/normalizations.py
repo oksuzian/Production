@@ -65,7 +65,7 @@ db_tool.init()
 # Define arguments for the database query
 query_arguments = [
     "print-run",
-    "--purpose", "MDC2025_best",
+    "--purpose", "Sim_best",
     "--version", "v1_1",
     "--run", "1430",
     "--table", "SimEfficiencies2",
@@ -73,8 +73,8 @@ query_arguments = [
 ]
 
 # Execute the database query
-dbtool.setArgs(query_arguments)
-dbtool.run()
+db_tool.setArgs(query_arguments)
+db_tool.run()
 
 # Store the raw result for further processing
 rr = db_tool.getResult()
@@ -174,12 +174,11 @@ def get_pot(on_spill_time, run_mode='1BB', printout=False, frac=1):
 
     elif run_mode == '2BB':
         # Two beam batch operation
-        mean_pbi = 3.9e7 # This variable name was inconsistent in original code (mean_PBI_high)
+        mean_pbi = 3.9e7
         t_cycle = 1.4 # seconds
         pot_per_cycle = 8e12
 
     else:
-        # It's good practice to handle invalid run modes explicitly
         raise ValueError(f"Unknown run_mode specified: {run_mode}")
 
     # --- Common Calculation Steps ---
@@ -187,14 +186,13 @@ def get_pot(on_spill_time, run_mode='1BB', printout=False, frac=1):
     total_pot = num_cycles * pot_per_cycle
 
     if printout:
-        # Assuming get_duty_factor() is defined elsewhere in the script
         current_duty_factor = get_duty_factor(run_mode) if run_mode != 'custom' else 'N/A'
         
-        print(f"Tcycle = {t_cycle} s")
-        print(f"POT_per_cycle = {pot_per_cycle:.2e}")
+        print(f"Tcycle= {t_cycle}")
+        print(f"POT_per_cycle= {pot_per_cycle:.2e}")
         # 'Livetime' here seems to mean 'Total experiment duration accounting for gaps'
-        print(f"Total experiment duration (approx) = {on_spill_time / current_duty_factor} s")
-        print(f"Total NPOT = {total_pot:.2e}")
+        print(f"Total_Duration= {on_spill_time / current_duty_factor}")
+        print(f"NPOT= {total_pot:.2e}")
 
     return total_pot
 
@@ -255,7 +253,7 @@ def dio_normalization(on_spill_time, e_min, run_mode='1BB'):
     # This assumes the environment variable MUSE_WORK_DIR is set
     spectrum_file_path = os.path.join(
         os.environ["MUSE_WORK_DIR"],
-        "Production/JobConfig/ensemble/heeck_finer_binning_2016_szafron.tbl"
+        "Production/JobConfig/ensemble/tables/heeck_finer_binning_2016_szafron.tbl"
     )
     
     energies = []
@@ -325,7 +323,7 @@ def rpc_normalization(on_spill_time, t_min, internal, e_min, run_mode='1BB'):
     # 2. Load the RPC energy spectrum data (Bistrilich source)
     spectrum_file_path = os.path.join(
         os.environ["MUSE_WORK_DIR"],
-        "Production/JobConfig/ensemble/rpcspectrum.tbl"
+        "Production/JobConfig/ensemble/tables/rpcspectrum.tbl"
     )
     
     energies = []
@@ -349,7 +347,7 @@ def rpc_normalization(on_spill_time, t_min, internal, e_min, run_mode='1BB'):
     total_norm = sum(values)
     cut_norm = 0
     for i in range(len(values)):
-        if energies[i] >= e_min:
+        if energies[i] >= float(e_min):
             cut_norm += values[i]
 
     if total_norm == 0:
@@ -358,13 +356,10 @@ def rpc_normalization(on_spill_time, t_min, internal, e_min, run_mode='1BB'):
         rpc_e_sample_frac = cut_norm / total_norm
 
     # 4. Calculate base physics events rate before final cuts
-    # Note: The original code uses several global variables (num_pion_filters, etc.)
-    # to account for complex simulation efficiencies (survival probabilities/smearing).
-    
+
     # Calculate efficiency terms based on simulation globals
-    filter_efficiency = num_pion_filters / num_pion_stops
-    # Assuming n_piresample is defined as npiresample in your globals snippet
-    survival_probability_weight = selected_sum_of_weights / n_piresample 
+    filter_efficiency = float(num_pion_filters) / float(num_pion_stops)
+    survival_probability_weight = float(selected_sum_of_weights) / float(num_pion_resamples) 
 
     base_physics_events = (
         total_pot *
@@ -436,9 +431,8 @@ def rmc_normalization(on_spill_time, internal, e_min, k_max=90.1, run_mode='1BB'
     # We compare the energy threshold (e_min) to the *center* of the energy bin
     for i in range(len(values)):
         bin_center = energies[i]
-        # Note: Original code used bin_center - bin_width/2 >= emin (left edge of bin)
-        # Using the left edge logic for consistency with original intent:
-        if (bin_center - bin_width / 2.0) >= e_min:
+        
+        if (bin_center - bin_width / 2.0) >= float(e_min):
             cut_norm += values[i]
 
     if total_norm == 0:
@@ -488,15 +482,12 @@ def ipaMichel_normalization(on_spill_time, ipa_de_min, run_mode='1BB'):
         float: The expected number of IPA Michel events passing the energy cut.
     """
     # 1. Calculate total Protons on Target (POT)
-    # The original code called getPOT(onspilltime) without the run_mode argument,
-    # which defaults run_mode to '1BB' inside get_pot. I am passing run_mode
-    # explicitly here for clarity and flexibility.
     total_pot = get_pot(on_spill_time, run_mode)
 
     # 2. Load the IPA spectrum efficiency data
     spectrum_file_path = os.path.join(
         os.environ["MUSE_WORK_DIR"],
-        "Production/JobConfig/ensemble/ipa_spec_eff.tbl"
+        "Production/JobConfig/ensemble/tables/ipa_spec_eff.tbl"
     )
     
     fraction_sampled = 1.0 # Default to 1 (100%) if no cut is found or file is empty
@@ -509,8 +500,7 @@ def ipaMichel_normalization(on_spill_time, ipa_de_min, run_mode='1BB'):
                     # File expected format: [Energy_Threshold (MeV)] [Fraction_Passing_Cut]
                     energy_threshold, efficiency_fraction = map(float, line.split())
                     
-                    # The file seems structured such that the first line where the
-                    # threshold energy is *just* crossed is the value we use.
+                    
                     if energy_threshold > float(ipa_de_min):
                         fraction_sampled = efficiency_fraction
                         print("IPA_emin=", ipa_de_min)
@@ -540,7 +530,7 @@ def ipaMichel_normalization(on_spill_time, ipa_de_min, run_mode='1BB'):
 
 # work from signal to rmue  
 def get_ce_rmue(onspilltime, nsig, run_mode = '1BB'):
-    POT = getPOT(onspilltime, run_mode)
+    POT = get_pot(onspilltime, run_mode)
     rmue = nsig/(POT * target_stopped_muons_per_pot * CAPTURES_PER_STOPPED_MUON)
     return  rmue
 
@@ -552,22 +542,14 @@ The cosmics are normalized according to the livetime fraction which overlaps wit
 # note this returns CosmicLivetime not # of generated events
 def cry_onspill_normalization(livetime, run_mode = '1BB'):
     return livetime
-
-# note this returns CosmicLivetime not # of generated events
-def cry_offspill_normalization(livetime, run_mode = '1BB'):
-    return livetime
-    
+  
 # note this returns CosmicLivetime not # of generated events
 def corsika_onspill_normalization(livetime, run_mode = '1BB'):
     return livetime
 
-# note this returns CosmicLivetime not # of generated events
-def corsika_offspill_normalization(livetime, run_mode = '1BB'):
-    return livetime
-
 
 if __name__ == '__main__':
-  tst_1BB = getPOT(9.52e6)
-  tst_2BB = getPOT(1.58e6)
-  tst_rpc = rpc_normalization(3.77e19,350,1.22,1)
+  tst_1BB = get_pot(9.52e6)
+  tst_2BB = get_pot(1.58e6)
+  tst_rpc = rpc_normalization(3.77e19,350,1,1)
   print("SU2020", tst_1BB, tst_2BB)
