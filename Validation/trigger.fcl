@@ -23,7 +23,7 @@ physics : {
 outputs : {
   Output : {
     module_type : RootOutput
-    SelectEvents : [ "*_highP_*" ]
+    SelectEvents : [ "cpr_Trk*_80*", "apr_Trk*_80*", "tpr_Trk*_80*" ]
     outputCommands : [ "drop *_*_*_*",
       @sequence::Digitize.TriggerProducts
     ]
@@ -44,31 +44,31 @@ physics.producers.EWMProducer.SpillType : 1
 #include "Production/JobConfig/reco/drop_trigger.fcl"
 
 
-physics.producers.aprHelixTriggerInfoMerger.doDeepCopy                : 1
-physics.producers.aprHighPStopTargTriggerInfoMerger.doDeepCopy        : 1
-physics.producers.aprHighPTriggerInfoMerger.doDeepCopy                : 1
-physics.producers.aprLowPStopTargMultiTrkTriggerInfoMerger.doDeepCopy : 1
-physics.producers.aprLowPStopTargTriggerInfoMerger.doDeepCopy         : 1
-physics.producers.aprHelixTriggerInfoMerger.doDeepCopy                : 1
+physics.producers.AprHlx50TriggerInfoMerger.doDeepCopy                : 1
+physics.producers.AprTrkDe80m70pD0200TriggerInfoMerger.doDeepCopy     : 1
+physics.producers.AprTrkDe80m70pTriggerInfoMerger.doDeepCopy          : 1
+physics.producers.AprTrkDe50MultiHelixTriggerInfoMerger.doDeepCopy    : 1
+physics.producers.AprTrkDe50D0200TriggerInfoMerger.doDeepCopy         : 1
+physics.producers.AprTrkUe80m70pTriggerInfoMerger.doDeepCopy          : 1
 
-physics.producers.cprDeHighPStopTargTriggerInfoMerger.doDeepCopy : 1
-physics.producers.cprDeHighPTriggerInfoMerger.doDeepCopy         : 1
-physics.producers.cprDeLowPStopTargTriggerInfoMerger.doDeepCopy  : 1
-physics.producers.cprHelixDeTriggerInfoMerger.doDeepCopy         : 1
-physics.producers.cprHelixUeTriggerInfoMerger.doDeepCopy         : 1
+physics.producers.CprTrkDe80m70pD0200TriggerInfoMerger.doDeepCopy     : 1
+physics.producers.CprTrkDe80m70pTriggerInfoMerger.doDeepCopy          : 1
+physics.producers.CprTrkDe50D0200TriggerInfoMerger.doDeepCopy         : 1
+physics.producers.CprHlxDe50TriggerInfoMerger.doDeepCopy              : 1
+physics.producers.CprHlxUe40TriggerInfoMerger.doDeepCopy              : 1
 
-physics.producers.tprDeHighPStopTargTriggerInfoMerger.doDeepCopy       : 1
-physics.producers.tprDeHighPTriggerInfoMerger.doDeepCopy               : 1
-physics.producers.tprDeLowPStopTargTriggerInfoMerger.doDeepCopy        : 1
-physics.producers.tprHelixDeTriggerInfoMerger.doDeepCopy               : 1
-physics.producers.tprHelixUeTriggerInfoMerger.doDeepCopy               : 1
-physics.producers.tprHelixDeIPATriggerInfoMerger.doDeepCopy            : 1
-physics.producers.tprHelixDeIPAPhisScaledTriggerInfoMerger.doDeepCopy  : 1
+physics.producers.TprTrkDe80m70pD0200TriggerInfoMerger.doDeepCopy     : 1
+physics.producers.TprTrkDe80m70pTriggerInfoMerger.doDeepCopy          : 1
+physics.producers.TprTrkDe50D0200TriggerInfoMerger.doDeepCopy         : 1
+physics.producers.TprHlxDe70m50pTriggerInfoMerger.doDeepCopy          : 1
+physics.producers.TprHlxUe50m30pTriggerInfoMerger.doDeepCopy          : 1
+physics.producers.TprHlxDe30pIPATriggerInfoMerger.doDeepCopy          : 1
+physics.producers.TprHlxDe30pIPAPhiTriggerInfoMerger.doDeepCopy       : 1
 
-physics.producers.caloFastPhotonTriggerInfoMerger.doDeepCopy           : 1
-physics.producers.caloFastMVANNCETriggerInfoMerger.doDeepCopy          : 1
-physics.producers.caloFastCosmicTriggerInfoMerger.doDeepCopy           : 1
-physics.producers.caloFastRMCTriggerInfoMerger.doDeepCopy              : 1
+physics.producers.CaloPhotonTriggerInfoMerger.doDeepCopy              : 1
+physics.producers.CaloMVANNCETriggerInfoMerger.doDeepCopy             : 1
+physics.producers.CaloCosmicTriggerInfoMerger.doDeepCopy              : 1
+physics.producers.CaloRMCTriggerInfoMerger.doDeepCopy                 : 1
 
-physics.producers.cstCosmicTrackSeedTriggerInfoMerger.doDeepCopy       : 1
+physics.producers.CstCosmicTrackSeedTriggerInfoMerger.doDeepCopy      : 1
 
