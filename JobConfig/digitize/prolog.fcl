@@ -52,7 +52,7 @@ Digitize: {
       halfWidth : 0
     }
 # Trigger MC matching instances for each helix algorithm
-    TrigAprKSFMC : {
+    TrigAprDeKSFMC : {
       @table::CommonMC.TTSelectRecoMC
       ComboHitCollection : "TrigFlagPH"
       KalSeedCollections  : [ "TrigAprKSF" ]

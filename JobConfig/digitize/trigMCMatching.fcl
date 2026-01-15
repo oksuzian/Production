@@ -4,7 +4,7 @@
 
 BEGIN_PROLOG
 # apr
-TrigRecoSequences.aprKSFDeSequence : [ @sequence::TrigRecoSequences.aprKSFDeSequence, TrigAprKSFMC ]
+TrigRecoSequences.aprKSFDeSequence : [ @sequence::TrigRecoSequences.aprKSFDeSequence, TrigAprDeKSFMC ]
 TrigRecoSequences.aprKSFUeSequence : [ @sequence::TrigRecoSequences.aprKSFUeSequence, TrigAprUeKSFMC ]
 # cpr
 TrigRecoSequences.cprKSFDeSequence : [ @sequence::TrigRecoSequences.cprKSFDeSequence, TrigCprDeKSFMC ]
