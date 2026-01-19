@@ -33,6 +33,6 @@ SELECTEDWEIGHT_SAMPLER=$(getWeights.py  --weight "selected" --files filenames_pi
 
 rm filenames_pionfilter
 
-echo "PiTotalLifeimeWeight_filter, 0, 0, ${TOTALWEIGHT_FILTER}" >> MDC2025_SimEff.txt
-echo "PiSelectedLifeimeWeight_filter, 0, 0, ${SELECTEDWEIGHT_FILTER}" >> MDC2025_SimEff.txt
-echo "PiSelectedLifeimeWeight_sampler, 0, 0, ${SELECTEDWEIGHT_SAMPLER}" >> MDC2025_SimEff.txt
+echo "PiTotalLifetimeWeight_filter, 0, 0, ${TOTALWEIGHT_FILTER}" >> MDC2025_SimEff.txt
+echo "PiSelectedLifetimeWeight_filter, 0, 0, ${SELECTEDWEIGHT_FILTER}" >> MDC2025_SimEff.txt
+echo "PiSelectedLifetimeWeight_sampler, 0, 0, ${SELECTEDWEIGHT_SAMPLER}" >> MDC2025_SimEff.txt
