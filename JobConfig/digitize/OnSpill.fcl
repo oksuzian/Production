@@ -8,7 +8,7 @@ physics.TriggerableBits  : [ "20:TriggerableLHPath", "21:TriggerableTwoTrackPath
 # Define the trigger path
 physics.trigger_paths : [ "DigitizePath", @sequence::physics.TriggerableBits,  @sequence::Trig_physMenu.trigger_paths]
 # configure 'Triggered' output to be signal
-outputs.TriggeredOutput.SelectEvents : [@sequence::Digitize.SignalTriggers, @sequence::physics.TriggerablePaths ]
+outputs.Output.SelectEvents : [@sequence::Digitize.SignalTriggers, @sequence::physics.TriggerablePaths ]
 # Final configuration
 #include "Production/JobConfig/common/epilog.fcl"
 #include "Production/JobConfig/digitize/OnSpill_epilog.fcl"

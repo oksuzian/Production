@@ -12,7 +12,7 @@ physics.TriggerableBits  : [ "20:TriggerableLHPath", "25:TriggerableCaloPath"]
 # add the trigger paths
 physics.trigger_paths : ["DigitizePath", @sequence::physics.TriggerableBits, @sequence::Trig_extrPosMenu.trigger_paths]
 # configure 'Triggered' output to be calibration triggers
-outputs.TriggeredOutput.SelectEvents : [
+outputs.Output.SelectEvents : [
   @sequence::Digitize.TrkTriggers,
   @sequence::Digitize.CaloTriggers,
   @sequence::physics.TriggerablePaths ]

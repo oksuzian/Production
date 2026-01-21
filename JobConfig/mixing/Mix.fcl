@@ -20,6 +20,8 @@ physics : {
   TriggerableLHPath : [ @sequence::Mixing.MixSequence, @sequence::Digitize.TriggerableLHSequence ]
   TriggerableTwoTrackPath : [ @sequence::Mixing.MixSequence, @sequence::Digitize.TriggerableTwoTrackSequence ]
   TriggerableCaloPath : [ @sequence::Mixing.MixSequence, @sequence::Digitize.TriggerableCaloSequence ]
+  TriggerablePaths : [    "TriggerableLHPath",    "TriggerableTwoTrackPath",    "TriggerableCaloPath"]
+  TriggerableBits  : [ "20:TriggerableLHPath", "21:TriggerableTwoTrackPath", "25:TriggerableCaloPath"]
   # define the trigger sequences and paths
   @table::TrigRecoSequences
   @table::TrigSequences
@@ -36,8 +38,7 @@ physics.TriggerablePaths : [ "TriggerableLHPath", "TriggerableTwoTrackPath", "Tr
 # define paths
 physics.trigger_paths : [ "DigitizePath", @sequence::physics.TriggerablePaths, @sequence::Trig_physMenu.trigger_paths]
 # configure 'Triggered' output to be signal
-outputs.TriggeredOutput.SelectEvents : @local::Digitize.SignalTriggers
-outputs.TriggerableOutput.SelectEvents : [ @sequence::physics.TriggerablePaths ]
+outputs.Output.SelectEvents : [@sequence::Digitize.SignalTriggers, @sequence::physics.TriggerablePaths ]
 # Final configuration
 #include "Production/JobConfig/common/epilog.fcl"
 #include "Production/JobConfig/digitize/epilog.fcl"

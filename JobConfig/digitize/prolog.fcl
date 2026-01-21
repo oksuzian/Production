@@ -186,9 +186,9 @@ Digitize: {
   #
   # Output Stream for events passing relevant triggers (including potential MC triggers)
   #
-  TriggeredOutput : {
+  Output : {
     module_type : RootOutput
-    fileName    : "dig.owner.Triggered.version.sequencer.art"
+    fileName    : "dig.owner.output.version.sequencer.art"
   }
   #
   # trigger selections that can be used to finalize the triggerOutput selection, depending on digitization mode and source
@@ -201,7 +201,7 @@ Digitize: {
   EndSequence : [digiCompressionCheck]
 }
 
-Digitize.TriggeredOutput.outputCommands : [ "drop *_*_*_*",
+Digitize.Output.outputCommands : [ "drop *_*_*_*",
   @sequence::Digitize.GeneralProducts,
   @sequence::Digitize.GeneralMCProducts,
   @sequence::Digitize.DigiProducts,
@@ -210,9 +210,9 @@ Digitize.TriggeredOutput.outputCommands : [ "drop *_*_*_*",
 ]
 
 Digitize.Outputs : {
-  TriggeredOutput : @local::Digitize.TriggeredOutput
+  Output : @local::Digitize.Output
 }
-Digitize.EndPath : [ @sequence::Digitize.EndSequence, TriggeredOutput ]
+Digitize.EndPath : [ @sequence::Digitize.EndSequence, Output ]
 # override the trigger digitization sequence
 TrigRecoSequences.cfoDataGen : [ @sequence::Digitize.DigitizeSequence, ProcessCFOData ]
 END_PROLOG
