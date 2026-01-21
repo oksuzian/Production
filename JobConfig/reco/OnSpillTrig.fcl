@@ -1,0 +1,28 @@
+#
+# Reconstruct OnSpill events. This only reconstructs LoopHelices
+#
+#include "Production/JobConfig/reco/RecoTrig.fcl"
+physics.RecoPath : [ @sequence::Reconstruction.OnSpillPath ]
+physics.trigger_paths : [ @sequence::Trig_physMenu.trigger_paths, RecoPath ]
+
+outputs: {
+  LoopHelixOutput : {
+    @table::Reconstruction.Output
+    SelectEvents : [ "RecoPath" ]
+    fileName: "rec.owner.description.version.sequencer.art"
+  }
+}
+
+# Disable LH filtering
+physics.filters.LHFilter : {
+  module_type : FixedFilter
+  ReturnValue : true
+}
+
+physics.EndPath : [ LoopHelixOutput]
+physics.end_paths : [ EndPath ]
+
+#include "Production/JobConfig/reco/epilog.fcl"
+#include "Production/JobConfig/common/epilog.fcl"
+#include "mu2e-trig-config/core/trigDigiInputsEpilog.fcl"
+#include "Production/JobConfig/reco/drop_trigger.fcl"
