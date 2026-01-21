@@ -20,5 +20,4 @@ physics.filters.TriggerableCHPrescale.prescaleFactor : 10 # only record 10% of t
 physics.producers.CrvSiPMCharges.ThermalRate : 0
 # same for calorimeter
 physics.producers.CaloDigiMaker.addNoise : false
-# turn on MC truth matching for OnSpill triggers run OffSpill
-#include "Production/JobConfig/digitize/OnSpill_epilog.fcl"
+

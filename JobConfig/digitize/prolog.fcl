@@ -13,6 +13,7 @@
 #include "mu2e-trig-config/core/trigProducers.fcl"
 #include "mu2e-trig-config/core/trigFilters.fcl"
 #include "mu2e-trig-config/core/trigRecoSequences.fcl"
+#include "Production/JobConfig/digitize/trigMCMatching.fcl"
 BEGIN_PROLOG
 
 Digitize: {
@@ -51,10 +52,15 @@ Digitize: {
       halfWidth : 0
     }
 # Trigger MC matching instances for each helix algorithm
-    TrigAprKSFMC : {
+    TrigAprDeKSFMC : {
       @table::CommonMC.TTSelectRecoMC
       ComboHitCollection : "TrigFlagPH"
       KalSeedCollections  : [ "TrigAprKSF" ]
+    }
+    TrigAprUeKSFMC : {
+      @table::CommonMC.TTSelectRecoMC
+      ComboHitCollection : "TrigFlagPH"
+      KalSeedCollections  : [ "TrigAprUeKSF" ]
     }
     TrigTprDeKSFMC : {
       @table::CommonMC.TTSelectRecoMC

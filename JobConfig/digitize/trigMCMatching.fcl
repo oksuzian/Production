@@ -1,0 +1,15 @@
+# this next produces additional hit-level payload to support MC truth matching.
+# It produces functionally equivalent output as the standard module but is slower, so don't use this script for timing studies
+# add the trigger MC matching to the KSF sequences
+
+BEGIN_PROLOG
+# apr
+TrigRecoSequences.aprKSFDeSequence : [ @sequence::TrigRecoSequences.aprKSFDeSequence, TrigAprDeKSFMC ]
+TrigRecoSequences.aprKSFUeSequence : [ @sequence::TrigRecoSequences.aprKSFUeSequence, TrigAprUeKSFMC ]
+# cpr
+TrigRecoSequences.cprKSFDeSequence : [ @sequence::TrigRecoSequences.cprKSFDeSequence, TrigCprDeKSFMC ]
+# mpr
+TrigRecoSequences.mprKSFDeSequence : [ @sequence::TrigRecoSequences.mprKSFDeSequence, TrigMprDeKSFMC ]
+# tpr
+TrigRecoSequences.tprKSFDeSequence : [ @sequence::TrigRecoSequences.tprKSFDeSequence, TrigTprDeKSFMC ]
+END_PROLOG
