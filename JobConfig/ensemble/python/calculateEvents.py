@@ -4,7 +4,7 @@ from normalizations import *
 def main(args):
     Yield = 0
     if (str(args.printpot) == "print"):
-      getPOT(float(args.livetime), str(args.BB),True)
+      get_pot(float(args.livetime), str(args.BB),True)
     if(args.prc == "CeMLeadingLog" or args.prc == "CePLeadingLog"):
       Yield = ce_normalization(float(args.livetime), float(args.rue), str(args.BB))
       print("Ce",Yield)
@@ -21,10 +21,10 @@ def main(args):
       Yield = cry_onspill_normalization(float(args.livetime), str(args.BB))
       print("CRY_livetime=",Yield)
     if(args.prc == "RPC" and int(args.internal) == 1):
-      Yield = rpc_normalization(float(args.livetime), str(args.tmin), str(args.internal), str(args.rpcemin), str(args.BB))
+      Yield = rpc_normalization(float(args.livetime), float(args.tmin), str(args.internal), str(args.rpcemin), str(args.BB))
       print("InternalRPC_yield=",Yield)
     if(args.prc == "RPC" and int(args.internal) == 0):
-      Yield = rpc_normalization(float(args.livetime), str(args.tmin), str(args.internal), str(args.rpcemin), str(args.BB))
+      Yield = rpc_normalization(float(args.livetime), float(args.tmin), str(args.internal), str(args.rpcemin), str(args.BB))
       print("ExternalRPC_yield=",Yield)
     if(args.prc == "RMC" and int(args.internal) == 1):
       Yield = rmc_normalization(float(args.livetime),  str(args.internal), float(args.rmcemin))

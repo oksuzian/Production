@@ -2,7 +2,27 @@
 
 # Tutorial 
 
-1. Make a new directory in your working directory. You should ensure you have access to Production (either via a musing or a clone). Call this something like "ensemble_MDS2c_CeMLL_1e-14_2weeks" altering the fields as is applicable to what you want to make.
+
+0. Decide which type of mock data you want to make i.e. MDC2020 or MDC2025. Chose a musing to setup that is compatible with your choice for example:
+
+```
+mu2einit
+muse setup AnalysisMDC2020
+```
+
+in addition to the musing setup also ensure you have these setup:
+
+```
+setup mu2etools
+setup dhtools
+setup mu2egrid
+setup mu2efiletools
+setup mu2ejobtools
+```
+
+1. Make a new directory in your working directory. Call this something like "ensemble_MDS2c_CeMLL_1e-14_2weeks" altering the fields as is applicable to what you want to make.
+
+
 
 2. Enter the new directory. Run the following command:
 
