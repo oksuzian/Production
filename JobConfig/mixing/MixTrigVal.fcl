@@ -20,10 +20,12 @@ physics : {
   # define the trigger sequences and paths
   @table::TrigRecoSequences
   @table::TrigSequences
+  TriggerablePaths : [    "TriggerableLHPath",    "TriggerableTwoTrackPath",    "TriggerableCaloPath"]
+  TriggerableBits  : [ "20:TriggerableLHPath", "21:TriggerableTwoTrackPath", "25:TriggerableCaloPath"]
 }
 # define output streams
-outputs : { TriggeredOutput : @local::Digitize.TriggeredOutput }
-physics.EndPath : [ @sequence::Digitize.EndSequence, TriggeredOutput ]
+outputs : { Output : @local::Digitize.Output }
+physics.EndPath : [ @sequence::Digitize.EndSequence, Output ]
 physics.end_paths : [ EndPath ]
 # final overrides
 # set the event timing for OnSpill
@@ -31,7 +33,7 @@ physics.producers.EWMProducer.SpillType : 1
 # add the trigger paths
 physics.trigger_paths : [ "0:DigitizePath", @sequence::Trig_valMenu.trigger_paths]
 # configure 'Triggered' output to be signal
-outputs.TriggeredOutput.SelectEvents : @local::Digitize.SignalTriggers
+outputs.Output.SelectEvents : [@sequence::Digitize.SignalTriggers, @sequence::physics.TriggerablePaths ]
 # configure 'Triggerable' to be empty
 physics.TriggerablePath : []
 # Final configuration
