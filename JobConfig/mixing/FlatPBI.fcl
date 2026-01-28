@@ -1,0 +1,16 @@
+#
+# Run1 flat PBI (Proton Bunch Intensity) mixing configuration.
+# This creates a uniform distribution of PBI values that can be weighted
+# to any desired PBI distribution for trigger/luminosity studies.
+#
+# Redefine PBISim producer to use Flat module instead of LogNormal
+# This completely replaces the producer definition from prolog.fcl
+physics.producers.PBISim: {
+  module_type: ProtonBunchIntensityFlat
+  # Mean PBI value (center of the flat distribution)
+  # Using 2BB mean as center point, covering range from ~0 to ~2.36e8
+  mean: 1.18e8  # (0 + 2.36e8) / 2
+  # Half width as fraction of mean (0.5 means range from 0.5*mean to 1.5*mean)
+  # Set to 1.0 to cover full range from 0 to 2*mean
+  halfWidth: 1.0  # covers range from 0 to 2.36e8
+}
