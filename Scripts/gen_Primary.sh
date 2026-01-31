@@ -1,11 +1,14 @@
 #!/usr/bin/bash
 #
 # create fcl for producing primaries from stopped particles
-# this script requires mu2etools and dhtools be setup
+# this script requires mu2etools and dhtools be setup --> additionally, population of the stops path requires a good token 
+# can run setup mu2etools, setup mu2efiletools, setup mu2ejobtools, and getToken to achieve the above
 #
 # Usage: ./Production/Scripts/generate_Primary.sh --primary CeEndpoint --campaign MDC2020 --pver v --sver p --type Muminus --njobs 1000 --events 4000 --pdg 11 --start 0 --end 110 --field Offline/Mu2eG4/geom/bfgeom_reco_altDS11_helical_v01.txt
 #
 # Note: User can omit flat (pdg, startmom and enedmom) arguments without issue. Field argument also generally will not be used
+# 
+# 
 
 # The main input parameters needed for any campaign
 PRIMARY="" # is the primary
@@ -170,8 +173,22 @@ FCLNAME="${PRIMARY%%_*}"
 echo "#include \"Production/JobConfig/primary/${FCLNAME}.fcl\"" >> primary.fcl
 echo physics.filters.${resampler}.mu2e.MaxEventsToSkip: ${nskip} >> primary.fcl
 echo "services.GeometryService.bFieldFile : \"${FIELD}\"" >> primary.fcl
-echo outputs.PrimaryOutput.fileName: \"dts.owner.${PRIMARY}.version.sequencer.art\"  >> primary.fcl
-echo services.TFileService.fileName: \"nts.owner.GenPlots.version.sequencer.root\"  >> primary.fcl
+echo outputs.PrimaryOutput.fileName: \"dts.${OWNER}.${PRIMARY}.version.sequencer.art\"  >> primary.fcl
+echo services.TFileService.fileName: \"nts.${OWNER}.GenPlots.version.sequencer.root\"  >> primary.fcl 
+echo source.firstRun: ${RUN} >> primary.fcl #new addition to put the run number into the source
+
+STOPS_LOCATION=$(samListLocations -d --defname=${dataset})
+#echo ${PRIMARY_LOCATION} #debug option
+if [[ -z ${STOPS_LOCATION} ]]; then
+    echo "ERROR: samListLocations returned no location for the stops for ${dataset}" >&2
+    exit 1
+fi
+if [[ ${STOPS_LOCATION} == *$'\n'* ]]; then
+  echo "ERROR: samListLocations returned multiple locations for ${dataset}" >&2
+  printf '%s\n' "$STOPS_LOCATION" >&2
+  exit 1
+fi
+echo physics.filters.TargetStopResampler.fileNames : [\"${STOPS_LOCATION}\"] >> primary.fcl
 
 if [[ "${PRIMARY}" == "DIOtail"* ]]; then
   echo physics.producers.generate.decayProducts.spectrum.ehi: ${ENDMOM}        >> primary.fcl
@@ -211,3 +228,4 @@ idx_format=$(printf "%07d" ${JOBS})
 if [[ "$PROD" = true ]]; then
     source gen_IndexDef.sh
 fi
+
