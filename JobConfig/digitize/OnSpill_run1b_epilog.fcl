@@ -1,0 +1,19 @@
+#
+# Change default configurations for Run 1B
+#
+
+# Only consider events with calorimeter energy deposits for Triggerable
+physics.TriggerablePaths : [    "TriggerableCaloPath"]
+physics.TriggerableBits  : [ "25:TriggerableCaloPath"]
+
+# Lower the calorimeter triggerable threshold
+physics.filters.TriggerableCalo.MinParticleEnergy : 60.0
+
+# Use calorimeter-focused paths for the signal triggers
+physics.NoFieldTriggers : ["calo_cluster_60", "calo_cluster_70", "calo_cluster_80", "apr_TC_calo"]
+
+# Re-define the trigger path
+physics.trigger_paths : [ "DigitizePath", @sequence::physics.TriggerableBits,  @sequence::Trig_physMenu.trigger_paths]
+
+# Configure the output to be signal triggers + MC triggerable
+outputs.Output.SelectEvents : [@sequence::physics.NoFieldTriggers, @sequence::physics.TriggerablePaths ]
