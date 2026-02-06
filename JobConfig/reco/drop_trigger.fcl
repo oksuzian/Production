@@ -1,8 +1,10 @@
 source.inputCommands: ["keep *",
-    "drop mu2e::HelixSeeds_*_*_*",
-    "drop mu2e::KalSeeds_*_*_*",
+    "drop mu2e::HelixSeed*_*_*_*",
+    "drop mu2e::KalSeed*_*_*_*",
     "drop mu2e::TriggerInfo_*_*_*",
     "drop mu2e::CaloClusters_*_*_*",
     "drop mu2e::TimeClusters_*_*_*",
-    "drop mu2e::CosmicTrackSeeds_*_*_*"
+    "drop mu2e::CosmicTrackSeeds_*_*_*",
+    "drop mu2e::IntensityInfo*_*_*_*",
+    "drop mu2e::RecoCount_*_*_*"
   ]
