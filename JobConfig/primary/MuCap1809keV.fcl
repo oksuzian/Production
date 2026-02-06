@@ -1,0 +1,24 @@
+#
+# Generate 1809 keV muon capture photons
+#
+# Original author: Michael MacKenzie, 2026
+#
+#include "Production/JobConfig/primary/TargetStopParticle.fcl"
+
+physics.producers.generate : {
+  module_type : SingleProcessGenerator
+  inputSimParticles: TargetStopResampler
+  stoppingTargetMaterial : "Al"
+  decayProducts :
+  {
+    tool_type : MuCap1809keVGammaGenerator
+    fireAll   : true # Insert a photon into every event
+  }
+  verbosity : 0
+}
+
+physics.filters.PrimaryFilter.MinimumPartMom : 0.1
+physics.filters.PrimaryFilter.MinimumSumCaloStepE : 0.1
+
+physics.producers.FindMCPrimary.PrimaryProcess : "mu2eMuonCaptureAtRest"
+outputs.PrimaryOutput.fileName: "dts.owner.MuCap1809keV.version.sequencer.art"

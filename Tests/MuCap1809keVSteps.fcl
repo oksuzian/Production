@@ -1,0 +1,4 @@
+#include "Production/JobConfig/primary/MuCap1809keV.fcl"
+#include "Production/Tests/MuonStopConfig.fcl"
+
+services.TFileService.fileName: "nts.owner.test.version.sequencer.root"
