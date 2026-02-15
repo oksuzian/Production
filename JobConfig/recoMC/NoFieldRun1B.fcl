@@ -1,0 +1,68 @@
+#
+# Extracted = NoField with shifted geometry
+#
+#include "Production/JobConfig/recoMC/NoField.fcl"
+services.GeometryService.inputFile  : "Offline/Mu2eG4/geom/geom_run1_b_v01.txt"
+physics.producers.KKLine.ModuleSettings.SampleSurfaces : [ @sequence::physics.producers.KKLine.ModuleSettings.SampleSurfaces, "TCRV" ] #temporary until extrapolation is working
+#include "Offline/CRVReco/fcl/epilog_extracted.fcl"
+
+services.DbService.purpose: Sim_best
+services.DbService.version: v1_4
+services.DbService.verbose : 2
+
+physics.filters.KLFilter.KalSeedCuts: [
+            {
+               maxChi2DOF: 1e6
+               maxD0: 1e6
+               maxMomErr: 1e6
+               maxMomentum: 1e6
+               maxTanDip: 1e6
+               minD0: -1e6
+               minFitCons: -9e9
+               minMomentum: 0
+               minNPlanes: 0
+               minNStereo: 0
+               minNStrawHits: 6
+               minTanDip: -1e6
+               requireCaloCluster: false
+            }]
+
+#physics.producers.KKLine.ModuleSettings.SaveAllFits: true
+physics.producers.KKLine.ModuleSettings.FitParticle : 11
+physics.producers.KKLine.ModuleSettings.SeedMomentum : 105
+
+physics.producers.TimeAndPhiClusterFinder : { @table::TrkPatRec.TimeAndPhiClusterFinder }
+physics.producers.TimeAndPhiClusterFinder.ComboHitCollection : "makePH"
+physics.producers.TimeAndPhiClusterFinder.UseCaloCluster : true
+physics.producers.TimeAndPhiClusterFinder.MaxTimeDT : 25.0
+physics.producers.TimeAndPhiClusterFinder.FilterMVA : false
+physics.producers.TimeAndPhiClusterFinder.MaxDeltaPhi : 0.1
+
+physics.producers.LineFinder.TimeClusterCollection : "TimeAndPhiClusterFinder"
+physics.producers.LineFinder.ComboHitCollection: "makePH"
+
+physics.RecoPath: [
+      "CaloRecoDigiMaker",
+      "CaloHitMaker",
+      "CaloProtoClusterMaker",
+      "CaloClusterMaker",
+      "PBTFSD",
+      "makeSH",
+      "makePH",
+      "makeSTH",
+      "flagPH",
+      "CrvRecoPulses",
+      "CrvCoincidenceClusterFinder",
+      "TimeAndPhiClusterFinder",
+      "LineFinder",
+      "KKLine",
+      "KLFilter",
+      "SelectReco",
+      "CaloHitTruthMatch",
+      "CaloClusterTruthMatch",
+      "CrvCoincidenceClusterMatchMC",
+      "SelectReco",
+      "compressRecoMCs",
+      "CrvCoincidenceClusterMCAssns"
+   ]
+
