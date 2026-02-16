@@ -38,7 +38,19 @@ physics.producers.TimeAndPhiClusterFinder.MaxTimeDT : 25.0
 physics.producers.TimeAndPhiClusterFinder.FilterMVA : false
 physics.producers.TimeAndPhiClusterFinder.MaxDeltaPhi : 0.1
 
-physics.producers.LineFinder.TimeClusterCollection : "TimeAndPhiClusterFinder"
+physics.producers.CalTimeClusterFinder : {
+  @local::CalPatRec.CalTimeClusterFinder
+  ComboHitCollectionLabel    : "makePH"
+  CaloClusterCollectionLabel : "CaloClusterMaker"
+  MinTimeClusterHits         : 6
+  MinCaloClusterEnergy       : 50.
+  HitTimeSigmaThresh         : 3.
+  HitXYSigmaThresh           : 8.
+  StoppingTargetRadius       : 200.
+}
+
+# physics.producers.LineFinder.TimeClusterCollection : "TimeAndPhiClusterFinder"
+physics.producers.LineFinder.TimeClusterCollection : "CalTimeClusterFinder"
 physics.producers.LineFinder.ComboHitCollection: "makePH"
 
 physics.RecoPath: [
@@ -53,6 +65,7 @@ physics.RecoPath: [
       "flagPH",
       "CrvRecoPulses",
       "CrvCoincidenceClusterFinder",
+      "CalTimeClusterFinder",
       "TimeAndPhiClusterFinder",
       "LineFinder",
       "KKLine",
