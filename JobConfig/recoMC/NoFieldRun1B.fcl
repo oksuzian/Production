@@ -39,7 +39,7 @@ physics.producers.TimeAndPhiClusterFinder.FilterMVA : false
 physics.producers.TimeAndPhiClusterFinder.MaxDeltaPhi : 0.1
 
 physics.producers.CalTimeClusterFinder : {
-  @local::CalPatRec.CalTimeClusterFinder
+  @table::CalPatRec.producers.CalTimeClusterFinder
   ComboHitCollectionLabel    : "makePH"
   CaloClusterCollectionLabel : "CaloClusterMaker"
   MinTimeClusterHits         : 6
