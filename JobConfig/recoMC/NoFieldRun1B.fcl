@@ -53,6 +53,12 @@ physics.producers.CalTimeClusterFinder : {
 physics.producers.LineFinder.TimeClusterCollection : "CalTimeClusterFinder"
 physics.producers.LineFinder.ComboHitCollection: "makePH"
 
+outputs.KinematicLineOutput.outputCommands: [
+   @sequence::outputs.KinematicLineOutput.outputCommands,
+   "keep mu2e::CosmicTrackSeeds_*_*_*",
+   "keep mu2e::TimeClusters_*_*_*"
+   ]
+
 physics.RecoPath: [
       "CaloRecoDigiMaker",
       "CaloHitMaker",
