@@ -69,12 +69,10 @@ physics.RecoPath: [
       "TimeAndPhiClusterFinder",
       "LineFinder",
       "KKLine",
-      "KLFilter",
       "SelectReco",
       "CaloHitTruthMatch",
       "CaloClusterTruthMatch",
       "CrvCoincidenceClusterMatchMC",
-      "SelectReco",
       "compressRecoMCs",
       "CrvCoincidenceClusterMCAssns"
    ]
