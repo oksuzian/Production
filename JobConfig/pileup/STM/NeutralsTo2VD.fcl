@@ -1,0 +1,52 @@
+# Propagate neutrals to both VD101 and VD116 for STM studies
+# Based on BeamToVD.fcl with neutrals resampler instead of beam resampler
+#include "Production/JobConfig/pileup/STM/BeamToVD.fcl"
+
+process_name: NeutralsToVD
+
+# Override paths to use neutrals resampler
+physics.STMCompressedPath : [@sequence::Pileup.neutralsResamplerSequence, @sequence::Common.g4Sequence, extractVirtualDetectorSteps, compressDetStepMCsSTM, filterVirtualDetectorSteps]
+
+# Add VD116 extraction, compression, and filtering
+physics.producers.extractVirtualDetectorSteps116 : {
+  module_type : STMResamplingProducer
+  StepPointMCsTag : @local::ResamplingProducer.StepPointMCsTag
+  VirtualDetectorID : 116
+}
+physics.producers.compressDetStepMCsSTM116 : @local::physics.producers.compressDetStepMCsSTM
+physics.producers.compressDetStepMCsSTM116.stepPointMCTags : ["extractVirtualDetectorSteps116"]
+
+physics.filters.filterVirtualDetectorSteps116 : {
+  module_type: STMResamplingFilter
+  StepPointMCsTag : "compressDetStepMCsSTM116"
+}
+
+physics.analyzers.countVirtualDetectorHits.virtualDetectorIDs : [88, 89, 90, 100, 101, 116]
+
+# Add second trigger path
+physics.STMCompressedPath116 : [@sequence::Pileup.neutralsResamplerSequence, @sequence::Common.g4Sequence, extractVirtualDetectorSteps116, compressDetStepMCsSTM116, filterVirtualDetectorSteps116]
+physics.trigger_paths : [STMCompressedPath, STMCompressedPath116]
+
+# Rename VD101 output to compressedOutput101 and add VD116 output
+outputs.compressedOutput101 : @local::outputs.compressedOutput
+outputs.compressedOutput101.SelectEvents : [STMCompressedPath]
+outputs.compressedOutput101.fileName : "dts.owner.NeutralsToVD101.version.sequencer.art"
+outputs.compressedOutput116 : @local::outputs.compressedOutput
+outputs.compressedOutput116.SelectEvents : [STMCompressedPath116]
+outputs.compressedOutput116.fileName : "dts.owner.NeutralsToVD116.version.sequencer.art"
+
+physics.outPathCompressed : [genCountLogger, countVirtualDetectorHits, compressedOutput101, compressedOutput116]
+
+# Override g4run inputs for neutrals
+physics.producers.g4run.inputs.primaryTag: "neutralsResampler:Neutrals"
+physics.producers.g4run.inputs.inputPhysVolumeMultiInfo: "neutralsResampler"
+physics.producers.g4run.inputs.updateEventLevelVolumeInfos.input: "neutralsResampler:eventlevel"
+physics.producers.g4run.SDConfig.preSimulatedHits: ["neutralsResampler:virtualdetector"]
+
+# Override neutrals resampler mixing map to include virtualdetector hits
+physics.filters.neutralsResampler.mu2e.products.stepPointMCMixer: {
+  mixingMap: [
+    [ "NeutralsFilter:virtualdetector", ":" ],
+    [ "NeutralsFilter:Neutrals", ":" ]
+  ]
+}
