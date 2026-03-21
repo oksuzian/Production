@@ -1,0 +1,18 @@
+# Epilog for Run 1B POT beam jobs
+# Run 1B: DS field off (no solenoid map)
+services.GeometryService.bFieldFile: "Offline/Mu2eG4/geom/bfgeom_DSOff.txt"
+
+# Neutron cut: kinetic energy + PDG 2112 (neutron)
+physics.producers.g4run.Mu2eG4CommonCut.pars[2]: {
+  type: intersection
+  pars: [
+    { type: kineticEnergy cut: 100.0 },
+    { type: pdgId pars: [ 2112 ] }
+  ]
+}
+
+# TS / collimator / VD geometry lists (same as json2jobdef overrides)
+physics.producers.g4run.Mu2eG4CommonCut.pars[1].pars[2].pars: "[ TS2Vacuum, Coll31, Coll32, TS2InnerCryoShell, TS3InnerCryoShell, TS2CryoInsVac, TS3CryoInsVac, PbarAbsDisk, PbarAbsWedge, VirtualDetector_Coll31_In, VirtualDetector_Coll32_In, VirtualDetector_Coll31_Out, VirtualDetector_Coll32_Out, Coll31OutRecord, Coll32InRecord, Coll31OutRecord ]"
+physics.producers.g4run.Mu2eG4CommonCut.pars[1].pars[3].pars[0].pars[0].pars: "[ TS3Vacuum ]"
+
+physics.producers.g4run.physics.minRangeCut: 1.0
