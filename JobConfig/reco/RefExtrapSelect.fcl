@@ -20,8 +20,6 @@ physics.filters : {
       @table::Mu2eKinKal.LHDRIFTXTRAP
       BackToTracker : true
     }
-    KalSeedMCAssns : "SelectReco"
-    CopyKalSeedMCs : true
     KalSeedPtrCollection : Reflecte
     ComboHitCollection : RegrowSH
     MustRegrow : "All"
@@ -33,8 +31,6 @@ physics.filters : {
       @table::Mu2eKinKal.LHDRIFTXTRAP
       BackToTracker : true
     }
-    KalSeedMCAssns : "SelectReco"
-    CopyKalSeedMCs : true
     KalSeedPtrCollection : Reflectmu
     ComboHitCollection : RegrowSH
     MustRegrow : "All"
