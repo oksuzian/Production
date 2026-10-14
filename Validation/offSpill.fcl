@@ -14,6 +14,11 @@ physics.filters.CHFilter : {
   ReturnValue : true
 }
 #
+# save the passive-material crossings found during extrapolation (DS shells, CRV strongbacks) in the KalSeed
+# intersections, so the CRV strongback crossings (ValKalSeed NCRVSB) are validated along with the CRV sectors
+#
+physics.producers.KKCHmu.KKFitSettings.SaveMaterialXings : true
+#
 # the nightly validates one file per job: write the CentralHelix and LoopHelix products (both paths run the same
 # reconstruction, and with CHFilter bypassed CHPath selects every event) to the CentralHelix output
 #

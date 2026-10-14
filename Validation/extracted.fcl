@@ -1,0 +1,11 @@
+#
+# Extracted-geometry cosmic reconstruction for nightly validation: runs the KinematicLine fit (KKLine) and its
+# extrapolation to the CRV sectors.
+#
+#include "Production/JobConfig/recoMC/Extracted.fcl"
+#include "Production/Validation/database.fcl"
+#
+# save the passive-material crossings found during extrapolation (CRV strongbacks, concrete) in the KalSeed
+# intersections, so the CRV strongback crossings (ValKalSeed NCRVSB) are validated along with the CRV sectors
+#
+physics.producers.KKLine.KKFitSettings.SaveMaterialXings : true
