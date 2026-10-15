@@ -74,6 +74,8 @@ outputs.RefOutpute : {
   fileName : "rec.user.RefExtrapSelecte.config.seq.art"
   outputCommands: [
     @sequence::Reconstruction.Output.outputCommands,
+    "drop *_KK*_*_*",
+    "drop *_MH*_*_*",
     "keep *_RegrowKKe*_*_*",
     "keep *_SelectReflecte*_*_*"
   ]
@@ -85,6 +87,8 @@ outputs.RefOutputmu : {
   fileName : "rec.user.RefExtrapSelectmu.config.seq.art"
   outputCommands: [
     @sequence::Reconstruction.Output.outputCommands,
+    "drop *_KK*_*_*",
+    "drop *_MH*_*_*",
     "keep *_RegrowKKmu*_*_*",
     "keep *_SelectReflectmu*_*_*"
   ]

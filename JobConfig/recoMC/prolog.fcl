@@ -63,8 +63,8 @@ Reconstruction.analyzers : {
   CHCompressionCheck : @local::RecoCompression.Check
   KLCompressionCheck : @local::RecoCompression.Check
 }
-# now setup track finding sequences. These are separate sequences to allow granular execution
-Reconstruction : {
+# MC specific reco
+RecoMC : {
   @table::Reconstruction
   # full MC sequence; form the Calo and CRV matching, and compress based on reco content
   # temporary build surface steps from StepPointMCs; this is a patch
@@ -79,7 +79,10 @@ Reconstruction : {
   GeneralMCProducts : [
     @sequence::Digitize.GeneralMCProducts
   ]
+}
 
+Reconstruction : {
+  @table::Reconstruction
   OnSpillEndSequence : [ LHCompressionCheck ]
   OffSpillEndSequence : [ LHCompressionCheck, CHCompressionCheck ]
   NoFieldEndSequence : [ KLCompressionCheck ]
@@ -88,35 +91,35 @@ Reconstruction : {
 # Override paths to inclulde MC sequences
 Reconstruction.NoFieldPath : [
   @sequence::Reconstruction.NoFieldPath,
-  @sequence::Reconstruction.MCReco
+  @sequence::RecoMC.MCReco
 ]
 
 Reconstruction.OnSpillPath : [
   @sequence::Reconstruction.OnSpillPath,
-  @sequence::Reconstruction.MCReco
+  @sequence::RecoMC.MCReco
 ]
 
 Reconstruction.CentralHelixPath : [
   @sequence::Reconstruction.CentralHelixPath,
-  @sequence::Reconstruction.MCReco
+  @sequence::RecoMC.MCReco
 ]
 
 Reconstruction.LoopHelixPath : [
   @sequence::Reconstruction.LoopHelixPath,
-  @sequence::Reconstruction.MCReco
+  @sequence::RecoMC.MCReco
 ]
 
 # add MC-specific payload
 Reconstruction.Output : @local::Reconstruction.Output
 Reconstruction.Output.outputCommands : [
   @sequence::Reconstruction.Output.outputCommands,
-  @sequence::Reconstruction.GeneralMCProducts,
-  @sequence::Reconstruction.HighRecoMCProducts
+  @sequence::RecoMC.GeneralMCProducts,
+  @sequence::RecoMC.HighRecoMCProducts
 ]
 Reconstruction.DetailedOutput : @local::Reconstruction.DetailedOutput
 Reconstruction.DetailedOutput.outputCommands : [
   @sequence::Reconstruction.DetailedOutput.outputCommands,
-  @sequence::Reconstruction.GeneralMCProducts,
-  @sequence::Reconstruction.HighRecoMCProducts
+  @sequence::RecoMC.GeneralMCProducts,
+  @sequence::RecoMC.HighRecoMCProducts
 ]
 END_PROLOG

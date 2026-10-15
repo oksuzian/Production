@@ -1,47 +1,12 @@
 #
 # Script to select reflecting cosmic ray particles starting with standard recoMC output, using the t0 segment and very loose timing cuts
 # original author: D. Brown, 6/25/26
-#
 #include "Production/JobConfig/recoMC/prolog.fcl"
-outputs.CentralHelixOutput.fileName : @nil
-outputs.LoopHelixOutput.fileName : @nil
-services : @local::Services.Reco
-process_name: RefT0Select
-source : { module_type : RootInput }
+#include "Production/JobConfig/reco/RefT0Select.fcl"
+outputs.RefOutput.fileName: "mcs.user.RefT0Select.config.seq.art"
+outputs.RefOutput.outputCommands: [
+  @sequence::outputs.RefOutput.outputCommands,
+  @sequence::RecoMC.GeneralMCProducts,
+  @sequence::RecoMC.HighRecoMCProducts
+]
 
-physics.filters : {
-  Reflecte : {
-    @table::TrkReco.filters.SelectT0Reflections
-    UpstreamKalSeedCollection : "KKUe"
-    DownstreamKalSeedCollection : "KKDe"
-  }
-
-  Reflectmu : {
-    @table::TrkReco.filters.SelectT0Reflections
-    UpstreamKalSeedCollection : "KKUmu"
-    DownstreamKalSeedCollection : "KKDmu"
-  }
-}
-
-physics.RePath : [ Reflecte ]
-physics.RmuPath : [ Reflectmu ]
-
-physics.trigger_paths : [ RePath, RmuPath ]
-
-outputs.RefOutput : {
-  @table::Reconstruction.Output
-  SelectEvents : [RePath, RmuPath]
-  fileName : "mcs.user.RefT0Select.config.seq.art"
-  outputCommands: [
-    @sequence::Reconstruction.Output.outputCommands,
-    "keep *_Reflect*_*_*"
-  ]
-}
-
-physics.RefEndPath : [ RefOutput ]
-physics.end_paths : [ RefEndPath ]
-
-# Uncomment and update as needed
-#services.DbService.purpose: Sim_best
-#services.DbService.version: v1_4
-#services.DbService.verbose: 2

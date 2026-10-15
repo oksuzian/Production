@@ -73,9 +73,9 @@ outputs : {
     outputCommands : [
       "drop *_*_*_*",
       @sequence::Reconstruction.GeneralProducts,
-      @sequence::Reconstruction.GeneralMCProducts,
+      @sequence::RecoMC.GeneralMCProducts,
       @sequence::Reconstruction.HighRecoProducts,
-      @sequence::Reconstruction.HighRecoMCProducts,
+      @sequence::RecoMC.HighRecoMCProducts,
       @sequence::Reconstruction.MidRecoProducts,
       @sequence::Digitize.GeneralProducts,
       @sequence::Digitize.GeneralMCProducts,

@@ -39,8 +39,3 @@ outputs.RefOutput : {
 
 physics.RefEndPath : [ RefOutput ]
 physics.end_paths : [ RefEndPath ]
-
-# Uncomment and update as needed
-#services.DbService.purpose: Sim_best
-#services.DbService.version: v1_4
-#services.DbService.verbose: 2

@@ -1,104 +1,24 @@
-#
 # Script to regrow (with full extrapolation) and make final selections by comparing
 # their extrapolated properties at TT_Front. The inputs are assumed to come from RefT0Select.
 # original author: D. Brown, 9/30/26
-#
-#include "Offline/TrkReco/fcl/prolog.fcl"
-#include "Offline/TrkHitReco/fcl/prolog.fcl"
-#include "Offline/Mu2eKinKal/fcl/prolog.fcl"
 #include "Production/JobConfig/recoMC/prolog.fcl"
+#include "Production/JobConfig/reco/RefExtrapSelect.fcl"
+#
+physics.filters.RegrowKKe.CopyKalSeedMCs: true
+physics.filters.RegrowKKe.KalSeedMCAssns: "SelectReco"
+physics.filters.RegrowKKmu.CopyKalSeedMCs: true
+physics.filters.RegrowKKmu.KalSeedMCAssns: "SelectReco"
 
-services : @local::Services.Reco
-process_name: RefExtrapSelect
-source : { module_type : RootInput }
+outputs.RefOutpute.fileName: "mcs.user.RefExtrapSelecte.config.seq.art"
+outputs.RefOutpute.outputCommands: [
+  @sequence::outputs.RefOutpute.outputCommands,
+  @sequence::RecoMC.GeneralMCProducts,
+  @sequence::RecoMC.HighRecoMCProducts
+]
+outputs.RefOutputmu.fileName: "mcs.user.RefExtrapSelectmu.config.seq.art"
+outputs.RefOutputmu.outputCommands: [
+  @sequence::outputs.RefOutputmu.outputCommands,
+  @sequence::RecoMC.GeneralMCProducts,
+  @sequence::RecoMC.HighRecoMCProducts
+]
 
-physics.filters : {
-
-  RegrowKKe : {
-    @table::Mu2eKinKal.RegrowLH
-    ExtrapolationSettings :{
-      @table::Mu2eKinKal.LHDRIFTXTRAP
-      BackToTracker : true
-    }
-    KalSeedMCAssns : "SelectReco"
-    CopyKalSeedMCs : true
-    KalSeedPtrCollection : Reflecte
-    ComboHitCollection : RegrowSH
-    MustRegrow : "All"
-  }
-
-  RegrowKKmu : {
-    @table::Mu2eKinKal.RegrowLH
-    ExtrapolationSettings :{
-      @table::Mu2eKinKal.LHDRIFTXTRAP
-      BackToTracker : true
-    }
-    KalSeedMCAssns : "SelectReco"
-    CopyKalSeedMCs : true
-    KalSeedPtrCollection : Reflectmu
-    ComboHitCollection : RegrowSH
-    MustRegrow : "All"
-  }
-
-  SelectReflecte : {
-    @table::TrkReco.filters.SelectReflections
-    UpstreamKalSeedCollection : "RegrowKKe"
-    DownstreamKalSeedCollection : "RegrowKKe"
-    ReflectionTestDirection : "Both" # Require both direction to have a reflection match
-#    debugLevel : 2
-  }
-
-  SelectReflectmu : {
-    @table::TrkReco.filters.SelectReflections
-    UpstreamKalSeedCollection : "RegrowKKmu"
-    DownstreamKalSeedCollection : "RegrowKKmu"
-    ReflectionTestDirection : "Both" # Require both direction to have a reflection match
-#    debugLevel : 2
-  }
-
-}
-
-physics.producers : {
-  RegrowSH : {
-    @table::TrkHitReco.makeSH
-    StrawDigiCollectionTag  : "SelectReco"
-    StrawDigiADCWaveformCollectionTag : "SelectReco"
-  }
-
-}
-
-physics.RePath : [ RegrowSH, RegrowKKe, SelectReflecte ]
-physics.RmuPath : [ RegrowSH, RegrowKKmu, SelectReflectmu ]
-
-physics.trigger_paths : [ RePath, RmuPath ]
-
-outputs.RefOutpute : {
-  @table::Reconstruction.Output
-  SelectEvents : [RePath]
-  fileName : "mcs.user.RefExtrapSelecte.config.seq.art"
-  outputCommands: [
-    @sequence::Reconstruction.Output.outputCommands,
-    "keep *_RegrowKKe*_*_*",
-    "keep *_SelectReflecte*_*_*"
-  ]
-}
-
-outputs.RefOutputmu : {
-  @table::Reconstruction.Output
-  SelectEvents : [RmuPath]
-  fileName : "mcs.user.RefExtrapSelectmu.config.seq.art"
-  outputCommands: [
-    @sequence::Reconstruction.Output.outputCommands,
-    "keep *_RegrowKKmu*_*_*",
-    "keep *_SelectReflectmu*_*_*"
-  ]
-}
-
-physics.RefEndPathe : [ RefOutpute ]
-physics.RefEndPathmu : [ RefOutputmu ]
-physics.end_paths : [ RefEndPathe, RefEndPathmu]
-
-#update and uncomment to run
-#services.DbService.purpose: Sim_best
-#services.DbService.version: v1_4
-#services.DbService.verbose: 2
