@@ -69,6 +69,11 @@ Pileup: {
       upstreamTag : "beamResampler:resampled"
         required    : false
     }
+    polyPiStopCounter : {
+      module_type : StageNormalizationCounter
+      upstreamTag : "beamResampler:resampled"
+        required    : false
+    }
     # NeutralsResampler has its own resampler filter, so its counters must name
     # that one -- the flash counters above would read nothing there.
     neutralsFlashCounter : {
@@ -142,6 +147,15 @@ Pileup: {
       stoppingMaterial: "StoppingTarget_Al"
       verbosityLevel: 1
     }
+    PolyPionFinder: {
+      module_type: "StoppedParticlesFinder"
+      particleInput: "g4run"
+      particleTypes: [ 211, -211 ]
+      physVolInfoInput: "g4run:eventlevel"
+      useEventLevelVolumeInfo: true
+      stoppingMaterial: "COL5Poly"
+      verbosityLevel: 1
+    }
 
     IPAMuonFinder : {
       module_type : StoppedParticlesFinder
@@ -200,6 +214,12 @@ Pileup: {
       volumesInput : "g4run"
       hitInputs : []
       particleInputs : [ "TargetPiStopFilter" ]
+    }
+    compressPVPolyPiStops: {
+      module_type: CompressPhysicalVolumes
+      volumesInput : "g4run"
+      hitInputs : []
+      particleInputs : [ "PolyPiStopFilter" ]
     }
 
     compressPVIPAStops: {
@@ -261,6 +281,12 @@ Pileup: {
       mainHitInputs: []
       extraHitInputs: [ "g4run:virtualdetector" ]
       mainSPPtrInputs: [ "TargetPionFinder" ]
+    }
+    PolyPiStopFilter: {
+      module_type: FilterG4Out
+      mainHitInputs: []
+      extraHitInputs: [ "g4run:virtualdetector" ]
+      mainSPPtrInputs: [ "PolyPionFinder" ]
     }
 
     IPAStopFilter: {
