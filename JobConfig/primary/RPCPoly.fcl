@@ -1,0 +1,17 @@
+##
+# RPC from COL5 poly pion stops (PiPolyStops), infinite pion lifetime with survival weights.
+# The capture nucleus is chosen in the driving FCL (PolyC: carbon, PolyH: hydrogen); the
+# per-stop C/H capture fractions and RPC branching ratios are not applied here.
+#
+
+#include "Production/JobConfig/primary/RPC.fcl"
+
+physics.filters.TargetPiStopResampler.mu2e.products : {
+  genParticleMixer: { mixingMap: [ [ "beamResampler", "" ] ] }
+  simParticleMixer: { mixingMap: [ [ "PolyPiStopFilter", "" ] ] }
+  stepPointMCMixer: { mixingMap: [ [ "PolyPiStopFilter:virtualdetector", ":" ] ] }
+  volumeInfoMixer: {
+    srInput: "compressPVPolyPiStops"
+    evtOutInstanceName: "eventlevel"
+  }
+}

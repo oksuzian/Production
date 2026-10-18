@@ -1,0 +1,13 @@
+# Create a physical pion stop dataset from an infinite lifetime sample of COL5 poly pion stops (PiPolyStops)
+#include "Production/JobConfig/beam/PhysicalPionStops.fcl"
+
+physics.filters.StopResampler.mu2e.products : {
+  genParticleMixer: { mixingMap: [ [ "beamResampler", "" ] ] }
+  simParticleMixer: { mixingMap: [ [ "PolyPiStopFilter", "" ] ] }
+  stepPointMCMixer: { mixingMap: [ [ "PolyPiStopFilter:virtualdetector", ":" ] ] }
+  volumeInfoMixer: {
+    srInput: "compressPVPolyPiStops"
+    evtOutInstanceName: "eventlevel"
+  }
+}
+outputs.PionOutput.fileName : "sim.owner.PhysicalPolyPionStops.version.sequencer.art"

@@ -1,0 +1,10 @@
+#
+# RPC Internal, carbon captures on COL5 poly, physical pion time distribution (PhysicalPolyPionStops)
+#
+
+#include "Production/JobConfig/primary/RPCPhysical.fcl"
+
+# No carbon RPC spectrum is available: use the Bistirlich (Mg fit) shape, as for Al
+physics.producers.generate.RPCType : "mu2eInternalRPC"
+physics.producers.FindMCPrimary.PrimaryProcess : "mu2eInternalRPC"
+outputs.PrimaryOutput.fileName: "dts.owner.RPCInternalPhysicalPolyC.version.sequencer.art"

@@ -1,0 +1,22 @@
+# Filter Piminus and Piplus COL5 poly stops from combined stops and write them to a file
+
+#include "Production/JobConfig/pileup/PionStopSelector.fcl"
+
+physics.filters.piminusSelector.SimParticles : "PolyPiStopFilter"
+physics.filters.piplusSelector.SimParticles  : "PolyPiStopFilter"
+outputs.piminusout.fileName : "sim.owner.PiminusPolyStopsCat.version.sequencer.art"
+outputs.piplusout.fileName  : "sim.owner.PiplusPolyStopsCat.version.sequencer.art"
+
+# This selects from the POLY stop stream, not the target one, so the counters
+# count against polyPiStopCounter, under the labels PrimaryStageNorm expects for
+# a poly pool (fromPolyPiminusStops / fromPolyPiplusStops).
+physics.producers.polyPiminusStopCounter : { module_type : StageNormalizationCounter
+                        upstreamTag : "polyPiStopCounter"
+                        required    : false }
+physics.producers.polyPiplusStopCounter : { module_type : StageNormalizationCounter
+                        upstreamTag : "polyPiStopCounter"
+                        required    : false }
+physics.producers.piminusStopCounter : @erase
+physics.producers.piplusStopCounter  : @erase
+physics.selectPiminus : [piminusSelector, polyPiminusStopCounter]
+physics.selectPiplus  : [piplusSelector,  polyPiplusStopCounter]
