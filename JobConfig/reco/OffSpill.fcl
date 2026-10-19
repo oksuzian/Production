@@ -20,6 +20,9 @@ outputs: {
 
 physics.EndPath : [ CentralHelixOutput, LoopHelixOutput]
 physics.end_paths : [ EndPath ]
+# save the passive-material crossings found during extrapolation (DS shells, concrete, CRV strongbacks) in the
+# KalSeed intersections
+physics.producers.KKCHmu.KKFitSettings.SaveMaterialXings : true
 # final config
 #include "Production/JobConfig/reco/NoPileup_epilog.fcl"
 #include "Production/JobConfig/reco/OffSpillTiming_epilog.fcl"

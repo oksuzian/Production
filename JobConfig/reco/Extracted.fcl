@@ -3,7 +3,8 @@
 #
 #include "Production/JobConfig/reco/NoField.fcl"
 services.GeometryService.inputFile: "Offline/Mu2eG4/geom/geom_common_extracted.txt"
-physics.producers.KKLine.ModuleSettings.SampleSurfaces : [ @sequence::physics.producers.KKLine.ModuleSettings.SampleSurfaces, "TCRV" ] #temporary until extrapolation is working
+# save the passive-material crossings found during extrapolation (CRV strongbacks) in the KalSeed intersections
+physics.producers.KKLine.KKFitSettings.SaveMaterialXings : true
 #include "Offline/CRVReco/fcl/epilog_extracted.fcl"
 
 # Disable KL filtering so track-less events are kept (needed for CRV

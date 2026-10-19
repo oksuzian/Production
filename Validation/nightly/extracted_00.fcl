@@ -1,4 +1,5 @@
-#include "Production/Validation/extracted.fcl"
+#include "Production/JobConfig/recoMC/Extracted.fcl"
+#include "Production/Validation/database.fcl"
 
 #----------------------------------------------------------------
 # Code added by generate_fcl:
