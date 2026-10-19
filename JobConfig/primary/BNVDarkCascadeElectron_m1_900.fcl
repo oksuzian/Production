@@ -1,0 +1,10 @@
+#
+# Cascade with a recoil electron, mu- n --> e- chi2, chi2 --> chi1 A', A' --> e+ e- (arXiv:2407.03450 Eq. 11),
+# m(chi1) = 900 MeV, m(chi2) = 1020 MeV, m(A') = 20 MeV: E(e+) + E(e-) ~ 113.1 MeV
+#
+# Original author: Michael MacKenzie, 2026
+#
+#include "Production/JobConfig/primary/BNVMuonCapture.fcl"
+
+physics.producers.generate.decayProducts : @local::BNVMuonCaptureScan.DarkCascadeElectron_m1_900
+outputs.PrimaryOutput.fileName : "dts.owner.BNVDarkCascadeElectron_m1_900.version.sequencer.art"

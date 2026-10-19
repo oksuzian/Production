@@ -1,0 +1,10 @@
+#
+# mu- n --> e- chi1 (arXiv:2407.03450 Eq. 10), m(chi1) = 900 MeV: e- line at E_e = 123.3 MeV
+# for a struck neutron at rest, lowered by ~12-15 MeV and smeared by ~ +-10-17 MeV by Fermi motion
+#
+# Original author: Michael MacKenzie, 2026
+#
+#include "Production/JobConfig/primary/BNVMuonCapture.fcl"
+
+physics.producers.generate.decayProducts : @local::BNVMuonCaptureScan.EmDarkFermion_m1_900
+outputs.PrimaryOutput.fileName : "dts.owner.BNVEmDarkFermion_m1_900.version.sequencer.art"

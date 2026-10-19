@@ -1,0 +1,10 @@
+#
+# Prompt cascade mu- p --> chi0 chi2, chi2 --> chi1 A', A' --> e+ e- (arXiv:2407.03450),
+# m(chi1) = 840 MeV, m(chi2) = 1030 MeV, m(A') = 20 MeV: E(e+) + E(e-) ~ 172.7 MeV
+#
+# Original author: Michael MacKenzie, 2026
+#
+#include "Production/JobConfig/primary/BNVMuonCapture.fcl"
+
+physics.producers.generate.decayProducts : @local::BNVMuonCaptureScan.DarkCascade_m1_840
+outputs.PrimaryOutput.fileName : "dts.owner.BNVDarkCascade_m1_840.version.sequencer.art"
