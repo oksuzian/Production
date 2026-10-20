@@ -1,0 +1,6 @@
+//
+// Prefilter COL5 poly pion stops (PiPolyStops) based on time
+//
+#include "Production/JobConfig/primary/TargetPiStopPreFilter.fcl"
+physics.filters.PionFilter.simParticles : "PolyPiStopFilter"
+outputs.StopFilterOutput.fileName  : "sim.owner.PiMinusPolyFilter.version.sequencer.art"

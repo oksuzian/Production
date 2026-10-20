@@ -1,0 +1,12 @@
+#
+# RPC External, carbon captures on COL5 poly
+#
+
+#include "Production/JobConfig/primary/RPCPoly.fcl"
+
+# No carbon RPC spectrum is available: use the Bistirlich (Mg fit) shape, as for Al.
+# The fit ends at 134.5 MeV, while the carbon endpoint is ~126 MeV, so this likely
+# overestimates the high-energy tail (~7% of photons are generated above 126 MeV).
+physics.producers.generate.RPCType : "mu2eExternalRPC"
+physics.producers.FindMCPrimary.PrimaryProcess : "mu2eExternalRPC"
+outputs.PrimaryOutput.fileName: "dts.owner.RPCExternalPolyC.version.sequencer.art"
