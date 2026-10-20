@@ -18,3 +18,5 @@ services.ProditionsService.strawElectronics.verbose: 0
 services.ProditionsService.strawElectronics.overrideDbTimeOffsets : true
 # CRV overrides for run1a
 #include "Offline/CRVResponse/fcl/epilog_run1a_v01.fcl"
+# simulation has no CFO data: keep the default EventHeader (EWT = 0) and don't warn about the missing CFO fragments
+physics.producers.ProcessCFOData.isSim : true
