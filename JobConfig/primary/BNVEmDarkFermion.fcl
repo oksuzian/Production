@@ -1,0 +1,15 @@
+#
+# mu- n --> e- chi1 (arXiv:2407.03450 Eq. 10): single e- line above the DIO endpoint at
+# E_e = (W^2 - m1^2)/2W, W = 1031.7 MeV for a struck neutron at rest, smeared by Fermi motion
+#
+# Defaults to the benchmark point; the scan points are set with fcl overrides at job submission
+# (masses and lifetimes from BNVMuonCaptureScan in Offline/EventGenerator/fcl/prolog.fcl), e.g.
+#   physics.producers.generate.decayProducts.invisibles[0].mass : 880.
+#   outputs.PrimaryOutput.fileName : "dts.owner.BNVEmDarkFermion_m1_880.version.sequencer.art"
+#
+# Original author: Michael MacKenzie, 2026
+#
+#include "Production/JobConfig/primary/BNVMuonCapture.fcl"
+
+physics.producers.generate.decayProducts : @local::BNVMuonCapture.EmDarkFermion
+outputs.PrimaryOutput.fileName : "dts.owner.BNVEmDarkFermion.version.sequencer.art"

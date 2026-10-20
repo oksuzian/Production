@@ -1,0 +1,19 @@
+#
+# Long-lived chi2 cascade mu- p --> chi0 chi2, chi2 --> chi1 e+ e- (off-shell A', arXiv:2407.03450).
+# Only chi2 decays inside the fiducial region (BNVChi2DecayRegion) are generated; the fraction that
+# decays there is stored in the SubRun SpectrumConfig (chi2DecayInRegion) for normalization
+#
+# Defaults to the benchmark point; the scan points are set with fcl overrides at job submission
+# (masses and lifetimes from BNVMuonCaptureScan in Offline/EventGenerator/fcl/prolog.fcl), e.g.
+#   physics.producers.generate.decayProducts.chi2Lifetime : 100.
+#   outputs.PrimaryOutput.fileName : "dts.owner.BNVDarkCascadeLongLived_tau_100ns.version.sequencer.art"
+#
+# Original author: Michael MacKenzie, 2026
+#
+#include "Production/JobConfig/primary/BNVMuonCapture.fcl"
+
+physics.producers.generate.decayProducts : @local::BNVMuonCapture.DarkCascadeLongLived
+
+# The displaced e+ e- legs are soft: keep events whose hardest lepton is above a triggerable 40 MeV/c
+physics.filters.PrimaryFilter.MinimumPartMom : 40.
+outputs.PrimaryOutput.fileName : "dts.owner.BNVDarkCascadeLongLived.version.sequencer.art"
