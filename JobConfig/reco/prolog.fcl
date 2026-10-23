@@ -382,6 +382,7 @@ Reconstruction.LoopHelixPath : [
 Reconstruction.Output : {
   module_type : RootOutput
   fileName    : @nil
+  compressionLevel : 505 # ZSTD level 5 (ROOT algorithm*100+level); art's default is zlib level 7
   outputCommands : [ "drop *_*_*_*",
     @sequence::Reconstruction.GeneralProducts,
     @sequence::Reconstruction.HighRecoProducts,
@@ -400,6 +401,7 @@ Reconstruction.DetailedOutput : {
 Reconstruction.RegrowOutput : {
   module_type : RootOutput
   fileName    : @nil
+  compressionLevel : 505 # ZSTD level 5, as Reconstruction.Output
   outputCommands : [
     "drop *_*_*_*",
     @sequence::Reconstruction.GeneralProducts,
