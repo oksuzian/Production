@@ -8,7 +8,6 @@
 #
 #include "Production/JobConfig/recoMC/NoField.fcl"
 services.GeometryService.inputFile  : "Offline/Mu2eG4/geom/geom_run1_b_v40.txt"
-physics.producers.KKLine.ModuleSettings.SampleSurfaces : [ @sequence::physics.producers.KKLine.ModuleSettings.SampleSurfaces, "TCRV" ] #temporary until extrapolation is working
 #include "Offline/CRVReco/fcl/epilog_extracted.fcl"
 
 services.DbService.purpose: Sim_best
