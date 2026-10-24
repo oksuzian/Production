@@ -1,0 +1,12 @@
+#
+# RPC Internal, hydrogen captures on COL5 poly, physical pion time distribution (PhysicalPolyPionStops)
+#
+
+#include "Production/JobConfig/primary/RPCPhysical.fcl"
+
+# pi- p -> n gamma: monoenergetic photon
+# The internal-conversion kinematics assume an Al recoil; the effect is negligible at this energy
+physics.producers.generate.spectrum : @local::RPCInfo.hydrogenCaptureSpectrum
+physics.producers.generate.RPCType : "mu2eInternalRPC"
+physics.producers.FindMCPrimary.PrimaryProcess : "mu2eInternalRPC"
+outputs.PrimaryOutput.fileName: "dts.owner.RPCInternalPhysicalPolyH.version.sequencer.art"

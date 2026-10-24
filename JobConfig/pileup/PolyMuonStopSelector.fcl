@@ -8,7 +8,15 @@ outputs.muminusout.fileName : "sim.owner.MuminusPolyStopsCat.version.sequencer.a
 outputs.muplusout.fileName  : "sim.owner.MuplusPolyStopsCat.version.sequencer.art"
 
 # This selects from the POLY stop stream, not the target one, so the counters
-# inherited from MuonStopSelector.fcl must be re-pointed: otherwise they would
-# copy targetStopCounter's generated count onto a poly-stop pool.
-physics.producers.muminusStopCounter.upstreamTag : "polyStopCounter"
-physics.producers.muplusStopCounter.upstreamTag  : "polyStopCounter"
+# count against polyStopCounter, under the labels PrimaryStageNorm expects for
+# a poly pool (fromPolyMuminusStops / fromPolyMuplusStops).
+physics.producers.polyMuminusStopCounter : { module_type : StageNormalizationCounter
+                        upstreamTag : "polyStopCounter"
+                        required    : false }
+physics.producers.polyMuplusStopCounter : { module_type : StageNormalizationCounter
+                        upstreamTag : "polyStopCounter"
+                        required    : false }
+physics.producers.muminusStopCounter : @erase
+physics.producers.muplusStopCounter  : @erase
+physics.selectMuminus : [muminusSelector, polyMuminusStopCounter]
+physics.selectMuplus  : [muplusSelector,  polyMuplusStopCounter]

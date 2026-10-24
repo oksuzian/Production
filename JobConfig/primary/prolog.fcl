@@ -30,9 +30,12 @@ PrimaryStageNorm : {
   fromIPAMuplusStops   : { moduleLabel : "ipaMuplusStopCounter"   srOutInstance : "resampled" }
   fromPiminusStops     : { moduleLabel : "piminusStopCounter"     srOutInstance : "resampled" }
   fromPiplusStops      : { moduleLabel : "piplusStopCounter"      srOutInstance : "resampled" }
+  fromPolyPiminusStops : { moduleLabel : "polyPiminusStopCounter" srOutInstance : "resampled" }
+  fromPolyPiplusStops  : { moduleLabel : "polyPiplusStopCounter"  srOutInstance : "resampled" }
   # Only for a pool taken straight from the pileup stage with no selector.
   fromTargetStops   : { moduleLabel : "targetStopCounter"   srOutInstance : "resampled" }
   fromTargetPiStops : { moduleLabel : "targetPiStopCounter" srOutInstance : "resampled" }
+  fromPolyPiStops   : { moduleLabel : "polyPiStopCounter"   srOutInstance : "resampled" }
   fromIPAStops      : { moduleLabel : "IPAStopCounter"      srOutInstance : "resampled" }
   fromTargetGammas  : { moduleLabel : "targetGammaCounter"  srOutInstance : "resampled" }
   fromWireGammas    : { moduleLabel : "wireGammaCounter"    srOutInstance : "resampled" }
@@ -298,6 +301,12 @@ RMCInfo : {
 RPCInfo : {
     minPionStopTime  : 350. # minimum pion stop time considered, in ns
     pionStoppingCode : 78 # hBertiniCaptureAtRest
+    # pi- p -> n gamma at rest (COL5 poly hydrogen captures): a single line at
+    # (s - m_n^2)/(2 sqrt(s)), sqrt(s) = m_pi + m_p
+    hydrogenCaptureSpectrum : {
+      spectrumShape : monoenergetic
+      ehi           : 129.4 # MeV
+    }
 }
 
 StopFilter : {

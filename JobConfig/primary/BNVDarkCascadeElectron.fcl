@@ -1,0 +1,15 @@
+#
+# Cascade with a recoil electron, mu- n --> e- chi2, chi2 --> chi1 A', A' --> e+ e-
+# (arXiv:2407.03450 Eq. 11), m2 = 1020 MeV
+#
+# Defaults to the benchmark point; the scan points are set with fcl overrides at job submission
+# (masses and lifetimes from BNVMuonCaptureScan in Offline/EventGenerator/fcl/prolog.fcl), e.g.
+#   physics.producers.generate.decayProducts.m1 : 870.
+#   outputs.PrimaryOutput.fileName : "dts.owner.BNVDarkCascadeElectron_m1_870.version.sequencer.art"
+#
+# Original author: Michael MacKenzie, 2026
+#
+#include "Production/JobConfig/primary/BNVMuonCapture.fcl"
+
+physics.producers.generate.decayProducts : @local::BNVMuonCapture.DarkCascadeElectron
+outputs.PrimaryOutput.fileName : "dts.owner.BNVDarkCascadeElectron.version.sequencer.art"

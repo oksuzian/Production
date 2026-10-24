@@ -3,7 +3,8 @@
 #
 #include "Production/JobConfig/recoMC/NoField.fcl"
 services.GeometryService.inputFile: "Offline/Mu2eG4/geom/geom_common_extracted.txt"
-physics.producers.KKLine.ModuleSettings.SampleSurfaces : [ @sequence::physics.producers.KKLine.ModuleSettings.SampleSurfaces, "TCRV" ] #temporary until extrapolation is working
+# save the passive-material crossings found during extrapolation (CRV strongbacks) in the KalSeed intersections
+physics.producers.KKLine.KKFitSettings.SaveMaterialXings : true
 #include "Offline/CRVReco/fcl/epilog_extracted.fcl"
 
 # Disable KL filtering so track-less events are kept (needed for CRV
@@ -12,3 +13,8 @@ physics.filters.KLFilter : {
   module_type : FixedFilter
   ReturnValue : true
 }
+
+# Record the real KLFilter decision as KLPath (output still follows RecoPath); select with "Reconstruct:KLPath"
+physics.filters.KLTrackFilter : @local::Reconstruction.filters.KLFilter
+physics.KLPath : [ @sequence::physics.RecoPath, KLTrackFilter ] # after redefining RecoPath: rebuild KLPath, or set trigger_paths : [ RecoPath ]
+physics.trigger_paths : [ @sequence::physics.trigger_paths, KLPath ]

@@ -40,6 +40,8 @@ physics.trigger_paths : [@sequence::Trig_valMenu.trigger_paths]
 #include "mu2e-trig-config/core/trigDigiInputsEpilog.fcl"
 
 physics.producers.EWMProducer.SpillType : 1
+# simulation has no CFO data: keep the default EventHeader (EWT = 0) and don't warn about the missing CFO fragments
+physics.producers.ProcessCFOData.isSim : true
 #include "Production/JobConfig/common/epilog.fcl"
 #include "Production/JobConfig/reco/drop_trigger.fcl"
 

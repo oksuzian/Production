@@ -30,9 +30,10 @@ physics: {
   }
   # setup paths
   targetStopPath : [ @sequence::Pileup.beamResamplerSequence, @sequence::Common.g4Sequence, TargetPionFinder, TargetPiStopFilter, compressPVTargetPiStops]
+  polyStopPath : [ @sequence::Pileup.beamResamplerSequence, @sequence::Common.g4Sequence, PolyPionFinder, PolyPiStopFilter, compressPVPolyPiStops]
 
-  trigger_paths: [ targetStopPath ]
-  outPath : [ TargetPiStopOutput ]
+  trigger_paths: [ targetStopPath, polyStopPath ]
+  outPath : [ TargetPiStopOutput, PolyPiStopOutput ]
  end_paths: [outPath]
 }
 
@@ -44,6 +45,15 @@ outputs: {
     ]
     SelectEvents: [targetStopPath]
     fileName : "sim.owner.PiTargetStops.version.sequencer.art"
+  }
+
+  PolyPiStopOutput : {
+    module_type: RootOutput
+    outputCommands:   [ "drop *_*_*_*",
+      @sequence::Pileup.SimKeptProducts
+    ]
+    SelectEvents: [polyStopPath]
+    fileName : "sim.owner.PiPolyStops.version.sequencer.art"
   }
 }
 
@@ -73,4 +83,6 @@ physics.producers.g4run.SDConfig.preSimulatedHits:  ["beamResampler:virtualdetec
 #     poolGenCount : <GenEventCount total over fileNames>
 #     poolEventCount : <events over fileNames>   srOutInstance : "resampled" }
 physics.producers.targetPiStopCounter : @local::Pileup.producers.targetPiStopCounter
+physics.producers.polyPiStopCounter   : @local::Pileup.producers.polyPiStopCounter
 physics.targetStopPath : [ @sequence::physics.targetStopPath, targetPiStopCounter ]
+physics.polyStopPath   : [ @sequence::physics.polyStopPath,   polyPiStopCounter ]

@@ -1,0 +1,11 @@
+#
+# RPC External, hydrogen captures on COL5 poly
+#
+
+#include "Production/JobConfig/primary/RPCPoly.fcl"
+
+# pi- p -> n gamma: monoenergetic photon
+physics.producers.generate.spectrum : @local::RPCInfo.hydrogenCaptureSpectrum
+physics.producers.generate.RPCType : "mu2eExternalRPC"
+physics.producers.FindMCPrimary.PrimaryProcess : "mu2eExternalRPC"
+outputs.PrimaryOutput.fileName: "dts.owner.RPCExternalPolyH.version.sequencer.art"

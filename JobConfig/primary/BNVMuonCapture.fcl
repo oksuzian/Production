@@ -1,0 +1,20 @@
+#
+# Base configuration for baryon number violating (BNV) mu- + nucleon annihilation in the muonic
+# atom, generated from resampled mu- target stops. Each signal fcl (BNV<Channel>_<point>.fcl)
+# includes this file and selects one configuration from Offline/EventGenerator/fcl/prolog.fcl:
+#
+#   physics.producers.generate.decayProducts : @local::BNVMuonCaptureScan.<configuration>
+#
+# Channel physics and search priorities: Offline/EventGenerator/fcl/prolog.fcl (BNVMuonCapture),
+# light dark sector models of Fox et al., arXiv:2407.03450
+#
+# Original author: Michael MacKenzie, 2026
+#
+#include "Production/JobConfig/primary/TargetStopParticle.fcl"
+
+physics.producers.generate : {
+  @table::EventGenerator.producers.MuCapBNVGenerator
+  decayProducts : @nil # set by each signal fcl
+}
+
+physics.producers.FindMCPrimary.PrimaryProcess : "mu2eMuonBNV"

@@ -1,0 +1,15 @@
+#
+# Prompt cascade mu- p --> chi0 chi2, chi2 --> chi1 A', A' --> e+ e- (arXiv:2407.03450), m2 = 1030 MeV:
+# E(e+) + E(e-) ~ (m2^2 - m1^2 + mA^2)/2 m2
+#
+# Defaults to the benchmark point; the scan points are set with fcl overrides at job submission
+# (masses and lifetimes from BNVMuonCaptureScan in Offline/EventGenerator/fcl/prolog.fcl), e.g.
+#   physics.producers.generate.decayProducts.m1 : 870.
+#   outputs.PrimaryOutput.fileName : "dts.owner.BNVDarkCascade_m1_870.version.sequencer.art"
+#
+# Original author: Michael MacKenzie, 2026
+#
+#include "Production/JobConfig/primary/BNVMuonCapture.fcl"
+
+physics.producers.generate.decayProducts : @local::BNVMuonCapture.DarkCascade
+outputs.PrimaryOutput.fileName : "dts.owner.BNVDarkCascade.version.sequencer.art"
