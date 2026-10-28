@@ -1,0 +1,64 @@
+#
+# CRV-only digitization of extracted-position detector steps, keeping every event and every CRV digi.
+#
+# Extracted.fcl writes only the events that pass the trigger, and the reconstruction (SelectRecoMC) then
+# keeps a CRV digi only if it is in a reconstructed coincidence or comes from a generated particle. That
+# drops the CRV hits of decay electrons and capture products. This job is for studies that need them,
+# e.g. muons that stop in the CRV. It runs only the CRV response, writes every input event, and keeps the
+# CRV digis, their truth, and the detector-step MC the truth points to: SimParticles, MCTrajectories and
+# CrvSteps. Tracker and calorimeter steps are not digitized and not written.
+#
+# Steps written before Offline PR #2073 have a NaN end time where a particle stops in a bar;
+# CrvPhotonGenerator handles them from that Offline version on.
+#
+#include "Production/JobConfig/common/prolog.fcl"
+#include "Production/JobConfig/digitize/prolog.fcl"
+# name all processes the same, to mask any provenance in ensemble creation
+process_name: Digitize
+source : { module_type : RootInput }
+services : @local::Services.Sim
+physics : {
+  producers : {
+    @table::CommonMC.DigiProducers
+    @table::CrvDAQPackage.producers
+    PBISim : @local::Digitize.producers.PBISim
+  }
+  DigitizePath : [ PBISim, @sequence::CommonMC.DigiSim, @sequence::CrvDAQPackage.CrvDAQSequence ]
+  trigger_paths : [ DigitizePath ]
+  EndPath : [ Output ]
+  end_paths : [ EndPath ]
+}
+outputs : {
+  Output : {
+    module_type : RootOutput
+    fileName    : "dig.owner.desc.version.sequencer.art"
+    outputCommands : [ "drop *_*_*_*",
+      @sequence::Digitize.GeneralProducts,
+      @sequence::Digitize.GeneralMCProducts,
+      "keep mu2e::CrvDigis_*_*_*",
+      "keep mu2e::CrvDigiMCs_*_*_*",
+      "keep mu2e::GenParticles_*_*_*",
+      "keep mu2e::SimParticlemv_compressDetStepMCs_*_*",
+      "keep mu2e::SimParticleart::Ptrmu2e::MCTrajectorystd::map_compressDetStepMCs_*_*",
+      "keep mu2e::CrvSteps_compressDetStepMCs_*_*" ]
+  }
+}
+#
+# Final configuration
+#
+#include "Production/JobConfig/common/epilog.fcl"
+# off-spill, no field, extracted geometry, as in Extracted.fcl
+physics.producers.EWMProducer.SpillType : 0
+services.GeometryService.inputFile : "Offline/Mu2eG4/geom/geom_common_extracted.txt"
+services.GeometryService.bFieldFile : "Offline/Mu2eG4/geom/bfgeom_no_field.txt"
+# CRV: steps from the compressed detector steps, no SiPM thermal noise (as in NoField.fcl), run1a and
+# extracted-position response
+physics.producers.CrvPhotons.crvStepModuleLabels : [ "compressDetStepMCs" ]
+physics.producers.CrvPhotons.crvStepProcessNames : [ "" ]
+physics.producers.CrvSiPMCharges.ThermalRate : 0
+#include "Offline/CRVResponse/fcl/epilog_run1a_v01.fcl"
+#include "Offline/CRVResponse/fcl/epilog_extracted.fcl"
+# digitization needs seeds
+services.SeedService.baseSeed : @local::Common.BaseSeed
+# the following is a placeholder
+#include "Production/JobConfig/common/database_empty.fcl"
