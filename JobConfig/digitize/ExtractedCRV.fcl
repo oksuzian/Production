@@ -47,9 +47,11 @@ outputs : {
 # Final configuration
 #
 #include "Production/JobConfig/common/epilog.fcl"
-# off-spill, no field, extracted geometry, as in Extracted.fcl
+# off-spill and no field, as in Extracted.fcl. The commissioning geometry: the extracted setup with the
+# tracker and calorimeter at their measured positions. Its CRV is the same as in geom_common_extracted.txt,
+# so detector steps simulated with the nominal positions (e.g. MDC2025as) can be digitized with it too.
 physics.producers.EWMProducer.SpillType : 0
-services.GeometryService.inputFile : "Offline/Mu2eG4/geom/geom_common_extracted.txt"
+services.GeometryService.inputFile : "Offline/Mu2eG4/geom/geom_common_commissioning_v02.txt"
 services.GeometryService.bFieldFile : "Offline/Mu2eG4/geom/bfgeom_no_field.txt"
 # CRV: steps from the compressed detector steps, no SiPM thermal noise (as in NoField.fcl), run1a and
 # extracted-position response
