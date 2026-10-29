@@ -1,0 +1,7 @@
+#
+# Reconstruction of the all-events stream of digitize/ExtractedAllEvents.fcl.
+# Keeps every CRV digi and pulse, with their MC truth, not only those in coincidences or from the
+# primary particle, so that delayed CRV hits such as those of decay electrons are kept.
+#
+#include "Production/JobConfig/recoMC/Extracted.fcl"
+physics.producers.SelectReco.SaveAllCrvDigis : true

@@ -1,0 +1,14 @@
+#
+# Extracted digitization with two output streams:
+#  - Output: the events that pass the trigger, as in Extracted.fcl.
+#  - AllOutput: every event, including events with hits only in the CRV, such as muons that stop in a
+#    CRV bar. Such events rarely pass the trigger, which needs tracker or calorimeter hits. The trigger
+#    decisions are kept, so the triggered events can also be selected from this stream.
+#
+#include "Production/JobConfig/digitize/Extracted.fcl"
+outputs.AllOutput : {
+  @table::outputs.Output
+  SelectEvents : [ ]
+  fileName : "dig.owner.desc-All.version.sequencer.art"
+}
+physics.EndPath : [ @sequence::physics.EndPath, AllOutput ]
