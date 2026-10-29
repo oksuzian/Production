@@ -1,0 +1,12 @@
+#
+# Script to select reflecting cosmic ray particles starting with standard recoMC output, using the t0 segment and very loose timing cuts
+# original author: D. Brown, 6/25/26
+#include "Production/JobConfig/recoMC/prolog.fcl"
+#include "Production/JobConfig/reco/RefT0Select.fcl"
+outputs.RefOutput.fileName: "mcs.user.RefT0Select.config.seq.art"
+outputs.RefOutput.outputCommands: [
+  @sequence::outputs.RefOutput.outputCommands,
+  @sequence::RecoMC.GeneralMCProducts,
+  @sequence::RecoMC.HighRecoMCProducts
+]
+

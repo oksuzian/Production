@@ -1,0 +1,24 @@
+# Script to regrow (with full extrapolation) and make final selections by comparing
+# their extrapolated properties at TT_Front. The inputs are assumed to come from RefT0Select.
+# original author: D. Brown, 9/30/26
+#include "Production/JobConfig/recoMC/prolog.fcl"
+#include "Production/JobConfig/reco/RefExtrapSelect.fcl"
+#
+physics.filters.RegrowKKe.CopyKalSeedMCs: true
+physics.filters.RegrowKKe.KalSeedMCAssns: "SelectReco"
+physics.filters.RegrowKKmu.CopyKalSeedMCs: true
+physics.filters.RegrowKKmu.KalSeedMCAssns: "SelectReco"
+
+outputs.RefOutpute.fileName: "mcs.user.RefExtrapSelecte.config.seq.art"
+outputs.RefOutpute.outputCommands: [
+  @sequence::outputs.RefOutpute.outputCommands,
+  @sequence::RecoMC.GeneralMCProducts,
+  @sequence::RecoMC.HighRecoMCProducts
+]
+outputs.RefOutputmu.fileName: "mcs.user.RefExtrapSelectmu.config.seq.art"
+outputs.RefOutputmu.outputCommands: [
+  @sequence::outputs.RefOutputmu.outputCommands,
+  @sequence::RecoMC.GeneralMCProducts,
+  @sequence::RecoMC.HighRecoMCProducts
+]
+

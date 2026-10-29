@@ -1,12 +1,11 @@
 #
-# Script to select reflecting cosmic ray particles starting with standard recoMC output
+# Select reflecting cosmic ray particles starting with standard reco output, without
+# assuming extrapolation, using the t0 segment with loose cuts.
 # original author: D. Brown, 6/25/26
 #
 #include "Production/JobConfig/reco/prolog.fcl"
-outputs.CentralHelixOutput.fileName : @nil
-outputs.LoopHelixOutput.fileName : @nil
 services : @local::Services.Reco
-process_name: RefSelect
+process_name: RefT0Select
 source : { module_type : RootInput }
 
 physics.filters : {
@@ -31,7 +30,7 @@ physics.trigger_paths : [ RePath, RmuPath ]
 outputs.RefOutput : {
   @table::Reconstruction.Output
   SelectEvents : [RePath, RmuPath]
-  fileName : "rec.user.RefSelect.config.seq.art"
+  fileName : "rec.user.RefT0Select.config.seq.art"
   outputCommands: [
     @sequence::Reconstruction.Output.outputCommands,
     "keep *_Reflect*_*_*"
@@ -40,8 +39,3 @@ outputs.RefOutput : {
 
 physics.RefEndPath : [ RefOutput ]
 physics.end_paths : [ RefEndPath ]
-
-# Uncomment and update as needed
-#services.DbService.purpose: Sim_best
-#services.DbService.version: v1_4
-#services.DbService.verbose: 2
