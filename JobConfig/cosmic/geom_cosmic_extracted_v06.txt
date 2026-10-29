@@ -1,0 +1,8 @@
+#include "Offline/Mu2eG4/geom/geom_common_extracted_v06.txt"
+#include "Production/JobConfig/cosmic/world_margins.txt"
+
+//
+// This tells emacs to view this file in c++ mode.
+// Local Variables:
+// mode:c++
+// End:

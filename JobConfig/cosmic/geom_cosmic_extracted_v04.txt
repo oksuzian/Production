@@ -1,4 +1,4 @@
-#include "Offline/Mu2eG4/geom/geom_common_commissioning_v02.txt"
+#include "Offline/Mu2eG4/geom/geom_common_extracted_v04.txt"
 #include "Production/JobConfig/cosmic/world_margins.txt"
 
 //
